@@ -1,6 +1,4 @@
-% COGS 205B: Computational Lab Skills for Cognitive Scientists I
-% Joachim Vandekerckhove
-% Winter 2021
+# COGS 205B: Computational Lab Skills for Cognitive Scientists I
 
 ## Instructor Information
  Prof. Joachim Vandekerckhove
