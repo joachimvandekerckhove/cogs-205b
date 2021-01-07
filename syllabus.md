@@ -14,9 +14,9 @@ This course provides an in-depth introduction to writing MATLAB programs to run 
 Fridays 1:00 - 3:50P via Zoom; or asynchronously as determined by the instructor.
 
 ## Prerequisites
-Must be comfortable with basic MATLAB and mathematical statistics at the level of one graduate course (e.g., PSYCH 203A/B, STATS 210, or equivalent).
+Must be comfortable with basic MATLAB and mathematical statistics at the level of one graduate course (e.g., COGS 203A/B, STATS 210, or equivalent).
 
-Prerequisite: PSYCH 205A, or equivalent.
+Prerequisite: COGS 205A, or equivalent.
 
 ## Assessment
 Grades will be based on regular homework assignments.  The homework should be done individually.  The homework assignments have particular requirements.  Your grade depends entirely on how much of the requirements you deliver by the assignment deadline.  A grade of ‘A’ requires that all assignments are delivered on time and are functional.
