@@ -37,7 +37,7 @@ There is no tolerance for academic dishonesty or fraud.  Any form of fraud desig
 * Version control with git
 * Markdown
 
-#### Assignment: Write and run a shell script named <your-pseudonym>.sh that
+#### Assignment: Write and run a shell script named \<your-pseudonym\>.sh that
 1. First clones the class git repository and makes a new branch
 1. Then makes a new directory /assignment/\<your-pseudonym\>/ in the git repository
 1. Makes a copy of itself in the new directory
