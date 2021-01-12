@@ -14,7 +14,7 @@ mkdir assignment/$HPCNAME
 
 # Copy this script into the new directory
 cd
-cp $HPCNAME.sh ... cogs-205b/assignment/$HPCNAME/
+cp $HPCNAME.sh cogs-205b/assignment/$HPCNAME/
 
 # Push update to git repository
 cd cogs-205b
