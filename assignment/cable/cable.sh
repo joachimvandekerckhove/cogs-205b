@@ -8,9 +8,9 @@ BRANCHNAME=HPCNAME-assignment1
 # ensure this posts back to Joachim's main
 git remote add upstream https://github.com/joachimvandekerckhove/cogs-205b.git
 
-# Clone class git repository and make a new branch
+# Clone my fork of class git repository and make a new branch
 git clone git@github.com:$GITNAME/cogs-205b.git
-cogs-205b #this makes the code cleaner, but is not preferable going forward.
+cd cogs-205b #this makes the code cleaner, but is not preferable going forward.
 git branch $HPCNAME-assignment1 # create new branch
 git checkout $HPCNAME-assignment1 # switch to branch
 
@@ -25,5 +25,7 @@ cp $HPCNAME.sh cogs-205b/assignment/$HPCNAME/
 cd cogs-205b
 git add -A # Add all current changes to 'staging area'
 git commit -m "Add $HPCNAME to assignment" # Label your changes
-git push -u upstream $HPCNAME-assignment1 # Send changes to upstream (Joachim)
-#git push -u origin $HPCNAME-assignment1 # send changes to local fork
+#git push -u upstream $HPCNAME-assignment1 # Send changes to upstream (Joachim)
+# I can't push to the upstream because I don't have login privileges to it??
+git push -u origin $HPCNAME-assignment1 # send changes to local fork
+# Will have to manually submit a pull request
