@@ -5,7 +5,7 @@
 
 * Email: joachim@uci.edu
 * Phone: No
-* Office: No
+* Office: No!
 
 ## Course description
 This course provides an in-depth introduction to writing MATLAB programs to run simulations and numerical experiments.  Topics covered include program structure, random number generation, plotting, version control, basic model fitting, and numerical methods for integration and optimization.  Weekly programming assignments will ensure that students master the techniques presented.  Material includes working with linux-based remote computers and using common collaboration tools.
