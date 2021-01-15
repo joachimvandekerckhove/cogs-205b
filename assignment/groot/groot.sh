@@ -18,5 +18,5 @@ cp $0 $LOCAL_DIRECTORY/cogs-205b/assignment/$PSEUDONYM
 # push 
 git -C $LOCAL_DIRECTORY/cogs-205b add .
 git -C $LOCAL_DIRECTORY/cogs-205b commit -a -m "Adding groot.sh"
-git push --set-upstream upstream upload_assignment
+git push --set-upstream origin upload_assignment
 
