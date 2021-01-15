@@ -34,19 +34,15 @@ There is no tolerance for academic dishonesty or fraud.  Any form of fraud desig
 * Permissions:  rwxrwxrwxd, dotfiles, sudo, ssh keys
 * Basic scripting:  nano, grep, sed,  #!  ./
 * Bash variables
-* Timing: cron, at
-* Graphics:  x
-* Version control with git [link]
+* Version control with git
 * Markdown
 
-#### Assignment: Write and run a shell script named <your-pseudonym>.sh that
-* Clones the class git repository
-* Extracts your target file’s url from the to-download.md file
-* Makes a new directory /\<your-pseudonym\> in the git repository
-* Adds your target file to the new directory
-* Crosses out your target file from the to-download.md file
-* Copies the shell script to the /assignments directory
-* Pushes the updates to the git repository
+#### Assignment: Write and run a shell script named \<your-pseudonym\>.sh that
+1. First clones the class git repository and makes a new branch
+1. Then makes a new directory /assignment/\<your-pseudonym\>/ in the git repository
+1. Makes a copy of itself in the new directory
+1. Pushes the updates to the git repository
+* Difficulty: your pseudonym appears in script only once
 
 #### Learning goals
 * You will need to use these technologies to do and submit the assignments
