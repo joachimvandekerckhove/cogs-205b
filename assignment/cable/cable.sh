@@ -8,7 +8,7 @@ BRANCHNAME=$HPCNAME-assignment1
 REPONAME=cogs-205b
 
 # Define upstream (even if it's not used here)
-git remote add upstream https://github.com/joachimvandekerckhove/$REPONAME.git
+git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ remote add upstream https://github.com/joachimvandekerckhove/$REPONAME.git
 
 # Clone my fork of class git repository and make a new branch
 if [ ! -d "$REPONAME" ]; then
@@ -31,7 +31,7 @@ cp "$(basename $0)" $COPYDIR/ #better way (just using $0 will give "./name" inst
 
 # Push update to git repository
 git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ add -A # Add all current changes to 'staging area'
-git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ commit -m "Remove use of cd" # Label your changes
+git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ commit -m "Fix define upstream" # Label your changes
 git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ push -u origin $BRANCHNAME # send changes to local fork
 # Will have to manually submit a pull request
 
