@@ -10,4 +10,5 @@ cp $filename cogs-205b/assignment/$psudonym
 cd cogs-205b
 git add .
 git commit -m "assignment 1"
-git push -u origin
+git push origin main
+git pull-request
