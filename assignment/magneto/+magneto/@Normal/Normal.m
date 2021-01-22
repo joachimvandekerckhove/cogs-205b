@@ -19,6 +19,7 @@ classdef Normal
     end
     
     
+    % Methods are functions that belong to the class
     methods
     
         %%% Constructor function %%%
@@ -41,7 +42,7 @@ classdef Normal
         
         % Print the distribution to screen
         function disp(obj)
-            fprintf('Normal(%g,%g^2)\n', obj.Mean, obj.StandardDeviation);
+            fprintf('magneto.Normal(%g,%g^2)\n', obj.Mean, obj.StandardDeviation);
         end
         
         
@@ -54,6 +55,14 @@ classdef Normal
             % Update contingent properties
             obj = updateStandardDeviation(obj);
         end
+        
+    end
+    
+    
+    % Static methods don't need the object as input
+    methods (Static)
+        
+        testSuite()
         
     end
         
