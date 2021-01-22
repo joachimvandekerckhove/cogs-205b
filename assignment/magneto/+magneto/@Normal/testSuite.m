@@ -11,10 +11,10 @@ this = magneto.Normal();
 dashline = repmat('-', 1, 77);
 
 % print a line
-fprintf('#%s#\n', dashline);                
+fprintf('#%s#\n', dashline);
 
 % print time and date
-fprintf('# %74s  #\n', datestr(now))        
+fprintf('# %74s  #\n', datestr(now))
 
 % print report title
 fprintf('#%-77s#\n', sprintf('  Test suite for "%s"  ', class(this)))
@@ -123,46 +123,48 @@ fprintf('#%s#\n', dashline);
     % Assert an approximate equality
     function assertEqualUpToTol(a, b, condition)
         if all(abs(a-b) < 1e-10)
-            fprintf('# %-67s ', sprintf(' %s', condition));
-            lookBusy(3)
-            fprintf('passed  #\n');
+            success(condition)
         else
-            fprintf('# %-67s FAILED  #\n', sprintf(' %s', condition));
-            fprintf('#%s#\n', dashline);
+            failure(condition)
             disp(a)
             disp(b)
-            error('TESTSUITE failed for condition "%s"', condition)
         end
     end
 
     % Assert an inequality
     function assertLessThan(a, b, condition)
-        if (a < b)
-            fprintf('# %-67s ', sprintf(' %s', condition));
-            lookBusy(2)
-            fprintf('passed  #\n');
+        if all(a < b)
+            success(condition)
         else
-            fprintf('# %-67s FAILED  #\n', sprintf(' %s', condition));
-            fprintf('#%s#\n', dashline);
+            failure(condition)
             disp(a)
             disp(b)
-            error('TESTSUITE failed for condition "%s"', condition)
         end
     end
 
     % Assert that two matrices have the same dimensions
     function assertSameSize(a, b, condition)
         if isequal(size(a), size(b))
-            fprintf('# %-67s ', sprintf(' %s', condition));
-            lookBusy(1)
-            fprintf('passed  #\n');
+            success(condition)
         else
-            fprintf('# %-67s FAILED  #\n', sprintf(' %s', condition));
-            fprintf('#%s#\n', dashline);
+            failure(condition)
             disp(a)
             disp(b)
-            error('TESTSUITE failed for condition "%s"', condition)
         end
+    end
+
+    % Success message
+    function success(condition)
+        fprintf('# %-67s ', sprintf(' %s', condition));
+        lookBusy(2)
+        fprintf('passed  #\n');
+    end
+
+    % Failure message
+    function failure(condition)
+        fprintf('# %-67s FAILED  #\n', sprintf(' %s', condition));
+        fprintf('#%s#\n', dashline);
+        error('TESTSUITE failed for condition "%s"', condition)
     end
 
     % If reports generate too fast, people don't believe they did anything
@@ -170,7 +172,7 @@ fprintf('#%s#\n', dashline);
         for r = 1:k
             for s = '\|/-'
                 fprintf('%s', s);
-                pause(.015)
+                pause(.025)
                 fprintf('\b');
             end
         end
