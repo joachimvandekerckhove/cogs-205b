@@ -25,4 +25,4 @@ git -c $assndir/ add .
 git -c $assndir/ commit -m"add $pseudonym directory"
 git -c $assndir/ push --set-upstream origin $branchname
 
-#Did not show the pull request and the link
+#Did not show the pull request and the link!
