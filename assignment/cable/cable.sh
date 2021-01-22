@@ -7,15 +7,16 @@ HPCNAME=cable
 BRANCHNAME=$HPCNAME-assignment1
 REPONAME=cogs-205b
 
-# Define upstream (even if it's not used here)
-git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ remote add upstream https://github.com/joachimvandekerckhove/$REPONAME.git
-
 # Clone my fork of class git repository and make a new branch
 if [ ! -d "$REPONAME" ]; then
   git clone git@github.com:$GITNAME/$REPONAME.git
 else
   git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ fetch --all
 fi
+
+# Define upstream (even if it's not used here)
+git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ remote add upstream https://github.com/joachimvandekerckhove/$REPONAME.git
+
 git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ branch $BRANCHNAME # create new branch
 git --git-dir=$REPONAME/.git --work-tree=$REPONAME/ checkout $BRANCHNAME # switch to branch
 
