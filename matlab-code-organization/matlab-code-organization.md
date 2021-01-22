@@ -1,10 +1,18 @@
+class: center, middle
+
 # MATLAB code organization
+.right[Joachim Vandekerckhove]
+.right[Winter 2021]
+
+---
 
 ## Calling system commands
 
     system()
     
     !
+
+---
 
 ## Functions and scripts
 
@@ -15,6 +23,8 @@ Name bindings are context specific.  The variable `foo` can refer to one thing i
 
 Scope rules are the rules that determine where a specific name binding is valid.
 
+---
+
 ### Scripts
 In MATLAB, the **workspace** is one scope.  Scripts work in the workspace scope.
 
@@ -22,15 +32,24 @@ This has mostly disadvantages.  Most importantly, running a script _twice_ can e
 
 The main use case of a script is if you are automating an entire MATLAB session (e.g., running in batch mode on the cluster).
 
+---
+
+
 ### Functions
 MATLAB functions have their own scope.  You can make variables inside a function, overwrite them and delete them, and they will not affect the workspace (unless you explicitly try, which you shouldn't, it's very rude).
 
 MATLAB's `function-end statement` defines a scope.
 
+---
+
+
 #### Intermediate scoping
 You can define a function inside another function's `function-end statement`.  Such nested functions _can_ share variables with their parent function.
 
 You can also define a second function in another function's m-file but outside the `function-end statement`.  Such subfunctions cannot share variables with their parent function.
+
+---
+
 
 #### Anonymous functions
 
@@ -50,6 +69,9 @@ Anonymous functions can store variables:
     ans =
         15
 
+---
+
+
 #### Default inputs
 MATLAB functions start with a template line that defines the input and output variables:
 
@@ -64,6 +86,8 @@ There's a function, `nargin` that counts the number of input arguments (there's 
         end
     end
 
+---
+
 ## Reading and writing text files
 
     uiimport()
@@ -75,6 +99,9 @@ There's a function, `nargin` that counts the number of input arguments (there's 
 
     input()
 
+---
+
+
 ### Printing to the console
 
 Unformatted printing
@@ -85,6 +112,9 @@ Formatted printing and format strings
 
     sprintf()
     fprintf()
+
+---
+
 
 ### Printing to a file
 
@@ -108,6 +138,8 @@ A relatively general-purpose structure is this:
     end
     fclose(fid);
 
+---
+
 ## @classes and +packages
 
 ### Object-oriented programming
@@ -117,6 +149,9 @@ Object-oriented programming involves thinking of problems as interactions betwee
 A class is a set of objects with similar features.  A typical kind of class is a `User` or a `Product`.  MATLAB objects have _properties_ (variables that belong to it) and _methods_ (functions that belong to it).
 
 Classes can exist in a hierarchy, where they inherit properties or methods from superclasses.
+
+---
+
 
 ### Methods
 
@@ -132,59 +167,52 @@ Ordinary methods -- `obj.someMethod()` or (equivalently) `someMethod(obj)`
 
 Static methods -- `someMethod()` (does not take an object as input)
 
+---
+
+
 ### Class files, class folders
 
 There are two ways to define a MATLAB class.  You can define a class in its own file (which will get large), or you can define it in many files inside a dedicated folder that starts with an `@`.
 
 Class methods and properties are _scoped to the class_; they can be _public_ (visible externally), _private_ (visible only to other methods in the class), or _protected_ (also visible to child class methods).  They can be given a number of attributes.
 
+---
+
+
 ### A class
 
     classdef LabResult
-
        properties
           CurrentValue
        end
-
        properties (Transient)
           Status
        end
-
        methods
-
           function obj = LabResult(cv)
              obj.CurrentValue = cv;
              obj = assignStatus(obj);
           end
-
           function obj = assignStatus(obj)
-             v = obj.CurrentValue;
-             if v < 10
-                obj.Status = 'Too low';
-             elseif v >= 10 && v < 100
-                obj.Status = 'In range';
-             else
-                obj.Status = 'Too high';
+             if obj.CurrentValue < 10
+                 obj.Status = 'Too low';
+             else 
+                 obj.Status = 'Too high';
              end
           end
-
        end
-
        methods (Static)
-
           function obj = loadobj(s)
-             if isstruct(s)
-                cv = s.CurrentValue;
-                obj = LabResults(cv);
-             else
-                obj = assignStatus(s);
+             if isstruct(s) 
+                 obj = LabResults(s.CurrentValue);
+             else 
+                 obj = assignStatus(s);
              end
           end
-
        end
-
     end
 
+---
 
 ### Package folders
 
@@ -195,11 +223,15 @@ A package folder is just a folder whose name starts with `+`.
 Names of classes and functions are _scoped to the package folder_.  Internally, they all see each other.  Externally, you have to prepend the package name (i.e., you can call functions in the package with `myPackage.myFun` and you can create classes with `myPackage.myClass`).
 
 
+---
+
 ## Use cases
 
 **Classes** are most useful when you have multiple functions that operate on a similar kind of data or type of variable.
 
 **Packages** are most useful when you have many functions that functionally belong together but aren't necessarily associated with a particular kind of input.
+
+---
 
 ## Assignment
 
