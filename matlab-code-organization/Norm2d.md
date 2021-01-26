@@ -4,10 +4,10 @@ Implement the MATLAB class `@Norm2d` as a class folder
 
 ## Properties
 ### Mean
-A $2 \times 1$ vector $M = \left(\array{\mu_1\\\mu_2}\right)$
+A $2 \times 1$ vector $M = \begin{pmatrix}\mu_1\\\mu_2\end{pmatrix}$
 
 ### Covariance
-A $2 \times 2$ positive definite matrix $\Sigma = \left(\array{\sigma_1^2& c_{12}\\c_{12} & \sigma_2^2}\right)$
+A $2 \times 2$ positive definite matrix $\Sigma = \begin{pmatrix}\sigma_1^2& c_{12}\\c_{12} & \sigma_2^2\end{pmatrix}$
 
 ### Precision
 A $2 \times 2$ matrix $T$ that is the inverse of the covariance matrix: $T = \Sigma^{-1}$
@@ -71,7 +71,7 @@ Make sure this function returns a matrix of size `size`
 #### 6. Deviance `deviance(Data,Mu,Sigma)`
 
 The data set $D$ is a $2 \times n$ matrix:
-$$D = \left(\array{d_{11}&d_{12}\\d_{21}&d_{22}\\\vdots&\vdots\\d_{n,1}&d_{n,2}}\right)$$
+$$D = \begin{pmatrix}d_{11}&d_{12}\\d_{21}&d_{22}\\\vdots&\vdots\\d_{n,1}&d_{n,2}\end{pmatrix}$$
 The deviance is the summed logpdf of all points in a data set, times -2: $$dev(D|M,\Sigma) = -2 \sum^n_{i=1} l(d_{i,1},d_{i,2}|M,\Sigma)$$
 
 Make sure this returns a scalar
