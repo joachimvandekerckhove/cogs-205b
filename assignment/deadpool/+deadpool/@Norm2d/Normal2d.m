@@ -24,6 +24,14 @@ classdef Normal2d
                     obj.CovM = CovM;
                 end
             end
+            % Update Precision and Correlation after change in Covariance
+            obj = updatePresCorM(obj)
+        end
+
+        function obj = set.CovM(obj,val)
+        %Set New Covariance Matrix
+            obj.CovM = val
+        % Update Precision and Correlation after change in Covariance
             obj = updatePresCorM(obj)
         end
     end
