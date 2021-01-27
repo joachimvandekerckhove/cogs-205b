@@ -6,7 +6,7 @@ classdef Normal2d
     end
 
     properties (constant)
-        scalingconstant = (2*pi).^(-0.5);
+        scalingconstant = 2*pi;
     end
 
     properties (SetAccess = private)
