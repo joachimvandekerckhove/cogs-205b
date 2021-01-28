@@ -24,7 +24,7 @@ function loglik = logpdf(obj, xax)
     detertminant = det(obj.CovM);
 
 % Get natural log of inverse square root of the determinant of Covariance matrix
-    loginvsqrtdet = 0.5 * log(detertminant);
+    loginvsqrtdet = -0.5 * log(detertminant);
 
 % Create a vector to save multiple values of the kernel for the MVN
     logkrnl = zeros(npoints,1);

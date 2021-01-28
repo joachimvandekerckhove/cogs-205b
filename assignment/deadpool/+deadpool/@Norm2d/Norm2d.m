@@ -1,4 +1,4 @@
-classdef Normal2d
+classdef Norm2d
 % A class for the 2 dimentional multivariate normal distribution
     properties 
         Mean(2,1) double {mustBeReal,mustBeFinite} = (0,0)
@@ -6,7 +6,7 @@ classdef Normal2d
     end
 
     properties (constant)
-        scalingconstant = 2*pi;
+        scalingconstant = (2*pi).^(-1);
     end
 
     properties (SetAccess = private)
