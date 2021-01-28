@@ -37,6 +37,6 @@ function loglik = logpdf(obj, xax)
         logkrnl(i) = -0.5*((xax(:,i) - obj.Mean).' * obj.PrecisionM * (xax(:,i) - obj.Mean));
 
 % Evaluate density function at point xax
-        loglik(i) = log(obj.scalingconstant)*loginvsqrtdet*logkrnl(i);
+        loglik(i) = log(obj.scalingconstant)+loginvsqrtdet+logkrnl(i);
     end
 end
