@@ -5,6 +5,11 @@ function x = rnmvn2d(obj,sizes)
         sizes = 1;
     end
 
+% Check properties of sizes
+    if ~(isnumeric(sizes) | isinteger(sizes)| isfinite(sizes))
+        error('Number of samples must be an integer')
+    end
+
 % Generate a matrix of size 2xsizes of standard normal random variables
     z = randn(2,sizes);
 
