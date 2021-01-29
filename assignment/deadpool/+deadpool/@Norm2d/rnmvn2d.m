@@ -1,13 +1,14 @@
 function x = rnmvn2d(obj,sizes)
     % Generating Random numbers with 2D Multivariate Normal distribution.
-% If no number of samples (sizes) is declared, set sample size to 1
-    if nargin < 2
-        sizes = 1;
-    end
 
 % Check properties of sizes
     if ~(isnumeric(sizes) | isinteger(sizes)| isfinite(sizes))
         error('Number of samples must be an integer')
+    end
+
+% If no number of samples (sizes) is declared, set sample size to 1
+    if nargin < 2
+        sizes = 1;
     end
 
 % Generate a matrix of size 2xsizes of standard normal random variables
