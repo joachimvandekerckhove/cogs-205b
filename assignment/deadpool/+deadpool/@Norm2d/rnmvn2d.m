@@ -9,7 +9,7 @@ function x = rnmvn2d(obj,sizes)
     z = randn(2,sizes)
 
 % Trnasform the standard normal rv to a 2d MVN with mean Mean and covariance matrix CovM    
-    for i = 1:sized
+    for i = 1:sizes
         x(:,i) = obj.unstandardize(z(:,i)) 
     end
 end
