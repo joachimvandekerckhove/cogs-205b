@@ -5,8 +5,8 @@ classdef Norm2d
         CovM (2,2) double {mustBeFinite,mustBePositiveSemiDef(CovM),mustBeSimm(CovM)} = eye(2) 
     end
 
-    properties (constant)
-        scalingconstant = (2*pi).^(-1);
+    properties (Constant)
+        scalingConstant = (2*pi).^(-1);
     end
 
     properties (SetAccess = private)
@@ -35,5 +35,4 @@ classdef Norm2d
             obj = updatePresCorM(obj)
         end
     end
-
 end
