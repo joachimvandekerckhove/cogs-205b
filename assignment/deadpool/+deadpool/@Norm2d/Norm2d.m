@@ -1,8 +1,8 @@
 classdef Norm2d
 % A class for the 2 dimentional multivariate normal distribution
     properties 
-        Mean (2,1) double {mustBeReal,mustBeFinite} = zeros(2,1)
-        CovM (2,2) double {mustBeFinite,mustBePositiveDef(CovM),mustBeSimm(CovM)} = eye(2) 
+        Mean (2,1) double {mustBeReal,mustBeFinite} = zeros(2,1);
+        CovM (2,2) double {mustBeFinite,mustBePositiveDef(CovM),mustBeSimm(CovM)} = eye(2);
     end
 
     properties (Constant)
@@ -10,8 +10,8 @@ classdef Norm2d
     end
 
     properties (SetAccess = private)
-        PrecisionM
-        Correlation
+        PrecisionM;
+        Correlation;
     end
 
     methods
@@ -25,14 +25,14 @@ classdef Norm2d
                 end
             end
             % Update Precision and Correlation after change in Covariance
-            obj = updatePresCorM(obj)
+            obj = updatePresCorM(obj);
         end
 
         function obj = set.CovM(obj,val)
         %Set New Covariance Matrix
-            obj.CovM = val
+            obj.CovM = val;
         % Update Precision and Correlation after change in Covariance
-            obj = updatePresCorM(obj)
+            obj = updatePresCorM(obj);
         end
     end
 end

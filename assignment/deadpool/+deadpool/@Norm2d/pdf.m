@@ -37,6 +37,6 @@ function dF = pdf(obj,xax)
         krnl(i) = exp(-0.5*((xax(:,i) - obj.Mean).' * obj.PrecisionM * (xax(:,i) - obj.Mean)));
 
 % Evaluate density function at point xax
-        dF(i) = obj.scalingconstant*invsqrtdet*krnl(i);
+        dF(i) = obj.scalingConstant*invsqrtdet*krnl(i);
     end
 end
