@@ -15,7 +15,7 @@ classdef Norm2d
     end
 
     methods
-        function obj = Normal2d(Mean, CovM)
+        function obj = Norm2d(Mean, CovM)
             if nargin > 0
                 % Set mean of 2D MVN
                 obj.Mean = Mean;
