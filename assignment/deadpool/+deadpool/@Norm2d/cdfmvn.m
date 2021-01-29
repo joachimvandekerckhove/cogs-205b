@@ -25,6 +25,6 @@ function Fx = cdfmvn(obj,xax)
 
     for i = 1:npoints
 % Evaluate density function at point xax
-        Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.CovM)
+        Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.CovM);
     end
 end
