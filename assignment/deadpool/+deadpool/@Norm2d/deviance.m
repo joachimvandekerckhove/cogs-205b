@@ -2,18 +2,18 @@ function dev = deviance(obj,data)
     % Compute the deviance of data for a given Mean and CovM
 % Validate properties of the point xax
 % Is xax a matrix of dimentions 2,n?        
-    if ~(size(data,2)==2)
+    if ~(size(data,2)==2 | size(data,1)==2)
         error('Data has to be 2 dimentional.')
     end
 
-% Are the values on xax finite?
-    if ~(isfinite(data))
-        error('Data must be a finite value.')
+% Check numerical properties of data
+    if ~(isnumeric(data) & isfinite(data) & isreal(data))
+        error('Data must contain real finite values')
     end
 
-% Are the values on xax real numbers?
-    if ~(isreal(data))
-        error('data must be a real matrix.')
+% Transpose data matrix if participants are in column format
+    if (size(data,1)==2)
+        data = data.';
     end
 
 % Transpose data to use methods in the class
@@ -32,8 +32,8 @@ function dev = deviance(obj,data)
 
     for i = 1:npoints
         logkrnl(i) = -0.5*((datat(:,i) - obj.Mean).' * obj.PrecisionM * (datat(:,i) - obj.Mean));
-        devi(i) = log(obj.scalingconstant)+invsqrtdet+logkrnl(i)
+        devi(i) = log(obj.scalingConstant)+invsqrtdet+logkrnl(i);
     end
 
-    dev = - 2 * sum(devi)
+    dev = - 2 * sum(devi);
 end
