@@ -2,19 +2,18 @@ function loglik = logpdf(obj, xax)
     % Evaluate the natural log of the 2-Dimentional Multivariate Normal Density at the points xax
 
 % Validate properties of the point xax
+% Check xax is a real number 
+    if ~(isnumeric(xax) & isfinite(xax) & isreal(xax))
+        error('Support must be a real finite value')
+    end
 % Is xax a matrix of dimentions 2,n?        
-    if ~(size(xax,1)==2)
+    if ~(size(xax,1)==2|size(xax,2)==2)
         error('Support must have size of 2.')
     end
 
-% Are the values on xax finite?
-    if ~(isfinite(xax))
-        error('Support must be a finite value.')
-    end
-
-% Are the values on xax real numbers?
-    if ~(isreal(xax))
-        error('Support must be a real vector.')
+% Transpose vector if it is not column
+    if (size(xax,2)==2)
+        xax = xax.';
     end
 
 % Number of 2d points to evaluate
@@ -37,6 +36,6 @@ function loglik = logpdf(obj, xax)
         logkrnl(i) = -0.5*((xax(:,i) - obj.Mean).' * obj.PrecisionM * (xax(:,i) - obj.Mean));
 
 % Evaluate density function at point xax
-        loglik(i) = log(obj.scalingconstant)+loginvsqrtdet+logkrnl(i);
+        loglik(i) = log(obj.scalingConstant)+loginvsqrtdet+logkrnl(i);
     end
 end
