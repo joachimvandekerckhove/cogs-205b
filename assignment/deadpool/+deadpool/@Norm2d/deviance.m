@@ -32,7 +32,7 @@ function dev = deviance(obj,data)
 
     for i = 1:npoints
         logkrnl(i) = -0.5*((datat(:,i) - obj.Mean).' * obj.PrecisionM * (datat(:,i) - obj.Mean));
-        devi(i) = log(obj.scalingConstant)+invsqrtdet+logkrnl(i);
+        devi(i) = log(obj.scalingConstant)+loginvsqrtdet+logkrnl(i);
     end
 
     dev = - 2 * sum(devi);
