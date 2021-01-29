@@ -3,8 +3,13 @@ function dF = pdf(obj,xax)
 
 % Validate properties of the point xax
 % Is xax a matrix of dimentions 2,n?        
-    if ~(size(xax,1)==2)
+    if ~(size(xax,1)==2|size(xax,2)==2)
         error('Support must have size of 2.')
+    end
+
+% Transpose vector if it is not column
+    if (size(xax,2)==2)
+        xax = xax.'
     end
 
 % Are the values on xax finite?
