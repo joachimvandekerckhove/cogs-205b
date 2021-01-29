@@ -1,4 +1,4 @@
-function logFx = logxdf(obj,xax)
+function logFx = logcdf(obj,xax)
     % Compute the logarithm of the cdf od 2d Multivariate Normal
     % xax has to be a matrix of column vectors of size 2xn
 
