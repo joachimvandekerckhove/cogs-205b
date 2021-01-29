@@ -5,10 +5,14 @@ function x = rnmvn2d(obj,sizes)
     if nargin < 2
         sizes = 1;
     end
-    
+
 % Check properties of sizes
-    if ~(isnumeric(sizes) & isinteger(sizes) & isfinite(sizes))
+    if ~(isnumeric(sizes) & isreal(sizes) & isfinite(sizes))
         error('Number of samples must be an integer')
+    end
+
+    if ~(mod(sizes,1)==0)
+        error("Number of samples must be an integer")
     end
 
 % Generate a matrix of size 2xsizes of standard normal random variables
