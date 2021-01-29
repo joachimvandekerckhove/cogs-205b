@@ -3,16 +3,15 @@ classdef Norm2d
 
     % The main properties are the mean and standard deviation
     properties
-        Mean double {mustBeReal, mustBeFinite} = [0;0]
-        Covariance double {mustBeReal, mustBeFinite} = diag([1,1])
-      
+        Mean(1,2) double {mustBeReal, mustBeFinite} = [0;0];
+        Covariance(2,2) double {mustBeReal, mustBeFinite} = eye(2);
     end
     
     % Derived properties that need to be set internally
     properties (SetAccess = private)
-        Precision
-        StandardDev
-        Correlation
+        Precision;
+        StandardDev;
+        Correlation;
     end
     
 
@@ -64,6 +63,9 @@ classdef Norm2d
         end
         % Setter for Covariance
         function obj = set.Covariance(obj, val)
+            % Should i handle cases where val is a scalar representing 
+            % correlation, and keeping variances =1? 
+            
             % Set the value
             obj.Covariance = val;
             % Update contingent properties
