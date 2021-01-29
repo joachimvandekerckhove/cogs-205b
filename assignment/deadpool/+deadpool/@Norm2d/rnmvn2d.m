@@ -2,7 +2,7 @@ function x = rnmvn2d(obj,sizes)
     % Generating Random numbers with 2D Multivariate Normal distribution.
 
 % Check properties of sizes
-    if ~(isnumeric(sizes) | isinteger(sizes)| isfinite(sizes))
+    if ~(isnumeric(sizes) & isinteger(sizes) & isfinite(sizes))
         error('Number of samples must be an integer')
     end
 
