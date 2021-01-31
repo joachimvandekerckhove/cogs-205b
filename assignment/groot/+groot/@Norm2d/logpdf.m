@@ -1,20 +1,9 @@
-% Probability density function
 function yax = logpdf(obj, xax)
+   % LOGPDF Log-Probability density function for Norm2d
    
 % check shape of input parameter xax
-x_size = size(xax);
-if (size(x_size) ~= 2)
-    error('Function pdf error: Parameter xax shape illegal (should be 2xN)');
-end
+validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2});
 
-% If xax is Nx2, restructure 
-if (x_size(1) ~= 2)
-    if (x_size(2) == 2)
-       xax = transpose(xax);
-    else
-        error('Function pdf error: Parameter xax shape illegal (should be 2xN)');
-    end
-end
 
 z_element1 = (xax(1,:) - obj.Mean(1))/obj.StandardDev(1);
 z_element2 = (xax(2,:) - obj.Mean(2))/obj.StandardDev(2);
