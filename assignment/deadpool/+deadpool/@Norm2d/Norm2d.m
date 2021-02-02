@@ -10,7 +10,7 @@ classdef Norm2d
     end
 
     properties (SetAccess = private)
-        PrecisionM;
+        Precision;
         Correlation;
     end
 
