@@ -1,4 +1,4 @@
-function Fx = cdfmvn(obj,xax)
+function Fx = cdf(obj,xax)
     % Compute the probability that the vector x is <= to xax
     % xax has to be a matrix of column vectors of size 2xn
 
