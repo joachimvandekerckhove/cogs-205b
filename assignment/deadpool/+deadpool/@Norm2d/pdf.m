@@ -20,10 +20,10 @@ function dF = pdf(obj,xax)
     npoints = size(xax,2);
 
 % Get the determinant of the Covariance matrix
-    detertminant = det(obj.Covariance);
+    determinant = det(obj.Covariance);
 
 % Get inverse square root of the determinant of Covariance matrix
-    invsqrtdet = (detertminant).^(-0.5);
+    invsqrtdet = (determinant).^(-0.5);
 
 % Create a vector to save multiple values of the kernel for the MVN
     krnl = zeros(npoints,1);

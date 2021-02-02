@@ -2,7 +2,7 @@ classdef Norm2d
 % A class for the 2 dimentional multivariate normal distribution
     properties 
         Mean (2,1) double {mustBeReal,mustBeFinite} = zeros(2,1);
-        Covariance (2,2) double {mustBeFinite,mustBePositiveDef(CoCovariancevM),mustBeSimm(Covariance)} = eye(2);
+        Covariance (2,2) double {mustBeFinite,mustBePositiveDef(Covariance),mustBeSimm(Covariance)} = eye(2);
     end
 
     properties (Constant)
@@ -12,6 +12,7 @@ classdef Norm2d
     properties (SetAccess = private)
         Precision;
         Correlation;
+        determinant
     end
 
     methods
