@@ -21,18 +21,13 @@ function dev = deviance(obj,data)
 
 % Number of 2d points to evaluate
     npoints = size(data,2);
-
-% Get the determinant of the Covariance matrix
-    detertminant = det(obj.Covariance);
-
-% Get natural log of inverse square root of the determinant of Covariance matrix
-    loginvsqrtdet = -0.5 * log(detertminant);
-
+    
+% Vector of zise npoints of 0's
     devi = zeros(npoints,1);
 
     for i = 1:npoints
         logkrnl(i) = -0.5*((datat(:,i) - obj.Mean).' * obj.Precision * (datat(:,i) - obj.Mean));
-        devi(i) = log(obj.scalingConstant)+loginvsqrtdet+logkrnl(i);
+        devi(i) = log(obj.scalingConstant) + obj.loginvsqrtdet + logkrnl(i);
     end
 
     dev = - 2 * sum(devi);

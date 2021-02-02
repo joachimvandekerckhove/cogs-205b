@@ -12,7 +12,9 @@ classdef Norm2d
     properties (SetAccess = private)
         Precision;
         Correlation;
-        determinant
+        determinant;
+        invsqrtdet;
+        loginvsqrtdet;
     end
 
     methods
