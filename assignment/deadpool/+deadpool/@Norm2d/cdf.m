@@ -1,4 +1,4 @@
-function Fx = cdfmvn(obj,xax)
+function Fx = cdf(obj,xax)
     % Compute the probability that the vector x is <= to xax
     % xax has to be a matrix of column vectors of size 2xn
 
@@ -25,6 +25,6 @@ function Fx = cdfmvn(obj,xax)
 
     for i = 1:npoints
 % Evaluate density function at point xax
-        Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.CovM);
+        Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.Covariance);
     end
 end

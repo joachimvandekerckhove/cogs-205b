@@ -19,12 +19,6 @@ function dF = pdf(obj,xax)
 % Number of 2d points to evaluate
     npoints = size(xax,2);
 
-% Get the determinant of the Covariance matrix
-    detertminant = det(obj.CovM);
-
-% Get inverse square root of the determinant of Covariance matrix
-    invsqrtdet = (detertminant).^(-0.5);
-
 % Create a vector to save multiple values of the kernel for the MVN
     krnl = zeros(npoints,1);
 
@@ -33,9 +27,8 @@ function dF = pdf(obj,xax)
 
     for i = 1:npoints
 % Evaluate the kernel at point xax
-        krnl(i) = exp(-0.5*((xax(:,i) - obj.Mean).' * obj.PrecisionM * (xax(:,i) - obj.Mean)));
-
+        krnl(i) = exp(-0.5*((xax(:,i) - obj.Mean).' * obj.Precision * (xax(:,i) - obj.Mean)));
 % Evaluate density function at point xax
-        dF(i) = obj.scalingConstant*invsqrtdet*krnl(i);
+        dF(i) = obj.scalingConstant * obj.invsqrtdet * krnl(i);
     end
 end

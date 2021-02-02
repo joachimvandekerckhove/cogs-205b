@@ -19,12 +19,6 @@ function loglik = logpdf(obj, xax)
 % Number of 2d points to evaluate
     npoints = size(xax,2);
 
-% Get the determinant of the Covariance matrix
-    detertminant = det(obj.CovM);
-
-% Get natural log of inverse square root of the determinant of Covariance matrix
-    loginvsqrtdet = -0.5 * log(detertminant);
-
 % Create a vector to save multiple values of the kernel for the MVN
     logkrnl = zeros(npoints,1);
 
@@ -33,9 +27,8 @@ function loglik = logpdf(obj, xax)
 
     for i = 1:npoints
 % Evaluate the kernel at point xax
-        logkrnl(i) = -0.5*((xax(:,i) - obj.Mean).' * obj.PrecisionM * (xax(:,i) - obj.Mean));
-
+        logkrnl(i) = -0.5*((xax(:,i) - obj.Mean).' * obj.Precision * (xax(:,i) - obj.Mean));
 % Evaluate density function at point xax
-        loglik(i) = log(obj.scalingConstant)+loginvsqrtdet+logkrnl(i);
+        loglik(i) = log(obj.scalingConstant) + obj.loginvsqrtdet + logkrnl(i);
     end
 end

@@ -25,6 +25,6 @@ end
 
     for i = 1:npoints
 % Evaluate density function at point xax
-        logFx(i) = log(mvncdf(xax(:,i),obj.Mean,obj.CovM));
+        logFx(i) = log(mvncdf(xax(:,i),obj.Mean,obj.Covariance));
     end   
 end
