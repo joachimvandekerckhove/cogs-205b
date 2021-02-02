@@ -3,6 +3,6 @@ function x = unstandardize(obj,z)
     if length(z) < 2
         error('z must be a 2D vector.')
     end
-    A = chol(obj.CovM).';
+    A = chol(obj.Covariance).';
     x = A * z + obj.Mean;
 end

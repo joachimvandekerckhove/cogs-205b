@@ -23,7 +23,7 @@ function dev = deviance(obj,data)
     npoints = size(data,2);
 
 % Get the determinant of the Covariance matrix
-    detertminant = det(obj.CovM);
+    detertminant = det(obj.Covariance);
 
 % Get natural log of inverse square root of the determinant of Covariance matrix
     loginvsqrtdet = -0.5 * log(detertminant);
