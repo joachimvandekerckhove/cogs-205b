@@ -31,4 +31,5 @@ function dF = pdf(obj,xax)
 % Evaluate density function at point xax
         dF(i) = obj.scalingConstant * obj.invsqrtdet * krnl(i);
     end
+    transpose(dF)
 end
