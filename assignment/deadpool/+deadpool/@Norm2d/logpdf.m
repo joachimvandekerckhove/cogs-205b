@@ -26,5 +26,5 @@ function loglik = logpdf(obj, xax)
 % Evaluate density function at point xax
         loglik(i) = log(obj.scalingConstant) + obj.loginvsqrtdet + logkrnl(i);
     end
-    loglik = loglik.'
+    loglik = loglik.' ;
 end

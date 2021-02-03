@@ -22,5 +22,5 @@ function Fx = cdf(obj,xax)
 % Evaluate density function at point xax
         Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.Covariance);
     end
-    Fx = Fx.'
+    Fx = Fx.' ;
 end
