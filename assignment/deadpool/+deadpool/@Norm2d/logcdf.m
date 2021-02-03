@@ -8,13 +8,8 @@ if ~(isnumeric(xax) & isfinite(xax) & isreal(xax))
     error('Support must be a real finite value')
 end
 % Is xax a matrix of dimentions 2xn or nx2?        
-if ~(size(xax,1)==2|size(xax,2)==2)
+if ~(size(xax,1)==2)
     error('Support must have size of 2.')
-end
-
-% Transpose vector if it is not column
-if (size(xax,2)==2)
-    xax = xax.';
 end
 
 % Number of 2d points to evaluate
@@ -27,4 +22,5 @@ end
 % Evaluate density function at point xax
         logFx(i) = log(mvncdf(xax(:,i),obj.Mean,obj.Covariance));
     end   
+    logFx = logFx.'
 end

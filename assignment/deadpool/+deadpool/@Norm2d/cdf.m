@@ -8,13 +8,8 @@ function Fx = cdf(obj,xax)
         error('Support must be a real finite value')
     end
 % Is xax a matrix of dimentions 2,n?        
-    if ~(size(xax,1)==2|size(xax,2)==2)
+    if ~(size(xax,1)==2)
         error('Support must have size of 2.')
-    end
-
-% Transpose vector if it is not column
-    if (size(xax,2)==2)
-        xax = xax.';
     end
 
 % Number of 2d points to evaluate
@@ -27,4 +22,5 @@ function Fx = cdf(obj,xax)
 % Evaluate density function at point xax
         Fx(i) = mvncdf(xax(:,i),obj.Mean,obj.Covariance);
     end
+    Fx = Fx.'
 end
