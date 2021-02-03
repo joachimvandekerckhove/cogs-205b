@@ -1,4 +1,4 @@
-function x = rng(obj,sizes)
+function x = rnd(obj,sizes)
     % Generating Random numbers with 2D Multivariate Normal distribution.
 
     % If no number of samples (sizes) is declared, set sample size to 1
