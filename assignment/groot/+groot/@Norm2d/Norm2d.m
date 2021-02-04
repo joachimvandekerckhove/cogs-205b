@@ -3,7 +3,7 @@ classdef Norm2d
 
     % The main properties are the mean and standard deviation
     properties
-        Mean(1,2) double {mustBeReal, mustBeFinite} = [0;0];
+        Mean(2,1) double {mustBeReal, mustBeFinite} = [0 0];
         Covariance(2,2) double {mustBeReal, mustBeFinite} = eye(2);
     end
     
