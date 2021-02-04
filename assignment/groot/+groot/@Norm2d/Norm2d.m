@@ -64,11 +64,6 @@ classdef Norm2d
             obj = updateCovariance(obj);
         end
         
-    end
-    % end methods
-    
-    methods (Static)
-        testSuiteAssignment2()
-    end
+    end    
         
 end
