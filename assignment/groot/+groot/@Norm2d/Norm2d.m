@@ -31,14 +31,6 @@ classdef Norm2d
             obj = updateCovariance(obj);
         end
         
-    
-        %%% Display function %%%
-        
-%         % Print the distribution to screen
-%         function disp(obj)
-%             fprintf('groot.Normal(%g,%g^2)\n', obj.Mean, obj.Covariance);
-%         end
-        
         
         %%% Getters and setters %%%
         % Getter for Mean
@@ -72,6 +64,11 @@ classdef Norm2d
             obj = updateCovariance(obj);
         end
         
+    end
+    % end methods
+    
+    methods (Static)
+        testSuiteAssignment2()
     end
         
 end
