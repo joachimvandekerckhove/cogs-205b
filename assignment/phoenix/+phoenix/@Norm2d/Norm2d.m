@@ -53,13 +53,5 @@ classdef Norm2d
         end
         
     end
-    
-    
-    % Static methods don't need the object as input
-    methods (Static)
-        
-        testSuite()
-        
-    end
-        
+         
 end
