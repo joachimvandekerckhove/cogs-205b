@@ -12,15 +12,7 @@ if ~(size(xax,1)==2)
     error('Support must have size of 2.')
 end
 
-% Number of 2d points to evaluate
-    npoints = size(xax,2);
-
-% Create a vector to save multiple values of the density of the MVN
-    logFx = zeros(npoints,1);
-
-    for i = 1:npoints
-% Evaluate density function at point xax
-        logFx(i) = log(mvncdf(xax(:,i),obj.Mean,obj.Covariance));
-    end   
+% Evaluate density function
+    logFx = mvncdf(xax.', obj.Mean.', obj.Covariance); 
     logFx = logFx.' ;
 end
