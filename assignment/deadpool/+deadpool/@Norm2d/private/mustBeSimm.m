@@ -1,7 +1,7 @@
 function mustBeSimm(obj)
 % Validates if the covariance matrix is positive semi-definite
     if ~(issymmetric(obj))
-        eidType = "Covatiance:notsymmetric";
+        eidType = "Covariance:notsymmetric";
         msgType = 'Covariance matrix is not Simmetryc.';
         throwAsCaller(MException(eidType,msgType));
     end
