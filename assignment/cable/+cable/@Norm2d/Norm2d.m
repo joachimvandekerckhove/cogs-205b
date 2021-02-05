@@ -111,13 +111,7 @@ classdef Norm2d
             if det(Sigma) == 0
                 error("Error: Determinant of sigma is 0; cannot invert.")
             end
-            % Values must conform to equation
-            if Sigma(2) ~= Sigma(3)
-                error("Error: off-diagonal elements of Sigma are not equal")
-%             elseif Sigma(2) ~= sqrt(Sigma(1) * Sigma(4))
-%                 error("Error: off-diagonal elements of Sigma are wrong(?)")
-            end
-            
+            % Values must conform to equation            
             % If you can get to this point, it should be good
         end
         function verifyX(X)
