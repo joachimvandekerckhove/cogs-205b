@@ -28,7 +28,7 @@ classdef Norm2d
             obj = set.Mean(obj,mu);
             obj = set.Covar(obj,sigma);
         end
-                
+
         % Getters
         function meanOut = get.Mean(obj)
             meanOut = obj.Mean;
@@ -151,14 +151,7 @@ classdef Norm2d
         end
         
         % Subfunctions
-        function checkInf(var,varStr)
-            % Checks whether any matrix elements are infinity
-            % varStr is a string of the variable's name, for errors
-            A = find(var == Inf);
-            if A
-                error("Error: Element %i of %s must be finite.",A(1),varStr);
-            end
-        end
+
         function checkReal(var,varStr)
             % Checks whether any matrix elements are imaginary
             % varStr is a string of the variable's name, for errors
