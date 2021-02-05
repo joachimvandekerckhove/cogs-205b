@@ -3,7 +3,13 @@
 % Relies on internal function "stand" which Z scores inputs
 
 function prob = pdf(obj, val)
-for i = 1:size(val,2)
+
+     arguments
+        obj
+        val (2,:) {mustBeFinite, mustBeReal}
+     end
+
+     for i = 1:size(val,2)
 	sqTerms = stand(val(:,i),obj.Mean,diag(obj.Covariance)).^2;
 	innerTerm = -2*obj.Correlation*prod(stand(val(:,i),obj.Mean,diag(obj.Covariance)));
 	z = sum(sqTerms) + innerTerm; 

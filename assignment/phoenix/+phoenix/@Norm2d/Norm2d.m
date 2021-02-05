@@ -4,7 +4,7 @@ classdef Norm2d
     % Properties: Mean, Covariance (default)
     properties
         Mean(2,1) double {mustBeReal, mustBeFinite} = [0 0]'
-        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositive} = [1 0.5; 0.5 1]
+        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePosDef(Covariance), mustBeSymm(Covariance)} = [1 0.5; 0.5 1]
     end
     
     % Internally set derived properties

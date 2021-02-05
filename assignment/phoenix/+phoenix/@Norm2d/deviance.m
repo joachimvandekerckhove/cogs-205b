@@ -3,6 +3,12 @@
 % Relies on output from Norm2d method "logpdf"
 
 function dev = deviance(obj, data)
+
+     arguments
+        obj
+        data (2,:) {mustBeFinite, mustBeReal}
+     end
+
 	dev = -2*sum(obj.logpdf(data));
 end
 
