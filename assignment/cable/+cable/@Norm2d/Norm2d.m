@@ -1,7 +1,8 @@
 classdef Norm2d
     % Bivariate normal likelihood equivalence class
     properties
-        Mean(2,1) double
+% validate properties from the start and set default value to (0,0) can use default check for real
+        Mean(2,1) double {mustBeReal,mustBeFinite} zeros(2,1)
         Covariance(2,2) double
         Precision(2,2) double
         Correlation double
@@ -116,7 +117,6 @@ classdef Norm2d
 %             elseif Sigma(2) ~= sqrt(Sigma(1) * Sigma(4))
 %                 error("Error: off-diagonal elements of Sigma are wrong(?)")
             end
-            
             
             % If you can get to this point, it should be good
         end
