@@ -16,19 +16,6 @@ function dev = deviance(obj,data)
         data = data.';
     end
 
-% Transpose data to use methods in the class
-    datat = transpose(data);
-
-% Number of 2d points to evaluate
-    npoints = size(data,2);
-    
 % Vector of zise npoints of 0's
-    devi = zeros(npoints,1);
-
-    for i = 1:npoints
-        logkrnl(i) = -0.5*((datat(:,i) - obj.Mean).' * obj.Precision * (datat(:,i) - obj.Mean));
-        devi(i) = log(obj.scalingConstant) + obj.loginvsqrtdet + logkrnl(i);
-    end
-
-    dev = - 2 * sum(devi);
+    dev = - 2 * sum( obj.logpdf(data) );
 end
