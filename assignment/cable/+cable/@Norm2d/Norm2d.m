@@ -30,14 +30,6 @@ classdef Norm2d
         end
         
         % Math stuff
-        function cdfOut = cdf(X,Mu,Sigma)
-            % freebie
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            
-            cdfOut = mvncdf(X,Mu,Sigma);
-        end
         function logcdfOut = logcdf(X,Mu,Sigma)
             % freebie
             verifyMean(Mu);
