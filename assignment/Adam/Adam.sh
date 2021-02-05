@@ -39,8 +39,11 @@ git commit -a -m "add the edited bash script and ready to push"
 
 # push the changes to zhibin's fork
 git push -u origin add-zhibin-assignment1
+<<<<<<< HEAD
+=======
 
 # Finally figured out. Adding upstream remote point is optional.
 # We can select which repo to creat the pull request to on the Github website using a drop-down menu
 
 
+>>>>>>> upstream/main
