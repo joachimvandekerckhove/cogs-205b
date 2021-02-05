@@ -1,5 +1,6 @@
 function yax = pdf(obj, xax)
    % PDF Probability density function for Norm2d
+   % Input: 2xn matrix of points. Output: 1xn probability density 
 
 % check shape of input parameter xax
 validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2});

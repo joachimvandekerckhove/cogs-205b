@@ -1,5 +1,6 @@
 function yax = logpdf(obj, xax)
    % LOGPDF Log-Probability density function for Norm2d
+   % Input: 2xn matrix of points. Output: 1xn log probability density
    
 % check shape of input parameter xax
 validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2});

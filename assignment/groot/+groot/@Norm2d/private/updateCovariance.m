@@ -1,4 +1,5 @@
 % Update Precision, StandardDeviation and Correlation based on Covariance
+
 function obj = updateCovariance(obj)
     % check for covariance matrix (should be symmetric)
     assert(isequal(obj.Covariance, transpose(obj.Covariance)),...

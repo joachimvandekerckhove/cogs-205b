@@ -1,5 +1,6 @@
 function yax = cdf(obj, xax)
 % CDF Cumulative distribution function for Norm2d
+% Input: 2xn matrix of points. Output: 1xn cumulative density
 
 validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2});
 try

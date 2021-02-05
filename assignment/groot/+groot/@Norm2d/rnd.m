@@ -1,6 +1,6 @@
 function yax = rnd(obj, size)
    % RNG Random number generation for Norm2d
-   % returns a 2 x size matrix 
+   % Input: 1x1 sizes (number of pairs of random numbers). Output: sizesx2 random numbers 
    
 % Generate random samples from first distribution (1xN vector)
 x1 = random('Normal', obj.Mean(1), obj.StandardDev(1), [1,size]);
