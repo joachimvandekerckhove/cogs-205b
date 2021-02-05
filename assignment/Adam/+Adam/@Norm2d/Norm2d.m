@@ -1,10 +1,10 @@
 classdef Norm2d
-% Norm2d  A class for the bivariate normal likelihood equivalence
+% Norm2d  A class for the bivariate normal likelihood equivalence.
 
     % The main properties are Mean (2x1 vector) and Covariance (2x2 matrix)
     properties
         Mean (2,1) double {mustBeReal, mustBeFinite} = [0; 0];
-        Covariance (2,2) double {mustBeReal, mustBeFinite, mustBePositive} = [1 0; 0 1];
+        Covariance (2,2) double {mustBeReal, mustBeFinite} = eye(2);
     end
     
     % Derived properties that need to be set internally
@@ -59,7 +59,6 @@ classdef Norm2d
         end
         
     end
-    
     
 
         
