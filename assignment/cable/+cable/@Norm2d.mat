@@ -7,6 +7,7 @@ classdef Norm2d
         Correlation double
     end
     
+    % Public methods
     methods
         % Constructor
         function obj = Norm2d(mu,sigma)
@@ -18,9 +19,14 @@ classdef Norm2d
             elseif nargin < 2
                 sigma = ones(2);
             end
+
+            % Set up obj
+            obj.Mean = 0;
+            obj.Covariance = 0;
             
-            obj.Mean = mu;
-            obj.Covariance = sigma;
+            % Set values
+            obj = set.Mean(obj,mu);
+            obj = set.Covar(obj,sigma);
         end
         
         % Math stuff
@@ -28,38 +34,87 @@ classdef Norm2d
             % Calculate the probability density function
             % X is a 2xn matrix
             % pdfOut is a 1xn matrix
+            
+            % Check inputs
+            verifyMean(Mu);
+            verifySigma(Sigma);
+            verifyX(X);
+            
+            if nargin < 2
+                Mu = [0;0];
+                Sigma = ones(2);
+            elseif nargin < 3
+                Sigma = ones(2);
+                Sigma = Sigma + eye(size(Sigma));
+            end
+            
+            rho = Sigma(1,2) / sqrt(Sigma(1,1) * Sigma(2,2));
+            sigma1 = sqrt(Sigma(1,1));
+            sigma2 = sqrt(Sigma(2,2));
+            z = ((X(1,:) - Mu(1))/sigma1).^2 - ...
+                2 * rho .* ((X(1,:) - Mu(1))/sigma1) .* ...
+                ((X(2,:) - Mu(2))/sigma2) + ...
+                ((X(2,:) - Mu(2))/sigma2).^2;
+            
+            pdfOut = 1/(2*pi*sigma1*sigma2*sqrt(1 - rho^2)) * ...
+                exp((-1/2) * z/(1 - rho^2));
+        end
+        function logpdfOut = logpdf(X,Mu,Sigma)
+            % DON'T just take the log of pdfOut
+            % That is technically what you do, but "simplify" the equation
+            
+            % Check inputs
+            verifyMean(Mu);
+            verifySigma(Sigma);
+            verifyX(X);
+            
             if nargin < 2
                 Mu = [0;0];
                 Sigma = ones(2);
             elseif nargin < 3
                 Sigma = ones(2);
             end
+            
             rho = Sigma(1,2) / sqrt(Sigma(1,1) * Sigma(2,2));
             sigma1 = sqrt(Sigma(1,1));
             sigma2 = sqrt(Sigma(2,2));
-            z = ((X(1,:) - Mu(1))/sigma1)^2 - ...
-                2 * rho * ((X(1,:) - Mu(1))/sigma1) * ...
+            z = ((X(1,:) - Mu(1))/sigma1).^2 - ...
+                2 * rho .* ((X(1,:) - Mu(1))/sigma1) .* ...
                 ((X(2,:) - Mu(2))/sigma2) + ...
-                ((X(2,:) - Mu(2))/sigma2)^2;
-            pdfOut = 1/(2*pi*sigma1*sigma2*sqrt(1 - rho^2)) * ...
-                exp((-1/2) * z/(1 - rho^2));
-        end
-        function logpdfOut = logpdf(X,Mu,Sigma)
-            % DON'T just take the log of pdfOut
-            % That is technically what you do, but simplify the equation???
+                ((X(2,:) - Mu(2))/sigma2).^2;
             
+            logpdfOut = log(1) - log(2*pi*sigma1*sigma2*sqrt(1 - rho^2)) + ...
+                ((-1/2) * z/(1 - rho^2)) * exp(1);
         end
         function cdfOut = cdf(X,Mu,Sigma)
             % freebie
+            verifyMean(Mu);
+            verifySigma(Sigma);
+            verifyX(X);
+            
             cdfOut = mvncdf(X,Mu,Sigma);
         end
         function logcdfOut = logcdf(X,Mu,Sigma)
             % freebie
+            verifyMean(Mu);
+            verifySigma(Sigma);
+            verifyX(X);
             logcdfOut = log(mvncdf(X,Mu,Sigma));
         end
-        function sample = rng(Mu,Sigma,size)
+        function sample = rng(Mu,Sigma,dimMat)
             % Pull a random sample from this distribution
-            
+            verifyMean(Mu);
+            verifySigma(Sigma);
+            verifySize(dimMat);
+            % Preallocate
+            sample = zeros(dimMat);
+            fprintf(1,"This function isn't ready yet, sorry.\n")
+            % Sample from first distribution
+%             x1 = Mu(1) .* rand(size(sample(:,1)));
+%             sample(:,1) = pdf(x1,Mu(1),Sigma(1));
+%             % sample from second distribution
+%             sample(:,2) = pdf(; % use sample(:,1), mu(2), and sigma(4)
+
         end
         function dev = deviance(Data,Mu,Sigma)
             % Data is an n*2 matrix (2 cols, n rows)
@@ -94,10 +149,12 @@ classdef Norm2d
 %                 end
 %             end
             
+            verifyMean(val);
             obj.Mean = val;
             obj = updateMean(obj); % Derivatives
         end
         function obj = set.Covariance(obj,val)
+            verifySigma(val);
             obj.Covariance = val;
             obj = updateCovar(obj);
         end
@@ -116,6 +173,98 @@ classdef Norm2d
                 % Make sure it is invertible first!!
             obj.Precision = inv(obj.Covariance);
             obj.Correlation = obj.Covariance(1,2) / sqrt(obj.Covariance(1,1) * obj.Covariance(2,2));
+        end
+        
+        % Validate inputs
+        function verifyMean(Mu)
+            % Cannot take strings etc
+            checkNumber(Mu,"Mu");
+            % Must be 2*1 in size
+            if ~isequal(size(Mu),[2,1])
+                error("Error: Mean (mu) must be a 2x1 vector.");
+            end
+            % Must be real
+            checkReal(Mu,"Mu");
+            % Must not be infinity
+            checkInf(Mu,"Mu");
+            % If you can get to this point, it should be good
+        end
+        function verifySigma(Sigma)
+            % Cannot take strings etc
+            checkNumber(Sigma,"Sigma");
+            % Must be 2*2 in size
+            if ~isequal(size(Mu),[2,2])
+                error("Error: Sigma must be a 2x2 matrix.");
+            end
+            % Must be real
+            checkReal(Sigma,"Sigma");
+            % Must not be infinity
+            checkInf(Sigma,"Sigma");
+            % Must be invertible
+            if det(Sigma) == 0
+                error("Error: Determinant of sigma is 0; cannot invert.")
+            end
+            % Values must conform to equation
+            if Sigma(2) ~= Sigma(3)
+                error("Error: off-diagonal elements of Sigma are not equal")
+%             elseif Sigma(2) ~= sqrt(Sigma(1) * Sigma(4))
+%                 error("Error: off-diagonal elements of Sigma are wrong(?)")
+            end
+            
+            
+            % If you can get to this point, it should be good
+        end
+        function verifyX(X)
+            % Cannot take strings etc
+            checkNumber(X,"X");
+            % Must be 2*n in size
+            A = size(X);
+            if size(A) > 2
+                error("Error: X has more than two dimensions.")
+            elseif A(1) ~= 2
+                error("Error: X must have two rows.")
+            end
+            % Must not have infinite values
+            checkInf(X,"X");
+            % Must not have imaginary values
+            checkReal(X,"X");
+        end
+        function verifySize(dimMat)
+            % calling it dimMat since size() is a built-in function
+            % Cannot take strings etc
+            checkNumber(dimMat,"size");
+            % Can't take 3+ dimensions
+            A = size(dimMat);
+            if size(A) > 2
+                error("Error: Size has more than two dimensions.")
+            end
+            % Must not have infinite values
+            checkInf(dimMat,"size");
+            % Must not have imaginary values
+            checkReal(dimMat,"size");
+        end
+        
+        % Subfunctions
+        function checkInf(var,varStr)
+            % Checks whether any matrix elements are infinity
+            % varStr is a string of the variable's name, for errors
+            A = find(var == Inf);
+            if A
+                error("Error: Element %i of %s must be finite.",A(1),varStr);
+            end
+        end
+        function checkReal(var,varStr)
+            % Checks whether any matrix elements are imaginary
+            % varStr is a string of the variable's name, for errors
+            A = find(~isreal(var));
+            if A
+                error("Error: Element %i of %s is imaginary.",A(1),varStr);
+            end
+        end
+        function checkNumber(var,varStr)
+            if ~isnumeric(var)
+                error("Error: %s is not a numeric variable.",varStr);
+            end
         end
     end
 end
