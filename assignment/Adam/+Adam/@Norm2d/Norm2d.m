@@ -3,8 +3,8 @@ classdef Norm2d
 
     % The main properties are Mean (2x1 vector) and Covariance (2x2 matrix)
     properties
-        Mean double {mustBeReal, mustBeFinite} = [0; 0]
-        Covariance double {mustBeReal, mustBeFinite, mustBePositive} = [1 0; 0 1]
+        Mean (2,1) double {mustBeReal, mustBeFinite} = [0; 0];
+        Covariance (2,2) double {mustBeReal, mustBeFinite, mustBePositive} = [1 0; 0 1];
     end
     
     % Derived properties that need to be set internally
@@ -61,11 +61,6 @@ classdef Norm2d
     end
     
     
-    % Static methods don't need the object as input
-    methods (Static)
-        
-        testSuite()
-        
-    end
+
         
 end
