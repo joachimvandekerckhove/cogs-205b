@@ -1,5 +1,5 @@
 classdef Norm2d
-% Norm2d  A class for the bivariate normal likelihood equivalence
+% Norm2d  A class for the bivariate normal likelihood equivalence.
 
     % The main properties are Mean (2x1 vector) and Covariance (2x2 matrix)
     properties
