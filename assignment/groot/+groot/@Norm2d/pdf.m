@@ -11,6 +11,6 @@ z = (z_element1).^2 - (2*obj.Correlation .* z_element1 .* z_element2) + ...
     (z_element2).^2;
 knl = exp(-0.5 * z / (1-obj.Correlation^2));
 
-yax = obj.Scaling * knl;
+yax = obj.Scaling*knl;
 
 end
