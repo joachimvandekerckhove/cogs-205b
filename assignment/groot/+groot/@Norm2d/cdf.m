@@ -6,7 +6,7 @@ validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2,'finite','real'});
 
 try
     % mvncdf takes Nx2 vector
-    yax = transpose( mvncdf(transpose(xax), transpose(obj.Mean), obj.Covariance));
+    yax = transpose(mvncdf(transpose(xax), transpose(obj.Mean), obj.Covariance));
 catch e
     error(e.message);
 end
