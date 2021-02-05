@@ -5,10 +5,13 @@ classdef Norm2d
         Mean (2,1) double {mustBeReal,mustBeFinite} zeros(2,1);
 % validate properties of covariance matrix from start and set default value
         Covariance (2,2) double {mustBeSymm(Covariance),mustBeFinite,mustBeReal,mustBeInvertible(Covariance)} eye(2);
-        Precision(2,2) double
-        Correlation double
     end
-    
+
+% moving Presicion and Correlation to private properties
+    properties (SetAccess = private)
+        Precision
+        Correlation 
+    end 
     % Public methods
     methods
         % Constructor
