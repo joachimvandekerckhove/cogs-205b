@@ -42,7 +42,7 @@ classdef Normal
         
         % Print the distribution to screen
         function disp(obj)
-            fprintf('magneto.Normal(%g,%g^2)\n', obj.Mean, obj.StandardDeviation);
+            fprintf('  magneto.Normal(%g,%g^2)\n\n', obj.Mean, obj.StandardDeviation);
         end
         
         
@@ -54,6 +54,11 @@ classdef Normal
             obj.StandardDeviation = val;
             % Update contingent properties
             obj = updateStandardDeviation(obj);
+        end
+
+        % Setter for StandardDeviation
+        function obj = doubleMean(obj)
+            obj.Mean = obj.Mean * 2;
         end
         
     end
