@@ -149,12 +149,6 @@ classdef Norm2d
             % Must not have imaginary values
             checkReal(dimMat,"size");
         end
-        
-        % Subfunctions
-        function checkNumber(var,varStr)
-            if ~isnumeric(var)
-                error("Error: %s is not a numeric variable.",varStr);
-            end
-        end
+
     end
 end
