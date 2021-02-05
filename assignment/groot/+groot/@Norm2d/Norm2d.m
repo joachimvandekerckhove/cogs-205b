@@ -12,6 +12,7 @@ classdef Norm2d
         Precision;
         StandardDev;
         Correlation;
+	Scaling;
     end
     
 

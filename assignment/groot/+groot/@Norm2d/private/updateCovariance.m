@@ -1,4 +1,4 @@
-% Update Precision, StandardDeviation and Correlation based on Covariance
+% Update Precision, StandardDeviation, Correlation, Scaling Factor based on Covariance
 
 function obj = updateCovariance(obj)
     % check for covariance matrix (should be symmetric)
@@ -11,6 +11,7 @@ function obj = updateCovariance(obj)
     end
     obj.StandardDev = sqrt(diag(obj.Covariance));
     obj.Correlation = obj.Covariance(1,2) / prod(obj.StandardDev);
+    obj.Scaling = 1/(2*pi*obj.StandardDev(1)*obj.StandardDev(2)*sqrt(1-obj.Correlation^2));
    
     assert ((-1 <= obj.Correlation) && (1 >= obj.Correlation));
 end

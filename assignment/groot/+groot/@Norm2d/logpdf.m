@@ -12,8 +12,7 @@ z = (z_element1).^2 - (2*obj.Correlation .* z_element1 .* z_element2) + ...
     (z_element2).^2;
 subfactor = 1-obj.Correlation^2;
 knl = -0.5 * z / subfactor;
-scaling = -log(2*pi*obj.StandardDev(1)*obj.StandardDev(2)*sqrt(subfactor));
 
-yax = scaling + knl;
+yax = obj.Scaling + knl;
 
 end
