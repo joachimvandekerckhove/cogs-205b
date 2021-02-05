@@ -30,13 +30,7 @@ classdef Norm2d
         end
         
         % Math stuff
-        function logcdfOut = logcdf(X,Mu,Sigma)
-            % freebie
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            logcdfOut = log(mvncdf(X,Mu,Sigma));
-        end
+
         function sample = rng(Mu,Sigma,dimMat)
             % Pull a random sample from this distribution
             verifyMean(Mu);
