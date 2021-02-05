@@ -3,7 +3,7 @@ function yax = logpdf(obj, xax)
    % Input: 2xn matrix of points. Output: 1xn log probability density
    
 % check shape of input parameter xax
-validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2});
+validateattributes(xax,{'numeric'}, {'ndims',2,'nrows',2,'finite','real'});
 
 
 z_element1 = (xax(1,:) - obj.Mean(1))/obj.StandardDev(1);
