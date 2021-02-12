@@ -7,7 +7,7 @@ classdef HillClimber < handle
         StartingPointX double {mustBeReal, mustBeFinite} = 0
         StepSize       double {mustBeReal, mustBeFinite} = 1
         Verbosity = false
-        Maximize  = false
+        Maximize  = true
         
         PlotOptions = { ...
             'color'     , 'blue' , ...
