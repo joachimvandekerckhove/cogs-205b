@@ -77,5 +77,7 @@ classdef Norm2d
         testSuite(pseudonym)
         
     end
-    
+    % testSuite don't run if I run "magneto.Norm2d.testSuite"
+    % it reports "The class magneto.Norm2d has no Constant property or
+    % Static method named 'testSuite'."
 end

@@ -11,5 +11,7 @@ function cumprob = cdf(obj, val)
      for i = 1:size(val,2)
         cumprob(i) = mvncdf(val(:,i),obj.Mean,obj.Covariance);
 end
+% Looks good.
+% "arguments" looks like a good function to employ. I will try that too
 
 

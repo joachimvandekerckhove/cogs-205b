@@ -8,3 +8,7 @@ function mustBePosDef(sigma)
    end
 end
 
+% I need to spend some more time learning the this type of function in the private folder.
+% It is overall a learning experience for me. Incapable of detecting much
+% "SMELL" for now. Your code looks pretty nice and concise in general. 
+% I will continue work on it later.
