@@ -136,7 +136,7 @@ classdef HillClimber < handle
         end
         
         function [s, h] = Solve(obj, threshold)
-            while abs(obj.CurrentPointY-obj.YHistory(end)) > threshold
+            while abs(obj.CurrentPointY-obj.YHistory(end-1)) > threshold
                 obj.Step()
                 obj.Plot()
             end
