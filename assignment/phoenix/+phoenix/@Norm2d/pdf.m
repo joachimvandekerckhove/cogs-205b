@@ -15,3 +15,4 @@ function prob = pdf(obj, val)
 	z = sum(sqTerms) + innerTerm; 
 	prob(i) = obj.scaleValue.^-1*exp(-z./(2*(1-obj.Correlation.^2)));
 end
+% There is one "end" missing?

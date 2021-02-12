@@ -15,4 +15,3 @@ function logprob = logpdf(obj, val)
         z = sum(sqTerms) + innerTerm;
         logprob(i) = -z./(2*(1-obj.Correlation.^2)) - log(obj.scaleValue);
 end
-

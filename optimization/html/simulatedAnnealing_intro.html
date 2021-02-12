@@ -1,0 +1,370 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Simulated Annealing</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="simulatedAnnealing_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Simulated Annealing</h1><p>This algorithm is a little trickier to understand, but it is much more general and robust.  To avoid getting stuck in a local optimum, <b>simulated annealing</b> allows the hiker to take steps in the wrong direction with some probability.  Let's look at that ugly function again.</p><pre class="codeinput">clear
+objective = @(x) exp(-x.^2) +  sin(x*5) / 5;
+
+xax = linspace(-13, 13, 101);
+
+plot(xax, objective(xax), <span class="string">'linewidth'</span>, 2)
+</pre><img vspace="5" hspace="5" src="simulatedAnnealing_intro_01.png" alt=""> <p>Ew.</p><p>We start at the same point</p><pre class="codeinput">best_guess = -1.5;
+
+<span class="comment">% At a minimum, simulated annealing needs a threshold above which it will</span>
+<span class="comment">% stop looking, and a Temperature that determines how much randomness there</span>
+<span class="comment">% is in each step.</span>
+threshold = 1;
+Temperature = .5;
+
+<span class="comment">% Initialize the algorithm</span>
+ini_loss  = objective(best_guess);
+old_loss = ini_loss;
+</pre><p>Generate a new guess and check if the new guess is better.  If it is better, take the step.  If it is not better, take the step anyway with probability <img src="simulatedAnnealing_intro_eq12849677049818910534.png" alt="$e^\frac{L_2-L_1}{T}$">.</p><pre class="codeinput">new_guess = best_guess + randn();
+new_loss  = objective(new_guess);
+
+
+<span class="keyword">if</span> (new_loss-old_loss &gt; 1e-6)
+    <span class="comment">% If better, take the new point</span>
+    best_guess = new_guess;
+    old_loss   = new_loss;
+    line(new_guess, new_loss, <span class="keyword">...</span>
+        <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+        <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+<span class="keyword">else</span>
+    <span class="comment">% If not better... maybe take it anyway</span>
+    <span class="keyword">if</span> (rand &lt; exp( (new_loss - old_loss) / Temperature ))
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">else</span>
+        line(new_guess, new_loss, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [rand 0 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="simulatedAnnealing_intro_02.png" alt=""> <p>Now do that until we hit the threshold</p><pre class="codeinput"><span class="keyword">while</span> true
+    <span class="comment">% Generate a new guess</span>
+    new_guess = best_guess + randn();
+    new_loss  = objective(new_guess);
+
+    <span class="comment">% Check if the new guess is good enough</span>
+    <span class="keyword">if</span> (new_loss &gt; threshold)
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [0 1 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Check if the new guess is better</span>
+    <span class="keyword">if</span> (new_loss-old_loss &gt; 1e-6)
+        <span class="comment">% If better, take the new point</span>
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">else</span>
+        <span class="comment">% If not better... maybe take it anyway</span>
+        <span class="keyword">if</span> (rand &lt; exp( (new_loss - old_loss) / Temperature ))
+            best_guess = new_guess;
+            old_loss   = new_loss;
+            line(new_guess, new_loss, <span class="keyword">...</span>
+                <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+                <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        <span class="keyword">else</span>
+            line(new_guess, new_loss, <span class="keyword">...</span>
+                <span class="string">'markerfacecolor'</span>, [rand 0 0], <span class="keyword">...</span>
+                <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    pause(.025)
+<span class="keyword">end</span>
+
+line([best_guess best_guess], <span class="keyword">...</span>
+    [min(ylim) old_loss], <span class="string">'color'</span>, [1 0 0])
+</pre><img vspace="5" hspace="5" src="simulatedAnnealing_intro_03.png" alt=""> <p>Another example.  In what important way is this different?</p><pre class="codeinput">clear
+
+loss = @(x) -sum((1:24).*abs(diff(x(:)')));
+
+best_guess = rand(5)&gt;.5;
+
+threshold = 0;
+
+Temperature = .05;
+
+ini_loss  = loss(best_guess);
+old_loss = ini_loss;
+
+<span class="keyword">while</span> true
+    <span class="comment">% Generate a new guess</span>
+    new_guess = best_guess;
+    idx = randi(numel(best_guess),1,1);
+    new_guess(idx) = ~new_guess(idx);
+    new_loss  = loss(new_guess);
+
+    <span class="comment">% Check if the new guess is good enough</span>
+    <span class="keyword">if</span> (new_loss &gt;= threshold)
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        imagesc(best_guess),axis <span class="string">equal</span> <span class="string">off</span>,drawnow
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Check if the new guess is better</span>
+    <span class="keyword">if</span> (new_loss - old_loss &gt; 1e-6)
+        <span class="comment">% If better, take the new point</span>
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        imagesc(best_guess),axis <span class="string">equal</span> <span class="string">off</span>,drawnow
+    <span class="keyword">else</span>
+        <span class="comment">% If not better... maybe take it anyway</span>
+        <span class="keyword">if</span> (rand &lt; exp( (new_loss - old_loss) / Temperature ))
+            best_guess = new_guess;
+            old_loss   = new_loss;
+            imagesc(best_guess),axis <span class="string">equal</span> <span class="string">off</span>,drawnow
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    pause(.05)
+<span class="keyword">end</span>
+
+disp(best_guess)
+
+disp(old_loss)
+</pre><pre class="codeoutput">   1   1   1   1   1
+   1   1   1   1   1
+   1   1   1   1   1
+   1   1   1   1   1
+   1   1   1   1   1
+
+     0
+
+</pre><img vspace="5" hspace="5" src="simulatedAnnealing_intro_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Simulated Annealing
+% This algorithm is a little trickier to understand, but it is much more
+% general and robust.  To avoid getting stuck in a local optimum,
+% *simulated annealing* allows the hiker to take steps in the wrong
+% direction with some probability.  Let's look at that ugly function again.
+
+clear
+objective = @(x) exp(-x.^2) +  sin(x*5) / 5;
+
+xax = linspace(-13, 13, 101);
+
+plot(xax, objective(xax), 'linewidth', 2)
+
+%%
+% Ew.
+%%
+% We start at the same point
+best_guess = -1.5;
+
+% At a minimum, simulated annealing needs a threshold above which it will
+% stop looking, and a Temperature that determines how much randomness there
+% is in each step.
+threshold = 1;
+Temperature = .5;
+
+% Initialize the algorithm
+ini_loss  = objective(best_guess);
+old_loss = ini_loss;
+
+%%
+% Generate a new guess and check if the new guess is better.  If it is
+% better, take the step.  If it is not better, take the step anyway with
+% probability $e^\frac{L_2-L_1}{T}$.
+
+new_guess = best_guess + randn();
+new_loss  = objective(new_guess);
+
+
+if (new_loss-old_loss > 1e-6)
+    % If better, take the new point
+    best_guess = new_guess;
+    old_loss   = new_loss;
+    line(new_guess, new_loss, ...
+        'markerfacecolor', [0 rand 0], ...
+        'markersize', 10, 'marker', 'o')
+else
+    % If not better... maybe take it anyway
+    if (rand < exp( (new_loss - old_loss) / Temperature ))
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, ...
+            'markerfacecolor', [0 rand 0], ...
+            'markersize', 10, 'marker', 'o')
+    else
+        line(new_guess, new_loss, ...
+            'markerfacecolor', [rand 0 0], ...
+            'markersize', 10, 'marker', 'o')
+    end
+end
+
+%%
+% Now do that until we hit the threshold
+while true
+    % Generate a new guess
+    new_guess = best_guess + randn();
+    new_loss  = objective(new_guess);
+    
+    % Check if the new guess is good enough
+    if (new_loss > threshold)
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, ...
+            'markerfacecolor', [0 1 0], ...
+            'markersize', 10, 'marker', 'o')
+        break
+    end
+    
+    % Check if the new guess is better
+    if (new_loss-old_loss > 1e-6)
+        % If better, take the new point
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        line(new_guess, new_loss, ...
+            'markerfacecolor', [0 rand 0], ...
+            'markersize', 10, 'marker', 'o')
+    else
+        % If not better... maybe take it anyway
+        if (rand < exp( (new_loss - old_loss) / Temperature ))
+            best_guess = new_guess;
+            old_loss   = new_loss;
+            line(new_guess, new_loss, ...
+                'markerfacecolor', [0 rand 0], ...
+                'markersize', 10, 'marker', 'o')
+        else
+            line(new_guess, new_loss, ...
+                'markerfacecolor', [rand 0 0], ...
+                'markersize', 10, 'marker', 'o')
+        end
+    end
+    pause(.025)
+end
+
+line([best_guess best_guess], ...
+    [min(ylim) old_loss], 'color', [1 0 0])
+
+%%
+% Another example.  In what important way is this different?
+
+clear
+
+loss = @(x) -sum((1:24).*abs(diff(x(:)')));
+
+best_guess = rand(5)>.5;
+
+threshold = 0;
+
+Temperature = .05;
+
+ini_loss  = loss(best_guess);
+old_loss = ini_loss;
+
+while true
+    % Generate a new guess
+    new_guess = best_guess;
+    idx = randi(numel(best_guess),1,1);
+    new_guess(idx) = ~new_guess(idx);
+    new_loss  = loss(new_guess);
+    
+    % Check if the new guess is good enough
+    if (new_loss >= threshold)
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        imagesc(best_guess),axis equal off,drawnow        
+        break
+    end
+    
+    % Check if the new guess is better
+    if (new_loss - old_loss > 1e-6)
+        % If better, take the new point
+        best_guess = new_guess;
+        old_loss   = new_loss;
+        imagesc(best_guess),axis equal off,drawnow        
+    else
+        % If not better... maybe take it anyway
+        if (rand < exp( (new_loss - old_loss) / Temperature ))
+            best_guess = new_guess;
+            old_loss   = new_loss;
+            imagesc(best_guess),axis equal off,drawnow
+        end
+    end
+    pause(.05)
+end
+
+disp(best_guess)
+
+disp(old_loss)
+
+##### SOURCE END #####
+--></body></html>
