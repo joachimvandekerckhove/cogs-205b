@@ -1,0 +1,362 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Optimization</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="hillClimber_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Optimization</h1><!--introduction--><p>Very often, researchers are interested in finding the <b>input</b> values of a function that <b>optimize</b> some output.  Efficient ways of doing this is an extremely important field of mathematics.  In general, the way to imagine optimization is to think of a hiker in a hilly landscape who is trying to find the highest (or lowest) point possible.  The hiker can't see the landscape but can tell the exact height of their location.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Hill-climbing</a></li><li><a href="#7">Another objective function</a></li></ul></div><h2 id="1">Hill-climbing</h2><p>This is a broad family of algorithms that are relatively easy to understand: You start somewhere, take a step, and decide whether to step back or not.  Let's start with a simple function.</p><p>Let's start by using one of those anonymous functions:</p><pre class="codeinput">clear
+objective = @(x) exp(-x.^2);
+
+xax = linspace(-3, 3, 101);
+
+plot(xax, objective(xax), <span class="string">'linewidth'</span>, 2)
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_01.png" alt=""> <p>We need to start by picking some starting point, and a step size:</p><pre class="codeinput">step_size  = 0.04;
+
+current_point = 1.5;
+</pre><p>To visualize, let's plot the function and the current point</p><pre class="codeinput">current_height = objective(current_point);
+
+line(current_point, current_height, <span class="keyword">...</span>
+    <span class="string">'markerfacecolor'</span>, [0 0 0], <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_02.png" alt=""> <p>Try one step</p><pre class="codeinput">new_point  = current_point + step_size;
+new_height = objective(new_point);
+
+<span class="comment">% Check if the step was a good one</span>
+<span class="keyword">if</span> new_height &gt;= current_height
+    <span class="comment">% If yes, move there</span>
+    current_point = new_point;
+    current_height = new_height;
+    line(current_point, current_height, <span class="keyword">...</span>
+        <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+        <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+<span class="keyword">else</span>
+    <span class="comment">% Otherwise, turn around</span>
+    step_size = -step_size;
+    line(new_point, new_height, <span class="keyword">...</span>
+        <span class="string">'markerfacecolor'</span>, [rand 0 0], <span class="keyword">...</span>
+        <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_03.png" alt=""> <p>Now do that a bunch of times</p><pre class="codeinput">n_steps = 50;
+
+<span class="keyword">for</span> s = 1:n_steps
+    new_point  = current_point + step_size;
+    new_height = objective(new_point);
+
+    <span class="keyword">if</span> new_height &gt;= current_height
+        current_point = new_point;
+        current_height = new_height;
+        line(current_point, current_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [1 1 1], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        line(current_point, current_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [0 s/n_steps 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">else</span>
+        step_size = -step_size * 2/3;
+        line(new_point, new_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [1 1 1], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        line(new_point, new_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [s/n_steps 0 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">end</span>
+    pause(.25)
+<span class="keyword">end</span>
+
+line([current_point current_point], <span class="keyword">...</span>
+    [min(ylim) new_height], <span class="string">'color'</span>, [1 0 0])
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_04.png" alt=""> <h2 id="7">Another objective function</h2><p>So that worked nicely!  Let's try a different function!</p><pre class="codeinput">clear
+objective = @(x) exp(-x.^2) +  sin(x*5) / 5;
+
+xax = linspace(-3, 3, 101);
+
+plot(xax, objective(xax), <span class="string">'linewidth'</span>, 2)
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_05.png" alt=""> <p>We need to start by picking some starting point, and a step size:</p><pre class="codeinput">step_size  = 0.04;
+
+current_point = -1.5;
+</pre><p>To visualize, let's plot the function and the current point</p><pre class="codeinput">current_height = objective(current_point);
+
+line(current_point, current_height, <span class="keyword">...</span>
+    <span class="string">'markerfacecolor'</span>, [0 0 0], <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_06.png" alt=""> <p>Try one step</p><pre class="codeinput">new_point  = current_point + step_size;
+new_height = objective(new_point);
+
+<span class="comment">% Check if the step was a good one</span>
+<span class="keyword">if</span> new_height &gt;= current_height
+    <span class="comment">% If yes, move there</span>
+    current_point = new_point;
+    current_height = new_height;
+    line(current_point, current_height, <span class="keyword">...</span>
+        <span class="string">'markerfacecolor'</span>, [0 rand 0], <span class="keyword">...</span>
+        <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+<span class="keyword">else</span>
+    <span class="comment">% Otherwise, turn around</span>
+    step_size = -step_size;
+    line(new_point, new_height, <span class="keyword">...</span>
+        <span class="string">'markerfacecolor'</span>, [rand 0 0], <span class="keyword">...</span>
+        <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_07.png" alt=""> <p>Now do that a bunch of times</p><pre class="codeinput">n_steps = 50;
+
+<span class="keyword">for</span> s = 1:n_steps
+    new_point  = current_point + step_size;
+    new_height = objective(new_point);
+
+    <span class="keyword">if</span> new_height &gt;= current_height
+        current_point = new_point;
+        current_height = new_height;
+        line(current_point, current_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [1 1 1], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        line(current_point, current_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [0 s/n_steps 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">else</span>
+        step_size = -step_size * 2/3;
+        line(new_point, new_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [1 1 1], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+        line(new_point, new_height, <span class="keyword">...</span>
+            <span class="string">'markerfacecolor'</span>, [s/n_steps 0 0], <span class="keyword">...</span>
+            <span class="string">'markersize'</span>, 10, <span class="string">'marker'</span>, <span class="string">'o'</span>)
+    <span class="keyword">end</span>
+    pause(.25)
+<span class="keyword">end</span>
+
+line([current_point current_point], <span class="keyword">...</span>
+    [min(ylim) new_height], <span class="string">'color'</span>, [1 0 0])
+
+text(1,1,<span class="string">'FAIL'</span>,<span class="string">'fontsize'</span>,40,<span class="string">'color'</span>,<span class="string">'red'</span>)
+</pre><img vspace="5" hspace="5" src="hillClimber_intro_08.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Optimization
+% Very often, researchers are interested in finding the *input* values of a
+% function that *optimize* some output.  Efficient ways of doing this is an
+% extremely important field of mathematics.  In general, the way to imagine
+% optimization is to think of a hiker in a hilly landscape who is trying to
+% find the highest (or lowest) point possible.  The hiker can't see the
+% landscape but can tell the exact height of their location.
+%
+%% Hill-climbing
+% This is a broad family of algorithms that are relatively easy to
+% understand: You start somewhere, take a step, and decide whether to step
+% back or not.  Let's start with a simple function.
+%%
+% Let's start by using one of those anonymous functions:
+clear
+objective = @(x) exp(-x.^2);
+
+xax = linspace(-3, 3, 101);
+
+plot(xax, objective(xax), 'linewidth', 2)
+
+%%
+% We need to start by picking some starting point, and a step size:
+step_size  = 0.04;
+
+current_point = 1.5;
+
+%%
+% To visualize, let's plot the function and the current point
+current_height = objective(current_point);
+
+line(current_point, current_height, ...
+    'markerfacecolor', [0 0 0], 'markersize', 10, 'marker', 'o')
+
+%%
+% Try one step
+new_point  = current_point + step_size;
+new_height = objective(new_point);
+
+% Check if the step was a good one
+if new_height >= current_height
+    % If yes, move there
+    current_point = new_point;
+    current_height = new_height;
+    line(current_point, current_height, ...
+        'markerfacecolor', [0 rand 0], ...
+        'markersize', 10, 'marker', 'o')
+else
+    % Otherwise, turn around
+    step_size = -step_size;
+    line(new_point, new_height, ...
+        'markerfacecolor', [rand 0 0], ...
+        'markersize', 10, 'marker', 'o')
+end
+
+
+%%
+% Now do that a bunch of times
+n_steps = 50;
+
+for s = 1:n_steps
+    new_point  = current_point + step_size;
+    new_height = objective(new_point);
+    
+    if new_height >= current_height
+        current_point = new_point;
+        current_height = new_height;
+        line(current_point, current_height, ...
+            'markerfacecolor', [1 1 1], ...
+            'markersize', 10, 'marker', 'o')
+        line(current_point, current_height, ...
+            'markerfacecolor', [0 s/n_steps 0], ...
+            'markersize', 10, 'marker', 'o')
+    else
+        step_size = -step_size * 2/3;
+        line(new_point, new_height, ...
+            'markerfacecolor', [1 1 1], ...
+            'markersize', 10, 'marker', 'o')
+        line(new_point, new_height, ...
+            'markerfacecolor', [s/n_steps 0 0], ...
+            'markersize', 10, 'marker', 'o')
+    end
+    pause(.25)
+end
+
+line([current_point current_point], ...
+    [min(ylim) new_height], 'color', [1 0 0])
+
+%% Another objective function
+% So that worked nicely!  Let's try a different function!
+clear
+objective = @(x) exp(-x.^2) +  sin(x*5) / 5;
+
+xax = linspace(-3, 3, 101);
+
+plot(xax, objective(xax), 'linewidth', 2)
+
+%%
+% We need to start by picking some starting point, and a step size:
+step_size  = 0.04;
+
+current_point = -1.5;
+
+%%
+% To visualize, let's plot the function and the current point
+current_height = objective(current_point);
+
+line(current_point, current_height, ...
+    'markerfacecolor', [0 0 0], 'markersize', 10, 'marker', 'o')
+
+%%
+% Try one step
+new_point  = current_point + step_size;
+new_height = objective(new_point);
+
+% Check if the step was a good one
+if new_height >= current_height
+    % If yes, move there
+    current_point = new_point;
+    current_height = new_height;
+    line(current_point, current_height, ...
+        'markerfacecolor', [0 rand 0], ...
+        'markersize', 10, 'marker', 'o')
+else
+    % Otherwise, turn around
+    step_size = -step_size;
+    line(new_point, new_height, ...
+        'markerfacecolor', [rand 0 0], ...
+        'markersize', 10, 'marker', 'o')
+end
+
+
+%%
+% Now do that a bunch of times
+n_steps = 50;
+
+for s = 1:n_steps
+    new_point  = current_point + step_size;
+    new_height = objective(new_point);
+    
+    if new_height >= current_height
+        current_point = new_point;
+        current_height = new_height;
+        line(current_point, current_height, ...
+            'markerfacecolor', [1 1 1], ...
+            'markersize', 10, 'marker', 'o')
+        line(current_point, current_height, ...
+            'markerfacecolor', [0 s/n_steps 0], ...
+            'markersize', 10, 'marker', 'o')
+    else
+        step_size = -step_size * 2/3;
+        line(new_point, new_height, ...
+            'markerfacecolor', [1 1 1], ...
+            'markersize', 10, 'marker', 'o')
+        line(new_point, new_height, ...
+            'markerfacecolor', [s/n_steps 0 0], ...
+            'markersize', 10, 'marker', 'o')
+    end
+    pause(.25)
+end
+
+line([current_point current_point], ...
+    [min(ylim) new_height], 'color', [1 0 0])
+
+text(1,1,'FAIL','fontsize',40,'color','red')
+
+
+##### SOURCE END #####
+--></body></html>
