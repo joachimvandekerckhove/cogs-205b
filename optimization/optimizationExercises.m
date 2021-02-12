@@ -143,7 +143,7 @@ while T > .001
     counter = counter + 1;
     if counter > 100
         counter = 0;
-        T = T * .9;  % Cool down
+        T = T * .5;  % Cool down faster!
         disp([T current_x current_y current_z])
     end
     

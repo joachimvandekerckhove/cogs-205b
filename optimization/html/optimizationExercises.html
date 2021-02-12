@@ -6,8 +6,8 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Optimization exercises</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="optimizationExercises.m"><style type="text/css">
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+      --><title>Optimization exercises</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="optimizationExercises.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
 html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
@@ -67,123 +67,173 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Optimization exercises</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Exercise 1</a></li><li><a href="#2">Exercise 2</a></li><li><a href="#3">Exercise 3</a></li><li><a href="#4">Exercise 4</a></li></ul></div><h2 id="1">Exercise 1</h2><p>Using a hill-climbing optimization algorithm, find the maximum of <img src="optimizationExercises_eq09050700918925863328.png" alt="$log(f(x))$"> where <img src="optimizationExercises_eq14260462621779918830.png" alt="$f(x) = e^{-x^2}$">.  Compare to the maximum of <img src="optimizationExercises_eq17663307419741296505.png" alt="$f(x)$">.</p><pre class="codeoutput">  -2.4577e-15
+  </style></head><body><div class="content"><h1>Optimization exercises</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Exercise 1</a></li><li><a href="#2">Exercise 2</a></li><li><a href="#3">Exercise 3</a></li><li><a href="#4">Exercise 4</a></li></ul></div><h2 id="1">Exercise 1</h2><p>Using a hill-climbing optimization algorithm, find the maximum of <img src="optimizationExercises_eq09050700918925863328.png" alt="$log(f(x))$"> where <img src="optimizationExercises_eq14260462621779918830.png" alt="$f(x) = e^{-x^2}$">.  Compare to the maximum of <img src="optimizationExercises_eq17663307419741296505.png" alt="$f(x)$">.</p><pre class="codeinput">clear, close <span class="string">all</span>
 
-</pre><h2 id="2">Exercise 2</h2><p>Using a hill-climbing optimization algorithm, find the maximum of <img src="optimizationExercises_eq07156712535600682888.png" alt="$f(x,y) = e^{-x^2-y^2}$">.</p><pre class="codeoutput">   -0.0085   -0.0000
+objective      = @(x) (-x.^2);
+step_size      = 0.04;
+current_point  = 1.50;
+current_z = objective(current_point);
 
-</pre><img vspace="5" hspace="5" src="optimizationExercises_01.png" alt=""> <h2 id="3">Exercise 3</h2><p>Using some of the functions <tt>surf</tt>, <tt>mesh</tt>, <tt>contour</tt>, and <tt>plot3</tt>, graph the so-called six-hump camelback function <img src="optimizationExercises_eq03986222445007418011.png" alt="$C$">: <img src="optimizationExercises_eq11476548136098844995.png" alt="$C(x,y) = (4 - 2.1 x^2 + \frac{1}{3}x^4) x^2 + x y + 4 (y^2-1) y^2$">.  Then use simulated annealing to find its global minimum.</p><pre class="codeoutput">    0.0900   -0.1051    0.7094   -1.0306
+n_steps = 150;
 
-    0.0810    0.0899   -0.7200   -1.0312
+<span class="keyword">for</span> s = 1:n_steps
+    new_point  = current_point + step_size;
+    new_z = objective(new_point);
 
-    0.0729    0.0760   -0.8086   -0.9438
+    <span class="keyword">if</span> new_z &gt;= current_z
+        current_point = new_point;
+        current_z = new_z;
+    <span class="keyword">else</span>
+        step_size = -step_size * 2/3;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
 
-    0.0656   -0.3403    0.7562   -0.8011
+disp(current_point)
+</pre><pre class="codeoutput">  -2.4577e-15
+</pre><h2 id="2">Exercise 2</h2><p>Using a hill-climbing optimization algorithm, find the maximum of <img src="optimizationExercises_eq07156712535600682888.png" alt="$f(x,y) = e^{-x^2-y^2}$">.</p><pre class="codeinput">rng(9)
+clear, <span class="comment">%close all</span>
 
-    0.0590   -0.1039    0.7077   -1.0306
+xax = linspace(-2, 2, 101);
+yax = linspace(-2, 2, 101);
+[xplane, yplane] = meshgrid(xax, yax);
 
-    0.0531   -0.1141    0.6649   -1.0107
+objective = @(x,y) exp(-x.^2-y.^2);
 
-    0.0478   -0.0890    0.7309   -1.0288
+zvalue = objective(xplane, yplane);
 
-    0.0430   -0.0622    0.6696   -1.0155
+h = mesh(xplane, yplane, zvalue); axis <span class="string">equal</span>
 
-    0.0387   -0.0100    0.6912   -1.0045
+objective = @(x,y) exp(-x.^2-y.^2);
+step_x    = 0.025;
+step_y    = 0.025;
+current_x = 4 * rand - 2;
+current_y = 4 * rand - 2;
 
-    0.0349    0.0347    0.7649   -0.9397
+current_z = objective(current_x, current_y);
 
-    0.0314    0.0241    0.7020   -0.9806
+line(current_x, current_y, current_z, <span class="string">'marker'</span>, <span class="string">'o'</span>, <span class="string">'color'</span>, <span class="string">'r'</span>, <span class="string">'markerf'</span>, <span class="string">'r'</span>)
 
-    0.0282   -0.0034    0.7063   -1.0024
+<span class="keyword">while</span> true
+    <span class="comment">% The candidate</span>
+    new_x = current_x + step_x;
+    <span class="comment">% The evaluation</span>
+    new_z = objective(new_x, current_y);
+    <span class="comment">% The accept/reject</span>
+    <span class="keyword">if</span> new_z &gt;= current_z
+        current_x = new_x;
+        current_z = new_z;
+    <span class="keyword">else</span>
+        step_x = -step_x * 2/3;
+    <span class="keyword">end</span>
 
-    0.0254   -0.0495    0.7702   -0.9936
+    <span class="comment">% The candidate</span>
+    new_y = current_y + step_y;
+    <span class="comment">% The evaluation</span>
+    new_z = objective(current_x, new_y);
+    <span class="comment">% The accept/reject</span>
+    <span class="keyword">if</span> new_z &gt;= current_z
+        current_y = new_y;
+        current_z = new_z;
+    <span class="keyword">else</span>
+        step_y = -step_y * 2/3;
+    <span class="keyword">end</span>
 
-    0.0229   -0.2016    0.6831   -0.9741
+    <span class="comment">% The stopping rule</span>
+    <span class="keyword">if</span> current_z &gt; .9999
+        line(current_x, current_y, 1, <span class="string">'marker'</span>, <span class="string">'o'</span>, <span class="string">'color'</span>, [0 .5 0], <span class="string">'markerf'</span>, [0 .5 0])
+        drawnow
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
 
-    0.0206   -0.1798    0.7319   -0.9994
+    line(current_x, current_y, current_z, <span class="string">'marker'</span>, <span class="string">'.'</span>, <span class="string">'color'</span>,<span class="string">'r'</span>)
+    drawnow
+<span class="keyword">end</span>
 
-    0.0185   -0.0360    0.7189   -1.0196
+disp([current_x current_y])
+</pre><pre class="codeoutput">   -0.0085   -0.0000
+</pre><img vspace="5" hspace="5" src="optimizationExercises_01.png" alt=""> <h2 id="3">Exercise 3</h2><p>Using some of the functions <tt>surf</tt>, <tt>mesh</tt>, <tt>contour</tt>, and <tt>plot3</tt>, graph the so-called six-hump camelback function <img src="optimizationExercises_eq03986222445007418011.png" alt="$C$">: <img src="optimizationExercises_eq11476548136098844995.png" alt="$C(x,y) = (4 - 2.1 x^2 + \frac{1}{3}x^4) x^2 + x y + 4 (y^2-1) y^2$">.  Then use simulated annealing to find its global minimum.</p><pre class="codeinput"><span class="comment">% rng(9)</span>
+clear, clf
 
-    0.0167   -0.0974    0.7017   -1.0304
+xax = linspace(-2, 2, 101);
+yax = linspace(-1, 1, 101);
+[xplane, yplane] = meshgrid(xax, yax);
 
-    0.0150   -0.0572    0.7502   -1.0141
+objective = @(x,y) (4 - 2.1*x.^2 + x.^4/3).*x.^2 + x.*y + 4*(-1 + y.^2).*y.^2;
 
-    0.0135   -0.0874    0.6907   -1.0278
+zvalue = objective(xplane, yplane);
 
-    0.0122   -0.1024    0.6541   -1.0045
+h = contour(xplane, yplane, zvalue);
 
-    0.0109   -0.1150    0.7316   -1.0266
+T = .1;
+counter = 0;
 
-    0.0098   -0.0458    0.6566   -1.0027
+current_x = 4 * rand - 2;
+current_y = 2 * rand - 1;
 
-    0.0089   -0.0454    0.7001   -1.0232
+current_z = objective(current_x, current_y);
 
-    0.0080   -0.0659    0.6991   -1.0282
+h = line(current_x, current_y, current_z, <span class="string">'marker'</span>, <span class="string">'o'</span>, <span class="string">'color'</span>, <span class="string">'r'</span>, <span class="string">'markerf'</span>, <span class="string">'r'</span>);
+j = line(current_x, current_y, current_z, <span class="string">'marker'</span>, <span class="string">'.'</span>, <span class="string">'color'</span>, <span class="string">'k'</span>);
 
-    0.0072   -0.0514    0.6917   -1.0231
+<span class="keyword">while</span> T &gt; .001
+    <span class="comment">% The candidate</span>
+    new_x = min(max(current_x + randn*T*10,-2),2);
+    new_y = min(max(current_y + randn*T*10,-1),1);
+    <span class="comment">% The evaluation</span>
+    new_z = objective(new_x, new_y);
 
-    0.0065   -0.1362    0.7351   -1.0201
+    set(j, <span class="string">'XData'</span>, new_x, <span class="string">'YData'</span>, new_y, <span class="string">'ZData'</span>, new_z)
 
-    0.0058   -0.1085    0.7333   -1.0271
+    <span class="comment">% The accept/reject</span>
+    <span class="keyword">if</span> new_z &lt;= current_z || rand &lt; exp(-(new_z-current_z)/T)
+        current_x = new_x;
+        current_y = new_y;
+        current_z = new_z;
+        set(h, <span class="string">'XData'</span>,current_x, <span class="string">'YData'</span>, current_y, <span class="string">'ZData'</span>, current_z)
+    <span class="keyword">end</span>
 
-    0.0052   -0.0494    0.7132   -1.0252
+    counter = counter + 1;
+    <span class="keyword">if</span> counter &gt; 100
+        counter = 0;
+        T = T * .5;  <span class="comment">% Cool down</span>
+        disp([T current_x current_y current_z])
+    <span class="keyword">end</span>
 
-    0.0047   -0.1205    0.7369   -1.0237
+    <span class="comment">% The stopping rule</span>
+    <span class="keyword">if</span> current_z &lt; -2 || T &lt; .001
+        line(current_x, current_y, 1, <span class="string">'marker'</span>, <span class="string">'o'</span>, <span class="string">'color'</span>, [0 .5 0], <span class="string">'markerf'</span>, [0 .5 0])
+        drawnow
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
 
-    0.0042   -0.0636    0.7125   -1.0289
+    line(current_x, current_y, current_z, <span class="string">'marker'</span>, <span class="string">'.'</span>, <span class="string">'color'</span>,<span class="string">'r'</span>)
+    drawnow
+<span class="keyword">end</span>
 
-    0.0038   -0.1203    0.7022   -1.0268
+disp([current_x current_y current_z])
+</pre><pre class="codeoutput">    0.0500   -0.1051    0.7094   -1.0306
+    0.0250   -0.1051    0.7094   -1.0306
+    0.0125   -0.0761    0.6544   -1.0061
+    0.0063   -0.0808    0.6915   -1.0279
+    0.0031   -0.0783    0.7134   -1.0311
+    0.0016   -0.1033    0.6946   -1.0281
+    0.0008   -0.0960    0.7126   -1.0315
+   -0.0960    0.7126   -1.0315
+</pre><img vspace="5" hspace="5" src="optimizationExercises_02.png" alt=""> <h2 id="4">Exercise 4</h2><p>Read the documentation for MATLAB's <tt>fminsearch</tt> function.  Use it to solve Exercise 2 and 3 again.</p><pre class="codeinput">objective1 = @(x) -exp(-sum(x.^2));
+[x, fval] = fminsearch(objective1,[0 1.5])
 
-    0.0034   -0.0611    0.7045   -1.0281
-
-    0.0031   -0.1081    0.7043   -1.0296
-
-    0.0028   -0.1114    0.7136   -1.0298
-
-    0.0025   -0.0813    0.7083   -1.0312
-
-    0.0023   -0.0855    0.7123   -1.0316
-
-    0.0020   -0.1150    0.7071   -1.0288
-
-    0.0018   -0.1087    0.6987   -1.0284
-
-    0.0016   -0.0601    0.7094   -1.0282
-
-    0.0015   -0.0620    0.6946   -1.0265
-
-    0.0013   -0.1116    0.7220   -1.0293
-
-    0.0012   -0.0761    0.7048   -1.0305
-
-    0.0011   -0.0969    0.7122   -1.0314
-
-    0.0010   -0.0756    0.7197   -1.0303
-
-   -0.0756    0.7197   -1.0303
-
-</pre><img vspace="5" hspace="5" src="optimizationExercises_02.png" alt=""> <h2 id="4">Exercise 4</h2><p>Read the documentation for MATLAB's <tt>fminsearch</tt> function.  Use it to solve Exercise 2 and 3 again.</p><pre class="codeoutput">
-x =
-
+objective2 = @(x) (4 - 2.1*x(1).^2 + x(1).^4/3).*x(1).^2 + x(1).*x(2) + 4*(-1 + x(2).^2).*x(2).^2;
+[x, fval] = fminsearch(objective2,[0 1.5])
+</pre><pre class="codeoutput">x =
    1.0e-04 *
-
    -0.2204    0.0399
-
-
 fval =
-
    -1.0000
-
-
 x =
-
    -0.0899    0.7127
-
-
 fval =
-
    -1.0316
-
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Optimization exercises
 %
@@ -330,7 +380,7 @@ while T > .001
     counter = counter + 1;
     if counter > 100
         counter = 0;
-        T = T * .9;  % Cool down
+        T = T * .5;  % Cool down
         disp([T current_x current_y current_z])
     end
     
