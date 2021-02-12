@@ -53,5 +53,7 @@ classdef Norm2d
         end
         
     end
-         
+    % I didn't figure out how to do this yet, but I think we might need to
+    % try to include a testSuite and see that runs properly.
+    
 end
