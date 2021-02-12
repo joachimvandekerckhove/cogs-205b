@@ -2,12 +2,16 @@ classdef Norm2d
     % Bivariate normal likelihood equivalence class
     properties
 % validate properties from the start and set default value to (0,0) can use default check for real
-        Mean(2,1) double {mustBeReal,mustBeFinite} zeros(2,1)
-        Covariance(2,2) double
-        Precision(2,2) double
-        Correlation double
+        Mean (2,1) double {mustBeReal,mustBeFinite} zeros(2,1);
+% validate properties of covariance matrix from start and set default value
+        Covariance (2,2) double {mustBeSymm(Covariance),mustBeFinite,mustBeReal,mustBeInvertible(Covariance)} eye(2);
     end
-    
+
+% moving Presicion and Correlation to private properties
+    properties (SetAccess = private)
+        Precision
+        Correlation 
+    end 
     % Public methods
     methods
         % Constructor
@@ -107,17 +111,6 @@ classdef Norm2d
             checkReal(Sigma,"Sigma");
             % Must not be infinity
             checkInf(Sigma,"Sigma");
-            % Must be invertible
-            if det(Sigma) == 0
-                error("Error: Determinant of sigma is 0; cannot invert.")
-            end
-            % Values must conform to equation
-            if Sigma(2) ~= Sigma(3)
-                error("Error: off-diagonal elements of Sigma are not equal")
-%             elseif Sigma(2) ~= sqrt(Sigma(1) * Sigma(4))
-%                 error("Error: off-diagonal elements of Sigma are wrong(?)")
-            end
-            
             % If you can get to this point, it should be good
         end
         function verifyX(X)
