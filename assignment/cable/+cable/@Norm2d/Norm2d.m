@@ -1,7 +1,8 @@
 classdef Norm2d
     % Bivariate normal likelihood equivalence class
     properties
-        Mean(2,1) double
+% validate properties from the start and set default value to (0,0) can use default check for real
+        Mean(2,1) double {mustBeReal,mustBeFinite} zeros(2,1)
         Covariance(2,2) double
         Precision(2,2) double
         Correlation double
@@ -28,101 +29,7 @@ classdef Norm2d
             obj = set.Mean(obj,mu);
             obj = set.Covar(obj,sigma);
         end
-        
-        % Math stuff
-        function pdfOut = pdf(X,Mu,Sigma)
-            % Calculate the probability density function
-            % X is a 2xn matrix
-            % pdfOut is a 1xn matrix
-            
-            % Check inputs
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            
-            if nargin < 2
-                Mu = [0;0];
-                Sigma = ones(2);
-            elseif nargin < 3
-                Sigma = ones(2);
-                Sigma = Sigma + eye(size(Sigma));
-            end
-            
-            rho = Sigma(1,2) / sqrt(Sigma(1,1) * Sigma(2,2));
-            sigma1 = sqrt(Sigma(1,1));
-            sigma2 = sqrt(Sigma(2,2));
-            z = ((X(1,:) - Mu(1))/sigma1).^2 - ...
-                2 * rho .* ((X(1,:) - Mu(1))/sigma1) .* ...
-                ((X(2,:) - Mu(2))/sigma2) + ...
-                ((X(2,:) - Mu(2))/sigma2).^2;
-            
-            pdfOut = 1/(2*pi*sigma1*sigma2*sqrt(1 - rho^2)) * ...
-                exp((-1/2) * z/(1 - rho^2));
-        end
-        function logpdfOut = logpdf(X,Mu,Sigma)
-            % DON'T just take the log of pdfOut
-            % That is technically what you do, but "simplify" the equation
-            
-            % Check inputs
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            
-            if nargin < 2
-                Mu = [0;0];
-                Sigma = ones(2);
-            elseif nargin < 3
-                Sigma = ones(2);
-            end
-            
-            rho = Sigma(1,2) / sqrt(Sigma(1,1) * Sigma(2,2));
-            sigma1 = sqrt(Sigma(1,1));
-            sigma2 = sqrt(Sigma(2,2));
-            z = ((X(1,:) - Mu(1))/sigma1).^2 - ...
-                2 * rho .* ((X(1,:) - Mu(1))/sigma1) .* ...
-                ((X(2,:) - Mu(2))/sigma2) + ...
-                ((X(2,:) - Mu(2))/sigma2).^2;
-            
-            logpdfOut = log(1) - log(2*pi*sigma1*sigma2*sqrt(1 - rho^2)) + ...
-                ((-1/2) * z/(1 - rho^2)) * exp(1);
-        end
-        function cdfOut = cdf(X,Mu,Sigma)
-            % freebie
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            
-            cdfOut = mvncdf(X,Mu,Sigma);
-        end
-        function logcdfOut = logcdf(X,Mu,Sigma)
-            % freebie
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifyX(X);
-            logcdfOut = log(mvncdf(X,Mu,Sigma));
-        end
-        function sample = rng(Mu,Sigma,dimMat)
-            % Pull a random sample from this distribution
-            verifyMean(Mu);
-            verifySigma(Sigma);
-            verifySize(dimMat);
-            % Preallocate
-            sample = zeros(dimMat);
-            fprintf(1,"This function isn't ready yet, sorry.\n")
-            % Sample from first distribution
-%             x1 = Mu(1) .* rand(size(sample(:,1)));
-%             sample(:,1) = pdf(x1,Mu(1),Sigma(1));
-%             % sample from second distribution
-%             sample(:,2) = pdf(; % use sample(:,1), mu(2), and sigma(4)
 
-        end
-        function dev = deviance(Data,Mu,Sigma)
-            % Data is an n*2 matrix (2 cols, n rows)
-            X = linspace(1,size(Data,1),size(Data,1));
-            X = [X,X];
-            dev = (-2) * sum(logpdf(X,Mu,Sigma),'all');
-        end
-        
         % Getters
         function meanOut = get.Mean(obj)
             meanOut = obj.Mean;
@@ -211,7 +118,6 @@ classdef Norm2d
 %                 error("Error: off-diagonal elements of Sigma are wrong(?)")
             end
             
-            
             % If you can get to this point, it should be good
         end
         function verifyX(X)
@@ -243,28 +149,6 @@ classdef Norm2d
             % Must not have imaginary values
             checkReal(dimMat,"size");
         end
-        
-        % Subfunctions
-        function checkInf(var,varStr)
-            % Checks whether any matrix elements are infinity
-            % varStr is a string of the variable's name, for errors
-            A = find(var == Inf);
-            if A
-                error("Error: Element %i of %s must be finite.",A(1),varStr);
-            end
-        end
-        function checkReal(var,varStr)
-            % Checks whether any matrix elements are imaginary
-            % varStr is a string of the variable's name, for errors
-            A = find(~isreal(var));
-            if A
-                error("Error: Element %i of %s is imaginary.",A(1),varStr);
-            end
-        end
-        function checkNumber(var,varStr)
-            if ~isnumeric(var)
-                error("Error: %s is not a numeric variable.",varStr);
-            end
-        end
+
     end
 end
