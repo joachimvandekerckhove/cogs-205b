@@ -1,0 +1,6 @@
+url='http://www.cidlab.com/files/cogs205b.csv';
+Data=webread(url,'x','y');
+Data=webread(url);
+Data=readtable(Data);
+
+
