@@ -99,7 +99,7 @@ disp([current_x current_y])
 % \frac{1}{3}x^4) x^2 + x y + 4 (y^2-1) y^2$.  Then use simulated
 % annealing to find its global minimum. 
 
-% rng(9)
+rng(5)
 clear, clf
 
 xax = linspace(-2, 2, 101);
@@ -143,7 +143,7 @@ while T > .001
     counter = counter + 1;
     if counter > 100
         counter = 0;
-        T = T * .5;  % Cool down faster!
+        T = T * .025;  % Cool down faster!
         disp([T current_x current_y current_z])
     end
     
