@@ -1,7 +1,4 @@
-function logcdfOut = logcdf(X,Mu,Sigma)
+function logcdfOut = logcdf(obj,X)
     % freebie
-    verifyMean(Mu);
-    verifySigma(Sigma);
-    verifyX(X);
-    logcdfOut = log(mvncdf(X,Mu,Sigma));
+    logcdfOut = log(cdf(X,obj));
 end
