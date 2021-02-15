@@ -1,7 +1,7 @@
 function test(pseudonym)
 % Set deadpool as default pseudonym
     if nargin<1
-        pseudonym = 'deadpool'
+        pseudonym = 'deadpool';
     end
 
 % Check for class Norm2d
