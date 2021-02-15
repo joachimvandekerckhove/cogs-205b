@@ -3,5 +3,5 @@ function estimate(obj,X)
 % Norm2d with mean vector equal to the mean of the rows and a Covariance matrix.
     Check_data(X);
 
-    obj.mean = (mean(X,1));
+    obj.Mean = (mean(X,1));
 end
