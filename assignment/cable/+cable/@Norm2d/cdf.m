@@ -1,8 +1,4 @@
-function cdfOut = cdf(X,Mu,Sigma)
+function cdfOut = cdf(obj,X)
     % freebie
-    verifyMean(Mu);
-    verifySigma(Sigma);
-    verifyX(X);
-    
-    cdfOut = mvncdf(X,Mu,Sigma);
+    cdfOut = mvncdf(X,obj.Mean,obj.Covariance);
 end

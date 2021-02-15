@@ -8,6 +8,6 @@ matlab -batch "publish('newtonRaphson_intro.m');"
 matlab -batch "publish('hillClimber_intro.m');"
 matlab -batch "publish('simulatedAnnealing_intro.m');"
 
-matlab -batch "publish('optimizationExercises', 'showCode', false);"
+matlab -batch "publish('optimizationExercises');"
 
 google-chrome html/*.html

@@ -6,8 +6,8 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Solving for zero</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="newtonRaphson_intro.m"><style type="text/css">
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+      --><title>Solving for zero</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="newtonRaphson_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
 html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Solving for zero</h1><!--introduction--><p>A special case optimization problem is finding input values s.th. a function evaluates to 0.  This is closely related to the other optimization practices.  It is often called "solving" a function, "root finding," or simply "zero finding."</p><!--/introduction--><p>A simple but powerful algorithm for zero finding is the Newton-Raphson algorithm (sometimes just called Newton's).  The algorithm proceeds along these steps:</p><pre class="language-matlab">1. Start
+  </style></head><body><div class="content"><h1>Solving for zero</h1><!--introduction--><p>A special case optimization problem is finding input values s.th. a function evaluates to 0.  This is closely related to the other optimization practices.  It is often called "solving" a function, "root finding," or simply "zero finding."</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Second title</a></li></ul></div><h2 id="1">Second title</h2><p>A simple but powerful algorithm for zero finding is the Newton-Raphson algorithm (sometimes just called Newton's).  The algorithm proceeds along these steps:</p><pre class="language-matlab">1. Start
 </pre><pre class="language-matlab">2. Define <span class="string">function</span> <span class="string">as</span> <span class="string">f(x)</span>
 </pre><pre class="language-matlab">3. Define <span class="string">derivative</span> <span class="string">of</span> <span class="string">function</span> <span class="string">as</span> <span class="string">g(x)</span>
 </pre><pre class="language-matlab">4. Input:
@@ -105,11 +105,8 @@ root = nr.Solution
       ^ StepCount      = 7
       ^ TolerableError = 0.000000
 
-
 root =
-
    -7.8078
-
 </pre><img vspace="5" hspace="5" src="newtonRaphson_intro_01.png" alt=""> <p>Note that the NR algorithm finds you <b>a</b> solution.  There may be many!</p><pre class="codeinput">objective  = @(x)       5 * sin( 2 * pi * x + 5) + x;
 derivative = @(x) pi * 10 * cos( 2 * pi * x + 5) + 1;
 
@@ -126,12 +123,9 @@ root = nr.Solution
       ^ StepCount      = 7
       ^ TolerableError = 0.000000
 
-
 root =
-
     1.7615
-
-</pre><img vspace="5" hspace="5" src="newtonRaphson_intro_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="newtonRaphson_intro_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Solving for zero
 % A special case optimization problem is finding
@@ -139,7 +133,7 @@ root =
 % the other optimization practices.  It is often called "solving" a
 % function, "root finding," or simply "zero finding."
 %
-%%
+%% Second title
 % A simple but powerful algorithm for zero finding is the Newton-Raphson
 % algorithm (sometimes just called Newton's).  The algorithm proceeds along
 % these steps:
