@@ -38,4 +38,12 @@ classdef Norm2d
             obj = updatePresCorM(obj);
         end
     end
+
+% Static methods 
+    methods (Static)
+
+    % Estimation of mean and covariance of a sample.
+        estimate()
+
+    end
 end
