@@ -41,9 +41,7 @@ classdef Norm2d
 
 % Static methods 
     methods (Static)
-
     % Estimation of mean and covariance of a sample.
-        estimate(X)
-
+        estimate(data)
     end
 end
