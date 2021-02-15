@@ -17,7 +17,7 @@ function Check_data(datos)
     end
 
     % Are datos finite?
-    if ~(isfinite(datos))
+    if ~(all(isfinite(datos)))
         error('Data must contain only finite values.')
     end
 end
