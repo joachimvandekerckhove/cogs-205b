@@ -20,4 +20,6 @@ function Check_data(datos)
     if ~(all(isfinite(datos)))
         error('Data must contain only finite values.')
     end
+
+    throwAsCaller = @(x)warning(x.message);
 end
