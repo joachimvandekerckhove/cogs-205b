@@ -27,7 +27,7 @@ function test(pseudonym)
     fprintf('# %74s  #\n', datestr(now))
 
 % print report title
-    fprintf('#%-77s#\n', sprintf('  Test suite for "%s.%s"  ', pseudonym, class(this)))
+    fprintf('#%-77s#\n', sprintf('  Test suite for "%s"  ', class(this)))
 
 % print a line
     fprintf('#%s#\n', dashline); 
