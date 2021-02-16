@@ -44,9 +44,11 @@ classdef Norm2d
     % Estimation of mean and covariance of a sample.
         function newObj = estimate(data)
             newObj = deadpool.Norm2d()
-            newObj.Mean = newObj.estimate_mean(data);
-            newObj.Covariance = newObj.estimate_covariance(data);
-            newObj = newObj.updatePresCorM(newObj) 
+            bar_x = newObj.estimate_mean(data);
+            newObj.Mean = bar_x 
+            s_2 = newObj.estimate_covariance(data);
+            newObj.Covariance = s_2;
+            newObj = newObj.updatePresCorM(newObj); 
         end
     end
 end
