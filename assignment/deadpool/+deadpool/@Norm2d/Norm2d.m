@@ -56,10 +56,10 @@ classdef Norm2d
             % Norm2d with mean vector equal to the mean of the rows and a Covariance matrix.
             
                 % Check properties of the data matrix
-                Check_data(data);
+            Check_data(data);
             
                 % Estimate mean of the rows
-                barMu = mean(data,2);
+            barMu = mean(data,2);
         end
 
         function barSigma = estimate_covariance(data)
@@ -67,24 +67,24 @@ classdef Norm2d
             % of a Norm2d class object.
             
                 % Check Properties of the data matrix
-                Check_data(data);
+            Check_data(data);
             
                 % Number of observations
-                N = size(data,2);
+            N = size(data,2);
             
                 % vector for centered variables
-                z = zeros(2,N);
+            z = zeros(2,N);
             
-                % Calculating mean of sample
-                xbar = mean(data,2)
+            % Calculating mean of sample
+            xbar = mean(data,2)
             
                 % Center observations
-                for i = 1:N
-                    z(,i) = data(:,i) - x_bar
-                end
+            for i = 1:N
+                z(,i) = data(:,i) - x_bar;
+            end
             
-                % Estimate Covariance Matrix
-                barSigma = 1./(N-1) .* (z.' * z);
+            % Estimate Covariance Matrix
+            barSigma = 1./(N-1) .* (z.' * z);
         end
     end
 end
