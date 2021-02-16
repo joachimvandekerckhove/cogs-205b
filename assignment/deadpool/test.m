@@ -102,8 +102,8 @@ function test(pseudonym)
 % Test Get data function 
     % Test for random URL
     try
-        test.url = 'http://asjhbaksjdgal.com'
-        getdata(test.url)  
+        test.url = 'http://asjhbaksjdgal.com';
+        getdata(test.url);  
         errorThrown = false;
     catch
     errorThrown = true;
