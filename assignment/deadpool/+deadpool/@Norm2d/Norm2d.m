@@ -84,7 +84,7 @@ classdef Norm2d
             end
             
             % Estimate Covariance Matrix
-            barSigma = 1./(N-1) .* (z.' * z)
+            barSigma = 1./(N-1) .* (z * z.')
         end
     end
 end
