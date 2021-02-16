@@ -42,10 +42,10 @@ classdef Norm2d
 % Static methods 
     methods (Static)
     % Estimation of mean and covariance of a sample.
-        function estimate(data)
+        function newObj = estimate(data)
             bar_x = estimate_mean(data);
             s_2 = estimate_covariance(data);
-            n = deadpool.Norm2d(bar_x,s_2)
+            newObj = deadpool.Norm2d(bar_x,s_2)
         end
     end
 end
