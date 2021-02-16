@@ -46,7 +46,7 @@ classdef Norm2d
             newObj = deadpool.Norm2d()
             newObj.Mean = newObj.estimate_mean(data);
             newObj.Covariance = newObj.estimate_covariance(data);
-            newObj = newObj(newObj) 
+            newObj = newObj.updatePresCorM(newObj) 
         end
     end
 end
