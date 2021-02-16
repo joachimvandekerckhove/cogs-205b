@@ -43,9 +43,9 @@ classdef Norm2d
     methods (Static)
     % Estimation of mean and covariance of a sample.
         function newObj = estimate(data)
-            newObj = deadpool.Norm2d()
+            newObj = deadpool.Norm2d();
             bar_x = newObj.estimate_mean(data);
-            newObj.Mean = bar_x 
+            newObj.Mean = bar_x; 
             s_2 = newObj.estimate_covariance(data);
             newObj.Covariance = s_2;
         end
@@ -83,7 +83,7 @@ classdef Norm2d
             end
             
             % Estimate Covariance Matrix
-            barSigma = 1./(N-1) .* (z * z.')
+            barSigma = 1./(N-1) .* (z * z.');
         end
     end
 end
