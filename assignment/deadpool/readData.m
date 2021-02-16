@@ -5,9 +5,18 @@ function data = readData(path)
         error('Directory: %s \n does not exist', path)
     end
 
-    % Read data file in path with first row as names
-    tmp_dat = readtable(path,'HeaderLines', 1)
+    tmp = fopen(path) % open the file to object tmp
+    names = freadl(tmp)       % read the first line
+    fclose(tmp)
 
-    % Transform table to a matrix and save it as data
-    data = tmp_dat{:,:}
+    if ~(isnumeric(names))
+        % Read data file in path with first row as names
+        tmp_dat = readtable(path,'HeaderLines', 1)
+
+        % Transform table to a matrix and save it as data
+        data = tmp_dat{:,:}
+    else 
+        tmp_dat = readtable(path)
+        data = tmp_dat{:,:}
+    end
 end
