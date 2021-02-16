@@ -80,7 +80,7 @@ classdef Norm2d
             
                 % Center observations
             for i = 1:N
-                z(:,i) = data(:,i) - x_bar;
+                z(:,i) = data(:,i) - xbar;
             end
             
             % Estimate Covariance Matrix
