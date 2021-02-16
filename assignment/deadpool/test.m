@@ -42,7 +42,7 @@ function test(pseudonym)
 % Reference: Precision matrix using matlab function
     ref.pres = inv(ref.covariance)
 % Reference: Correlation from matlab function
-    ref.cor = corr(test.data.')(1,2)
+    ref.cor = corr(test.data.')
     ref.cor = ref.cor(1,2)
 % New object with updated properties to be tested
     tobe_tested = this().estimate(test.data)
