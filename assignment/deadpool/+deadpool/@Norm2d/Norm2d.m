@@ -43,9 +43,8 @@ classdef Norm2d
     methods (Static)
     % Estimation of mean and covariance of a sample.
         function estimate(data)
-            bar_x = estimate_mean(data);
-            s_2 = estimate_covariance(data);
-            Norm2d(bar_x,s_2)
+            estimate_mean(data)
+            estimate_covariance(data)
         end
     end
 end
