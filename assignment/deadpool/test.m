@@ -99,17 +99,28 @@ function test(pseudonym)
     assertErrorThrown(errorThrown, 'Data file . enforce all numeric values')
 
 
-% Test Get data function 
+% Test getData function 
     % Test for random URL
     try
         test.url = 'http://asjhbaksjdgal.com';
-        getdata(test.url);  
+        getData(test.url);  
         errorThrown = false;
     catch
     errorThrown = true;
     end
-    assertErrorThrown(errorThrown, 'URL Path . enforce valid URL')
+    assertErrorThrown(errorThrown, 'URL . enforce valid URL')
 
+
+% Test readData function 
+    % Test for random path
+    try
+        test.path = '~/some_random_file.csv';
+        getdata(test.path);  
+        errorThrown = false;
+    catch
+    errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'File Path . enforce valid path to data file') 
 
 % Wrapup
     fprintf('#%s#\n', dashline);

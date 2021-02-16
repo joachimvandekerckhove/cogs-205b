@@ -5,5 +5,9 @@ function data = readData(path)
         error('Directory: %s \n does not exist', path)
     end
 
-    readtable(path)
+    % Read data file in path with first row as names
+    tmp_dat = readtable(path,'HeaderLines', 1)
+
+    % Transform table to a matrix and save it as data
+    data = tmp_dat{:,:}
 end
