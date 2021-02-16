@@ -42,9 +42,9 @@ classdef Norm2d
 % Static methods 
     methods (Static)
     % Estimation of mean and covariance of a sample.
-        function obj = estimate(obj,data)
-            obj.Mean = estimate_mean(data);
-            obj.Covariance = estimate_covariance(data);
+        function obj = estimate(obj, data)
+            obj = estimate_mean(data);
+            obj = estimate_covariance(data);
             obj = updatePresCorM(obj);
         end
     end
