@@ -1,4 +1,4 @@
-function barSigma = estimate_covariance(obj,X)
+function obj = estimate_covariance(obj,X)
 % This function takes a 2xN matrix and returns an object of the Covariance Matrix
 % of a Norm2d class object.
 
@@ -17,5 +17,5 @@ function barSigma = estimate_covariance(obj,X)
     end
 
     % Estimate Covariance Matrix
-    barSigma = 1./(N-1) .* (z.' * z);
+    obj.Covariance = 1./(N-1) .* (z.' * z);
 end

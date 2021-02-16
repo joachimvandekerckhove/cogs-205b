@@ -42,9 +42,9 @@ classdef Norm2d
 % Static methods 
     methods (Static)
     % Estimation of mean and covariance of a sample.
-        function estimate(data)
-            estimate_mean(data)
-            estimate_covariance(data)
+        function obj = estimate(data)
+            obj = estimate_mean(data)
+            obj = estimate_covariance(data)
         end
     end
 end
