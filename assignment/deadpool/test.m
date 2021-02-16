@@ -34,18 +34,18 @@ function test(pseudonym)
 
 % Test for estimate function 
 % Data matrix for test
-    test.data = [-1,0,1;3.2,-2,-1.2]
+    test.data = [-1,0,1;3.2,-2,-1.2];
 % Reference: Mean vector using matlab function
-    ref.mean = mean(test.data,2)
+    ref.mean = mean(test.data,2);
 % Reference: Covariance matrix using matlab function
-    ref.covariance = cov(test.data.')
+    ref.covariance = cov(test.data.');
 % Reference: Precision matrix using matlab function
-    ref.pres = inv(ref.covariance)
+    ref.pres = inv(ref.covariance);
 % Reference: Correlation from matlab function
-    ref.cor = corr(test.data.')
-    ref.cor = ref.cor(1,2)
+    ref.cor = corr(test.data.');
+    ref.cor = ref.cor(1,2);
 % New object with updated properties to be tested
-    tobe_tested = this().estimate(test.data)
+    tobe_tested = this().estimate(test.data);
 
 % Test that the mean is correct
     assertEqualUpToTol(ref.mean, tobe_tested.Mean, 'equallity of means')
@@ -75,5 +75,23 @@ function test(pseudonym)
             throwAsCaller(failure(condition))
         end
     end
+
+% Success message
+    function success(condition)
+        fprintf('# %-67s ', sprintf(' %s', condition));
+        lookBusy(2)
+        fprintf('passed  #\n');
+    end
+
+% Failure message
+    function me = failure(condition)
+        fprintf('# %-67s FAILED  #\n', sprintf(' %s', condition));
+        fprintf('#%s#\n', dashline);
+        me = ...
+            MException( ....
+                'magneto:testSuite', ...
+                sprintf('TESTSUITE failed for condition "%s"', condition));
+    end
+
 
 end
