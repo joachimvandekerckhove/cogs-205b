@@ -1,4 +1,4 @@
-function path_file = getdata(url)
+function path_file = getData(url)
 % This function takes a URL to a data file and downloads it, 
 % the output is the local path to the file.
     % Check if URL is valid
