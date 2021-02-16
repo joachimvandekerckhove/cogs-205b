@@ -88,6 +88,17 @@ function test(pseudonym)
     end
     assertErrorThrown(errorThrown, 'Data file . enforce all real values')
 
+    % Test for Data matrix with all numerical values
+    try
+        test.data = [1:3;'c',2,3]; % imaginary value at position 2,1
+        this().estimate(test.data);  
+        errorThrown = false;
+    catch
+    errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'Data file . enforce all numeric values')
+
+
 % Wrapup
     fprintf('#%s#\n', dashline);
     fprintf('# %74s  #\n', datestr(now))
