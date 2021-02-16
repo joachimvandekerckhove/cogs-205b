@@ -43,10 +43,10 @@ classdef Norm2d
     methods (Static)
     % Estimation of mean and covariance of a sample.
         function newObj = estimate(data)
-            newObj = Norm2d()
-            newObj.Mean = Norm2d().estimate_mean(data);
-            newObj.Covariance = Norm2d().estimate_covariance(data);
-            newObj = updatePresCorM(newObj) 
+            newObj = deadpool.Norm2d()
+            newObj.Mean = newObj.estimate_mean(data);
+            newObj.Covariance = newObj.estimate_covariance(data);
+            newObj = newObj(newObj) 
         end
     end
 end
