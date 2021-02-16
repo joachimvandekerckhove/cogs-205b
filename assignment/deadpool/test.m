@@ -93,5 +93,15 @@ function test(pseudonym)
                 sprintf('TESTSUITE failed for condition "%s"', condition));
     end
 
+% If reports generate too fast, people don't believe they did anything
+    function lookBusy(k)
+        for r = 1:k
+            for s = '\|/-'
+                fprintf('%s', s);
+                pause(.005)
+                fprintf('\b');
+            end
+        end
+    end
 
 end
