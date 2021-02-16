@@ -75,7 +75,7 @@ classdef Norm2d
             z = zeros(2,N);
             
             % Calculating mean of sample
-            xbar = mean(data,2)
+            xbar = mean(data,2);
             
                 % Center observations
             for i = 1:N
