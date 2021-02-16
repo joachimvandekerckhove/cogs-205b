@@ -12,5 +12,5 @@ function path_file = getData(url)
     % Write table in csv file in current directory
     writetable(datos,'dataFile.csv');
     % get path to the new data file
-    path_file = fileparts(which('dataFile.csv'));
+    path_file = append(fileparts(which('dataFile.csv')),'dataFile.csv');
 end
