@@ -68,6 +68,16 @@ function test(pseudonym)
     end
     assertErrorThrown(errorThrown, 'Data file . enforce matrix size (2 x N)')
 
+    % Test for Data matrix with all finite values
+    try
+        test.data = [1:3;Inf,2,3]; % infinite value at position 2,1
+        this().estimate(test.data);  
+        errorThrown = false;
+    catch
+    errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'Data file . enforce all finite values')
+
 % Wrapup
     fprintf('#%s#\n', dashline);
     fprintf('# %74s  #\n', datestr(now))
