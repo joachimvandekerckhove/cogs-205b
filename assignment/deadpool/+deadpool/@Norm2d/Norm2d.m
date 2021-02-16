@@ -48,7 +48,6 @@ classdef Norm2d
             newObj.Mean = bar_x 
             s_2 = newObj.estimate_covariance(data);
             newObj.Covariance = s_2;
-            newObj = newObj.updatePresCorM(newObj); 
         end
 
         function barMu = estimate_mean(data)
