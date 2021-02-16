@@ -6,7 +6,7 @@ function data = readData(path)
     end
 
     tmp = fopen(path) % open the file to object tmp
-    names = freadl(tmp)       % read the first line
+    names = fgetl(tmp)       % read the first line
     fclose(tmp)
 
     if ~(isnumeric(names))
