@@ -118,10 +118,6 @@ function test(pseudonym)
     fprintf('#%s#\n', dashline);
 
 
-
-
-
-
 % Additional functions for tests:    
 % Assert an approximate equality
     function assertEqualUpToTol(a, b, condition)
