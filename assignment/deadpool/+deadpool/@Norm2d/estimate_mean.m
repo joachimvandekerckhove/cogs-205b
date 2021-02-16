@@ -1,4 +1,4 @@
-function obj = estimate(obj,X)
+function barmu = estimate_mean(X)
 % This function takes a 2xN matrix and returns an object of the class
 % Norm2d with mean vector equal to the mean of the rows and a Covariance matrix.
 
@@ -6,5 +6,5 @@ function obj = estimate(obj,X)
     Check_data(X);
 
     % Estimate mean of the rows
-    obj.Mean = (mean(X,2));
+    barmu = (mean(X,2));
 end
