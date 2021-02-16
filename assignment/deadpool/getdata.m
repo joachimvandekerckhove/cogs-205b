@@ -4,7 +4,7 @@ function path_file = getdata(url)
     % Check if URL is valid
     [str,status] = urlread(url);
     if status == 0
-        error('URL is not valid.')
+        error('URL is not valid.');
     end
 
     % Read formated data using url
