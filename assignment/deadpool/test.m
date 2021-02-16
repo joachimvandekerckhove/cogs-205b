@@ -99,6 +99,18 @@ function test(pseudonym)
     assertErrorThrown(errorThrown, 'Data file . enforce all numeric values')
 
 
+% Test Get data function 
+    % Test for random URL
+    try
+        test.url = 'http://asjhbaksjdgal.com'
+        getdata(test.url)  
+        errorThrown = false;
+    catch
+    errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'URL Path . enforce valid URL')
+
+
 % Wrapup
     fprintf('#%s#\n', dashline);
     fprintf('# %74s  #\n', datestr(now))
