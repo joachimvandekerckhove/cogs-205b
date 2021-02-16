@@ -60,8 +60,8 @@ function test(pseudonym)
 % Negative tests confirm that errors are thrown when expected
     % Test for errors when data matrix contains values that are not allowed
     try
-        test.data = [1:3;1:3;1:3] % wrong dimentions
-        this().estimate();  
+        test.data = [1:3;1:3;1:3]; % wrong dimentions
+        this().estimate(test.data);  
         errorThrown = false;
     catch
     errorThrown = true;
