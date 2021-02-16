@@ -45,7 +45,7 @@ classdef Norm2d
         function newObj = estimate(data)
             bar_x = estimate_mean(data);
             s_2 = estimate_covariance(data);
-            newObj = deadpool.Norm2d(bar_x,s_2)
+            newObj = Norm2d(bar_x,s_2)
         end
     end
 end
