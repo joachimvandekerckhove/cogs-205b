@@ -8,8 +8,8 @@ function report(datos)
     result = deadpool.Norm2d().estimate(datos);
 
     % Get sample size by size of matrix
-    n_sample = size(result)
-    n_sample = n_sample(1)
+    n_sample = size(result);
+    n_sample = n_sample(1);
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
