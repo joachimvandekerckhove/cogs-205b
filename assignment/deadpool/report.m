@@ -9,8 +9,8 @@ function report(datos)
         fprintf(fid, '\n')
         fprintf(fid, 'Date: %74s  #\n', datestr(now));
         fprintf(fid, '\n')
-        fprintf(fid, 'This report was generated using the data matrix from the input. The mean vector $\mu$ and ')
-        fprintf(fid, 'covariance matrix $\Sigma$ are obtained from the functions **estimate_mean** and ')
+        fprintf(fid, 'This report was generated using the data matrix from the input. The mean vector and ')
+        fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ')
         fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.')
     fclose(fid);
 
