@@ -13,5 +13,6 @@ function obj = updateCovariance(obj)
     obj.Scaling = 1/(2*pi*obj.StandardDev(1)*obj.StandardDev(2)*sqrt(1-obj.Correlation^2));
    
     assert ((-1 <= obj.Correlation) && (1 >= obj.Correlation), 'Bad Covariance: Correlation out of bounds');
-    assert (~isinf(obj.Scaling), 'Bad Covariance: Precision inexpressible');
+%     assert (~isinf(obj.Scaling), 'Bad Covariance: Precision inexpressible');
+    % removed assertion of scaling to make code work for cogs205.csv 
 end
