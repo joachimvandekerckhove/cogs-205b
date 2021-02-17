@@ -6,9 +6,6 @@ function report(datos)
     % Take first 5 observations of each variable to print in the report 
     data_print = datos(:,1:5);
 
-    % Transpose first 5 observations to print in column format
-    data_print = data_print.';
-
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
         fprintf(fid, '# Report: Mean and Covariance matrix of the input data usin class Norm2d \n');
@@ -21,17 +18,7 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, '### The First 5 rows of the data input are:');
         fprintf(fid, '\n');
-        fprintf(fid, 'X  |  Y');
-        fprintf(fid, '\n');
-        fprintf(fid, '%.2f %.2f\n' , data_print(1,1),data_print(1,2));
-        fprintf(fid, '\n');
-        fprintf(fid, '%.2f %.2f\n' , data_print(2,1),data_print(2,2));
-        fprintf(fid, '\n');
-        fprintf(fid, '%.2f %.2f\n' , data_print(3,1),data_print(3,2));
-        fprintf(fid, '\n');
-        fprintf(fid, '%.2f %.2f\n' , data_print(4,1),data_print(4,2));
-        fprintf(fid, '\n');
-        fprintf(fid, '%.2f %.2f\n' , data_print(5,1),data_print(5,2));
+        fprintf(fid,'%6.2f %12.8f\r\n', data_print);
         fprintf(fid, '\n');
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
