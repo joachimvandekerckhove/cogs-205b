@@ -16,7 +16,8 @@ function report(datos)
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
         fprintf(fid, '- mean = ( %f, %f )',result.Mean.');
-        fprintf(fid, '- Covariance =  %f, %f \n',result.Covariance);
+        fprintf(fid, '- Covariance = ');
+        fprintf(fid, '%f, %f \n',result.Covariance');
     fclose(fid);
 
 end
