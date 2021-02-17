@@ -1,5 +1,5 @@
 function report(datos)
-%  REPORT  Takes a matrix of size 2 x N and generates a report.
+%  REPORT  Takes a matrix of size 2 x N.
 %    
 % This function takes a matrix of size 2 x N and generates a report of the 
 % mean and covariance of the data given as input.

@@ -1,5 +1,5 @@
 function main()
-%  MAIN  requires functions getData.m readData.m and report.m 
+%  MAIN  no input required. 
 %
 % This function uses the function getData.m to obtain data from a specific URL
 % Then reads the data using the function readData.m and eliminates the variable names
