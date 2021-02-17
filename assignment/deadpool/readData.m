@@ -15,6 +15,7 @@ function data = readData(path)
 
         % Transform table to a matrix and save it as data
         data = tmp_dat{:,:};
+        fprintf('Variable names have been removed, object stored in matrix format. \n')
     else 
         tmp_dat = readtable(path);
         data = tmp_dat{:,:};
