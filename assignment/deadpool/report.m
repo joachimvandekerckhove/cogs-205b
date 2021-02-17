@@ -11,11 +11,12 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, 'This report was generated using the data matrix from the input. The mean vector and ');
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
-        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively. The estimated quantities are:');
+        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.');
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
-        fprintf(fid, '- mean = (%f, %f)',result.Mean.');
+        fprintf(fid, '- mean = ( %f, %f )',result.Mean.');
+        fprintf(fid, '- Covariance =  %f, %f \n',result.Covariance);
     fclose(fid);
 
 end
