@@ -1,11 +1,9 @@
-function outvar = readData(obj, infile)
+function [outvar1, outvar2] = readData(obj, infile)
 %READDATA Read data in file into variables
 % Input : infile - file containing the input
 %                  assumes each col corresponds to 1d data
-%       : num_cols - number of cols expected
-% Output: outvar - data in file in a column 
+% Output: [outvar1, outvar2] - two columns of file data
 
     [outvar1, outvar2] = readvars(infile);
-    outvar = [outvar1, outvar2];
 end
 
