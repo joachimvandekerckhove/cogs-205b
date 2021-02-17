@@ -8,7 +8,7 @@ function report(datos)
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
-        fprintf(fid, '# Report: Mean and Covariance matrix of the input data usin class Norm2d \n');
+        fprintf(fid, '# Report: Mean and Covariance matrix of the input data using class Norm2d \n');
         fprintf(fid, '\n');
         fprintf(fid, 'Date: %74s  \n', datestr(now));
         fprintf(fid, '\n');
