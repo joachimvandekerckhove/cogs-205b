@@ -1,6 +1,6 @@
 # Report: Mean and Covariance matrix of the input data using class Norm2d 
 
-Date:                                                       16-Feb-2021 19:31:59  
+Date:                                                       16-Feb-2021 19:34:57  
 
 This report was generated using the data matrix (size 2 x N) from the input. The mean vector and covariance matrix are obtained from the functions **estimate_mean** and **estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = 1
 ### The estimated quantities are:
