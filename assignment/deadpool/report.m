@@ -9,7 +9,7 @@ function report(datos)
 
     % Get sample size by size of matrix
     n_sample = size(result);
-    n_sample = n_sample(1);
+    n_sample = n_sample(2);
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
@@ -19,7 +19,7 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, 'This report was generated using the data matrix (size 2 x N) from the input. The mean vector and ');
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
-        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = %0.f',n_sample);
+        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = %.15g',n_sample);
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
