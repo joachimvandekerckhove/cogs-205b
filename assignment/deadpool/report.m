@@ -18,9 +18,11 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
-        fprintf(fid, '- Mean( X<sub>1</sub> , X<sub>2</sub> ) = ( %.3f, %.3f )',result.Mean.');
+        fprintf(fid, '- Mean( X<sub>1</sub> ) = %.3f',result.Mean(1,1));
         fprintf(fid, '\n');
         fprintf(fid, '- Variance( X<sub>1</sub> ) = %.3f \n', result.Covariance(1,1));
+        fprintf(fid, '\n');
+        fprintf(fid, '- Mean( X<sub>2</sub> ) = %.3f',result.Mean(2,1));
         fprintf(fid, '\n');
         fprintf(fid, '- Variance( X<sub>2</sub>) = %.3f \n', result.Covariance(2,2));
         fprintf(fid, '\n');
