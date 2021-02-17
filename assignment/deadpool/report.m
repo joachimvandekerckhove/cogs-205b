@@ -1,7 +1,13 @@
 function report(datos)
-% This function takes a matrix of size N x 2 
+% This function takes a matrix of size 2 x N 
     % Estimate Mean and Covariance of the variables using deadpool.Norm2d().estimate
     result = deadpool.Norm2d().estimate(datos);
+
+    % Take first 5 observations of each variable to print in the report 
+    data_print = datos(:,1:5);
+
+    % Transpose first 5 observations to print in column format
+    data_print = data_print.'
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
@@ -9,9 +15,12 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, 'Date: %74s  #\n', datestr(now));
         fprintf(fid, '\n');
-        fprintf(fid, 'This report was generated using the data matrix from the input. The mean vector and ');
+        fprintf(fid, 'This report was generated using the data matrix (size 2 x N) from the input. The mean vector and ');
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
         fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.');
+        fprintf(fid, '\n');
+        fprintf(fid, '### The First 5 rows of the data input are:');
+        fprintf('%f %f \n' , data_print)
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
