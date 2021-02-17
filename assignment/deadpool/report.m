@@ -19,8 +19,8 @@ function report(datos)
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
         fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.');
         fprintf(fid, '\n');
-        fprintf(fid, '### The First 5 rows of the data input are:');
-        fprintf(fid, '%f %f \n' , data_print);
+        fprintf(fid, '### The First 5 rows of the data input are:\\');
+        fprintf(fid, '%f %f \n \\' , data_print);
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
