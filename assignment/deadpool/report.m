@@ -15,15 +15,15 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
-        fprintf(fid, '- Mean( X<sub>1 , X<sub>2 ) = ( %f, %f )',result.Mean.');
+        fprintf(fid, '- Mean( X<sub>1</sub> , X<sub>2</sub> ) = ( %f, %f )',result.Mean.');
         fprintf(fid, '\n');
-        fprintf(fid, '- Variance( X<sub>1 ) = %f \n', result.Covariance(1,1));
+        fprintf(fid, '- Variance( X<sub>1</sub> ) = %f \n', result.Covariance(1,1));
         fprintf(fid, '\n');
-        fprintf(fid, '- Variance( X<sub>2 ) = %f \n', result.Covariance(2,2));
+        fprintf(fid, '- Variance( X<sub>2</sub>) = %f \n', result.Covariance(2,2));
         fprintf(fid, '\n');
-        fprintf(fid, '- Covariance( X<sub>1 , X<sub>2 ) = %f \n', result.Covariance(1,2));
+        fprintf(fid, '- Covariance( X<sub>1</sub> , X<sub>2</sub> ) = %f \n', result.Covariance(1,2));
         fprintf(fid, '\n');
-        fprintf(fid, '- Correlation( X<sub>1 , X<sub>2) = %f \n', result.Correlation);
+        fprintf(fid, '- Correlation( X<sub>1</sub> , X<sub>2</sub>) = %f \n', result.Correlation);
     fclose(fid);
 
 end
