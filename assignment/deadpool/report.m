@@ -18,7 +18,7 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, '### The First 5 rows of the data input are:');
         fprintf(fid, '\n');
-        fprintf(fid,'%6.2f %12.8f\r\n', data_print);
+        fprintf(fid,'%6.2f %12.8f\r\n  ', data_print);
         fprintf(fid, '\n');
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
