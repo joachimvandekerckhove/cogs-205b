@@ -4,7 +4,7 @@
 % the other optimization practices.  It is often called "solving" a
 % function, "root finding," or simply "zero finding."
 %
-%%
+%% Second title
 % A simple but powerful algorithm for zero finding is the Newton-Raphson
 % algorithm (sometimes just called Newton's).  The algorithm proceeds along
 % these steps:

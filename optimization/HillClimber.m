@@ -7,7 +7,7 @@ classdef HillClimber < handle
         StartingPointX double {mustBeReal, mustBeFinite} = 0
         StepSize       double {mustBeReal, mustBeFinite} = 1
         Verbosity = false
-        Maximize  = false
+        Maximize  = true
         
         PlotOptions = { ...
             'color'     , 'blue' , ...
@@ -136,7 +136,7 @@ classdef HillClimber < handle
         end
         
         function [s, h] = Solve(obj, threshold)
-            while obj.CurrentPointY > threshold
+            while abs(obj.CurrentPointY-obj.YHistory(end-1)) > threshold
                 obj.Step()
                 obj.Plot()
             end
