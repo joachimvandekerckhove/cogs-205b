@@ -8,7 +8,9 @@ function report(datos)
 
     % Create md File with results
     fid = ('deadpool-1.md','w')
-        
+        fprintf(fid, '# Report: Mean and Covariance matrix of the vibariate variable in dataFile')
+        fprintf(fid, '')
+        fprintf(fid, 'Date: # %74s  #\n', datestr(now))
     fclose(fid)
 
 end
