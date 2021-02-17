@@ -19,7 +19,7 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, 'This report was generated using the data matrix (size 2 x N) from the input. The mean vector and ');
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
-        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = %.15g',n_sample);
+        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = %.15g .',n_sample);
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
