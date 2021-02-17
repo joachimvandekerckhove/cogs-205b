@@ -7,7 +7,7 @@ function report(datos)
     data_print = datos(:,1:5);
 
     % Transpose first 5 observations to print in column format
-    data_print = data_print.'
+    data_print = data_print.';
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
@@ -20,7 +20,7 @@ function report(datos)
         fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.');
         fprintf(fid, '\n');
         fprintf(fid, '### The First 5 rows of the data input are:');
-        fprintf('%f %f \n' , data_print)
+        fprintf(fid, '%f %f \n' , data_print);
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
