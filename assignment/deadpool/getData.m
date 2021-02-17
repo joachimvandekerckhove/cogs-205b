@@ -1,6 +1,9 @@
 function path_file = getData(url)
+%  GETDATA  Takes a URL and downloads a datafile.
+%
 % This function takes a URL to a data file and downloads it, 
 % the output is the local path to the file.
+
     % Check if URL is valid
     [str,status] = urlread(url);
     if status == 0

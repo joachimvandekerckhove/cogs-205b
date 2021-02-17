@@ -1,4 +1,6 @@
 function test(pseudonym)
+%  TEST  Runs test on readData.m, getData.m, and static properties of Norm2d
+%
 % Set deadpool as default pseudonym
     if nargin<1
         pseudonym = 'deadpool';

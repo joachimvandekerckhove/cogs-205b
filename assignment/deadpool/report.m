@@ -1,10 +1,15 @@
 function report(datos)
-% This function takes a matrix of size 2 x N 
+%  REPORT  Takes a matrix of size 2 x N and generates a report.
+%    
+% This function takes a matrix of size 2 x N and generates a report of the 
+% mean and covariance of the data given as input.
+
     % Estimate Mean and Covariance of the variables using deadpool.Norm2d().estimate
     result = deadpool.Norm2d().estimate(datos);
 
-    % Take first 5 observations of each variable to print in the report 
-    data_print = datos(:,1:5);
+    % Get sample size by size of matrix
+    n_sample = size(result)
+    n_sample = n_sample(2)
 
     % Create md File with results
     fid = fopen('deadpool-1.md','w');
@@ -14,7 +19,7 @@ function report(datos)
         fprintf(fid, '\n');
         fprintf(fid, 'This report was generated using the data matrix (size 2 x N) from the input. The mean vector and ');
         fprintf(fid, 'covariance matrix are obtained from the functions **estimate_mean** and ');
-        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.');
+        fprintf(fid, '**estimate_covariance** in the **Norm2d** class respectively.Results are based on a sample of size N = %0.f',n_sample);
         fprintf(fid, '\n');
         fprintf(fid, '### The estimated quantities are:');
         fprintf(fid, '\n');
