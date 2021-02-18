@@ -1,6 +1,8 @@
 function test
+% test
+% Test suite that validates each function in this package.
+% Suppresses errors, but tells you which functions are to blame.
 
-    % Test each function and method in this package
     % Should be able to compute a bivariate distro based on test data
     fprintf(1,"\n\n-------\nTesting package contents:\n");
     errorCount = 0;

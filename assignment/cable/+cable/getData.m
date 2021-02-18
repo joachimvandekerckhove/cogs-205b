@@ -1,5 +1,9 @@
 function data = getData(url)
-    % download data from a URL
+% data = getData(url)
+% Downloads data from a given url
+% Exports using the filename in the url
+% url must be a string (obviously)
+
     filesplit = strsplit(url,'/');
     filename = filesplit{end};
     outfilename = websave(filename,url);
