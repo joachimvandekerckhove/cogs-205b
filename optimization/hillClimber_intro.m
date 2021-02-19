@@ -101,7 +101,7 @@ step_size  = 0.04;
 
 current_point = -1.5;
 
-
+%%
 % To visualize, let's plot the function and the current point
 current_height = objective(current_point);
 
