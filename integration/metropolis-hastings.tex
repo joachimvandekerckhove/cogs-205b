@@ -1,0 +1,184 @@
+\documentclass[t,10pt]{beamer}
+
+\usepackage{beamerthemeshadow}
+\usepackage{ulem}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\usepackage{hyperref}
+
+
+\title{{\color{black}COGS 205B: Computational Lab Skills for Cognitive Scientists I}}
+
+\definecolor{amber}{rgb} {0.99, 0.75, 0.20}
+\definecolor{violet}{rgb}{0.55, 0.20, 0.90}
+\definecolor{jade}{rgb}  {0.00, 0.66, 0.42}
+\definecolor{blue}{rgb}  {0.00, 0.39, 0.64}
+\definecolor{gold}{rgb}  {1.00, 0.82, 0.00}
+\definecolor{lightgrey}{rgb}  {0.85, 0.85, 0.85}
+\definecolor{offwhite}{rgb}   {0.965, 0.965, 0.965}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\definecolor{darkblue}{RGB}{0,0,121}
+\definecolor{darkgray}{RGB}{48,48,128}
+\definecolor{gold}{RGB}{255,127,0}
+
+\sbox0{\small\ttfamily A}
+\edef\mybasewidth{\the\wd0 }
+\lstset{language=Matlab,%
+    breaklines=true,%
+    basicstyle=\small\ttfamily,% print whole listing small
+    columns=fixed,basewidth=\mybasewidth,
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%8
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    flexiblecolumns=true,%
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%\usepackage[framed,numbered]{mcode}
+%\usepackage{verbatim}
+%\usepackage{url,textcomp}
+
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\instr}[1]{{\color{darkblue}#1}}
+\renewcommand{\emph}[1]{{\it\color{gold}#1}}
+\newcommand{\U}{{\mathcal{U}}}
+\newcommand{\N}{{\mathcal{N}}}
+\newcommand{\E}{{\mathcal{E}}}
+\newcommand{\D}{{\mathcal{D}}}
+\newcommand{\W}{{\mathcal{W}}}
+\newcommand{\B}{{\mathcal{B}}}
+\newcommand{\M}{{\mathcal{M}}}
+
+\newcommand{\mcode}[1]{{\color{darkgray}\texttt{#1}}}
+
+\newtheorem{exercise}{Exercise}
+\newenvironment<>{exercise}[1][]{%
+  \setbeamercolor{block title}{fg=white,bg=blue}%
+  \begin{block}{Exercise: #1}#2}{\end{block}}
+  
+\newtheorem{matlabcode}{Code}
+\newenvironment<>{matlabcode}[1][]{%
+  \setbeamercolor{block title}{fg=white,bg=gray!75!black}%
+  \begin{block}{Code: #1}\begin{lstlisting}#2\end{lstlisting}}{\end{block}}
+
+\newtheorem{axiom}{Axiom}
+\newenvironment<>{axiom}[1][]{%
+  \setbeamercolor{block title}{fg=white,bg=gold!75!white}%
+  \begin{block}{Axiom: #1}#2}{\end{block}}
+
+\newcommand{\LectureTitlePage}{%
+    \setcounter{framenumber}{0}
+    \global\def\inserttitle{{\color{black}Part \insertlecturenumber: \insertlecture}}
+    \global\def\insertshorttitle{{\color{black}Part \insertlecturenumber: \insertlecture}}
+    \global\def\insertdate{}
+    \global\def\insertauthor{}
+    %\global\def\insertshortdate{\lecturedate}
+  \frame{\titlepage} 
+}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+% Theme modifications
+\usetheme[sectionpage=none,progressbar=foot]{metropolis}
+\addtobeamertemplate{frametitle}{}{\vspace{1em}}
+\renewcommand{\emph}[1]{{{\color{red}#1}}}
+
+\setbeamercolor{block title}{use=structure,fg=black,bg=black!15!white}
+\setbeamercolor{block body}{use=structure,fg=black,bg=black!10!white}
+
+\setbeamercolor{background canvas}{bg=white}
+ 
+\author{Joachim Vandekerckhove}
+\date{Spring \the\year} 
+
+
+\begin{document}
+
+\frame{\titlepage} 
+
+\setcounter{lecture}{6}
+
+\lecture{Metropolis-Hastings sampling}
+
+\LectureTitlePage
+\frame{\frametitle{Metropolis-Hastings sampling}
+\begin{itemize}
+ \item A widely applicable algorithm for numerical integration is the \red{Metropolis-Hastings} (MH) algorithm\pause
+ \item In the MH algorithm, we will randomly generate \red{candidate samples} from some simple
+ distribution, and then decide to accept or reject the candidate\pause
+ \item MH algorithms need some customization and fine-tuning to be most efficient
+ \item One intuition for the MH algorithm is that it is a rejection sampler with an adaptive envelope
+\end{itemize}
+}
+
+\frame{\frametitle{Metropolis-Hastings sampler}
+Given a function $f(\theta) \propto p(\theta|D)$, and a symmetric
+\red{candidate generating distribution} $Q(a|b)=Q(b|a)$, a
+Metropolis-Hastings sampling algorithm proceeds as follows:
+\begin{itemize}
+ \item[1] \instr{Set} $i \leftarrow 1$ and \instr{choose} $R \leftarrow 1000$
+ \item[2] \instr{Choose}, arbitrarily, $\theta^{(0)}$
+ \item[3] \instr{Draw} a randomly selected $\theta^{c}$ from $Q\left(\theta|\theta^{(i-1)}\right)$
+ \item[4] \instr{Compute} the acceptance ratio $\alpha = \frac{f\left(\theta^{c}\right)}{f\left(\theta^{(i-1)}\right)}
+ = \frac{p\left(\theta^{c}|D\right)}{p\left(\theta^{(i-1)}|D\right)}$
+ \item[5] \instr{Draw} a randomly selected $u$ from $U(0,1)$. \instr{If} $\alpha > u$, 
+          \instr{set} $\theta^{(i)} \leftarrow \theta^{c}$, 
+          \instr{otherwise set} $\theta^{(i)} \leftarrow \theta^{(i-1)}$
+ \item[6] \instr{Set} $i \leftarrow i + 1$. \instr{If} $i \leq R$, \instr{return} to Step~3, 
+          \instr{otherwise halt}
+\end{itemize}
+}
+
+\frame{\frametitle{Metropolis-Hastings sampler}
+\begin{itemize}
+ \item Because the accepted values may approach the correct distribution only slowly,
+ we have to make sure the chain of samples has converged to a stationary sampling
+ state before using the samples for inference\pause
+ \item Specifically, we will discard a number of initial samples known as the \red{burn-in}:
+ $$\hat\beta_0 = \frac{1}{R-B} \sum_{i=B}^R \beta_0^{(i)}$$ \pause
+ \item We also repeat the procedure a few times with different values for $\theta^{(0)}$ to
+ ensure that the algorithm converges to the same stationary distribution. Several convergence
+ statistics exist, with Geweke's and Gelman's $\hat R$ being the most popular
+\end{itemize}
+}
+
+\frame{\frametitle{Sampling in MATLAB}
+
+
+\begin{exercise}[Metropolis-Hastings sampling in MATLAB]
+Write a new class called \texttt{ MetropolisHastings() }
+
+Make the class inherit from \texttt{ handle } (like my HillClimber class, which you can use as a starting point)
+
+The constructor should work by taking an anonymous function as input (call the property \texttt{ Target } of type \texttt{ function\_handle }), with other inputs such as parameters of the algorithm optional (with defaults)
+
+In addition to the standard methods, \texttt{ MetropolisHastings() } should have at least a method \texttt{ Draw(N) } to draw $N$ samples
+
+You should assume that \texttt{ Target } has exactly one input, but the input may be a vector
+
+Finally, make sure the \texttt{ disp() } method outputs something informative about the current state of the sampler
+
+\end{exercise}
+}
+
+
+\end{document}
+
+
+
