@@ -120,6 +120,12 @@ z = myfunction(x,y)
 % 
 % $$x \sim \mbox{StdExp}() \quad \Leftrightarrow \quad p(x) = e^{-x}$$
 % 
+clear
+lamda=1;
+Exp=@(x) lamda*exp(-1*lamda*x);
+StdExp=@(x) Exp(x);
+fplot(StdExp,[0,2*pi]);
+
 %%
 % Then, read the MATLAB documentation for |fplot| and see if you can do
 % anything with it here.
