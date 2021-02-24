@@ -53,7 +53,41 @@ classdef Norm2d
         end
         
     end
-    % I didn't figure out how to do this yet, but I think we might need to
-    % try to include a testSuite and see that runs properly.
+
+    methods (Static)
+	function dataObj = estimate(dat)
+		% INPUT: 2xn matrix of data
+		% OUTPUT: Norm2d object with sample mean and sample variance
+		arguments
+			dat {mustBeReal, mustBeFinite}
+		end
+
+	        %Transpose data if necessary to be 2xn
+        	if size(dat,2) == 2
+           		dat = dat';
+        	end
+
+		%There should be enough data 
+		if size(dat,2) < 5
+                	warning("Sample size very small (less than 5 observations.)")
+        	end
+
+
+		nObs = size(dat,2);
+		sampleMean = mean(dat,2);
+		varTerms = @(a,m,n) sum((a-m).^2)/(n-1);
+                cvTerms = @(d,m,n) sum((d(1,:)-m(1)).*(d(2,:)-m(2)))/(n-1);
+		sampleCov = [varTerms(dat(1,:),sampleMean(1),nObs) cvTerms(dat,sampleMean,nObs); ...
+			     cvTerms(dat,sampleMean,nObs) varTerms(dat(2,:),sampleMean(2),nObs)];
+
+		dataObj = phoenix.Norm2d(sampleMean,sampleCov);
+		dataObj = updateInternalProperties(dataObj);
+		%fprintf("Bivariate Normal object created\n")
+
+	end
+    end
+
+
+    
     
 end
