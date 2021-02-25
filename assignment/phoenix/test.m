@@ -13,7 +13,7 @@ throwAsCaller = @(x)warning(x.message);
 
 % check for valid URL
 try
-	randomURL = "http://cidlab.com/files/cogs205b.csv";
+	randomURL = "http://cdlab.com/files/cogs205b.csv";
 	getData(randomURL);
 	errorThrown = true;
 catch
@@ -23,7 +23,7 @@ assertErrorThrown(errorThrown,"Valid URL")
 
 % check for valid file
 try
-        randomfile = "data_cidlab.csv";
+        randomfile = "dat_cidlab.csv";
         readData(randomfile);
         errorThrown = true;
 catch
@@ -31,67 +31,65 @@ catch
 end
 assertErrorThrown(errorThrown,"Valid local file")
 
-
-%% Negative Tests
 % Valid Data: NaNs
 try
-	d = [1 2 0.4 4 7; 4 6 6 4 3];
+	d = [1 2 0.4 NaN 7; 4 6 6 4 3];
 	phoenix.Norm2d.estimate(d);
-	errorThrown = true;
+	errorNotThrown = true;
 catch
-	errorThrown = false;
+	errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: no NaNs")
+assertErrorThrown(errorNotThrown, "Data: no NaNs")
 
 % Valid Data: Complex
 try
-        d = [1 2 4 8 2; 6 2 3 6 9];
+        d = [1 2 4i 8 2; 6 2 3 6 9];
         phoenix.Norm2d.estimate(d);
-        errorThrown = true;
+        errorNotThrown = true;
 catch
-        errorThrown = false;
+        errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: real numbers only")
+assertErrorThrown(errorNotThrown, "Data: real numbers only")
 
 % Valid Data: Finite
 try
-        d = [1 2 5 7 4; 2 4 6 2 3];
+        d = [1 Inf 5 7 4; 2 4 6 2 3];
         phoenix.Norm2d.estimate(d);
-        errorThrown = true;
+        errorNotThrown = true;
 catch
-        errorThrown = false;
+        errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: finite numbers only")
+assertErrorThrown(errorNotThrown, "Data: finite numbers only")
 
 % Valid Data: Numeric
 try
-        d = [1 2 4 6 4; 0 6 8 2 3];
+        d = [1 2 4 6 4; 0 6 8 2 "a"];
         phoenix.Norm2d.estimate(d);
-        errorThrown = true;
+        errorNotThrown = true;
 catch
-        errorThrown = false;
+        errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: numeric input only")
+assertErrorThrown(errorNotThrown, "Data: numeric input only")
 
 % Valid Data: Correct dimensions
 try
-        d = [1 2 6 8 4; 0 6 8 4 9];
+        d = [1 2 6 8 4; 0 6 8 4 9; 2 3 5 6 7];
         phoenix.Norm2d.estimate(d);
-        errorThrown = true;
+        errorNotThrown = true;
 catch
-        errorThrown = false;
+        errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: correct dimensions");
+assertErrorThrown(errorNotThrown, "Data: correct dimensions");
 
 % Valid Data: Transpose OK
 try
         d = [1 2 4 2 5; 9 7 3 5 2]';
         phoenix.Norm2d.estimate(d);
-        errorThrown = true;
+        errorNotThrown = true;
 catch
-        errorThrown = false;
+        errorNotThrown = false;
 end
-assertErrorThrown(errorThrown, "Data: transpose OK")
+assertErrorThrown(errorNotThrown, "Data: transpose OK")
 
 
 
