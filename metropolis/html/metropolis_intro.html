@@ -1,0 +1,372 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Markov Chain Monte Carlo</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-26"><meta name="DC.source" content="metropolis_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Markov Chain Monte Carlo</h1><!--introduction--><p>Certainly the most popular Monte Carlo algorithm is Markov chain Monte Carlo (MCMC).  MCMC is a method of drawing samples from a gradually changing distribution.  At each point, the distribution isn't quite right, but over many samples it is.  There are many variations on MCMC. We will focus on a simple one called <i>Metropolis sampling.</i></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Likelihood functions</a></li><li><a href="#2">Metropolis</a></li><li><a href="#3">Markov Chain Monte Carlo (MCMC) simulation</a></li><li><a href="#4">Simulate some psychometric data</a></li><li><a href="#5">Set up likelihood, prior, and posterior</a></li><li><a href="#6">Markov chain Monte Carlo</a></li><li><a href="#7">More figures</a></li><li><a href="#8">Deriving Bayesian credible intervals for model parameters</a></li></ul></div><h2 id="1">Likelihood functions</h2><p>Throughout, the distribution from which we want to sample will be a probability distribution over some unknown quantity.  We want to know, for example, the probability that some <b>X</b> is greater than 0.</p><h2 id="2">Metropolis</h2><h2 id="3">Markov Chain Monte Carlo (MCMC) simulation</h2><pre class="codeinput">clear
+close <span class="string">all</span>
+rng(1)
+</pre><h2 id="4">Simulate some psychometric data</h2><pre class="codeinput">truth    =  [2, 3.5];
+
+fprintf(<span class="string">' &gt; truth:     (%.1f, %.1f)\n'</span>, truth)
+
+pfcn     =  @(x,p) wblcdf(x,p(1),p(2)) * 0.5 + 0.5;
+
+N        =  1000;
+stimuli  =  0:5;
+prob     =  pfcn(stimuli, truth);
+
+correct  =  binornd(N, prob);
+rate     =  correct/N;
+
+se       =  sqrt((rate .* (1 - rate))./N);
+
+xax      =  linspace(0, 5, 101);
+yax      =  pfcn(xax, truth);
+
+subplot(3, 3, [1:2 4:5])
+plot(xax, yax, <span class="string">'b-'</span>, <span class="keyword">...</span>
+    stimuli, rate, <span class="string">'ro'</span>, <span class="keyword">...</span>
+    <span class="string">'linewidth'</span>, 2, <span class="keyword">...</span>
+    <span class="string">'clipping'</span>, <span class="string">'off'</span>, <span class="keyword">...</span>
+    <span class="string">'markerfacecolor'</span>, <span class="string">'w'</span>)
+ylim([.5 1])
+
+
+line([stimuli; stimuli], rate + 1.96 * [se; -se], -[correct; correct], <span class="keyword">...</span>
+    <span class="string">'linew'</span>, 2, <span class="string">'color'</span>, <span class="string">'r'</span>)
+
+f1 = gcf();
+</pre><pre class="codeoutput"> &gt; truth:     (2.0, 3.5)
+</pre><img vspace="5" hspace="5" src="metropolis_intro_01.png" alt=""> <h2 id="5">Set up likelihood, prior, and posterior</h2><pre class="codeinput">logbinopdf     =  @(c,n,p) log(binopdf(c,n,p));
+
+loglikelihood  =  @(x) sum(logbinopdf(correct, N, pfcn(stimuli, x)));
+
+deviance       =  @(x) -2 * loglikelihood(x);
+
+startingPoint  =  [4, 4]';
+
+guess          =  fminsearch(deviance, startingPoint);
+
+fprintf(<span class="string">' &gt; guess:     (%.1f, %.1f)\n'</span>, guess)
+
+logprior       =  @(x) -sum(x);   <span class="comment">% log of exppdf(x,1)</span>
+
+logposterior   =  @(x) logprior(x) + loglikelihood(x);  <span class="comment">% without scaling</span>
+</pre><pre class="codeoutput"> &gt; guess:     (2.0, 3.9)
+</pre><h2 id="6">Markov chain Monte Carlo</h2><pre class="codeinput">proposal =  @(x,s) x + randn(2,1) * s;
+
+sigma    =  0.5;
+n_iter   =  20000;
+
+samples  =  nan(2, n_iter);
+heights  =  nan(1, n_iter);
+
+cur_h    =  logposterior(startingPoint);
+
+heights(1)     =  cur_h;
+samples(:, 1)  =  startingPoint;
+
+tic
+h = waitbar(0, <span class="string">'Sampling...'</span>);
+
+f2 = figure();
+<span class="keyword">for</span> m = 2:n_iter
+    proposed = proposal(samples(:, m-1), sigma);
+    new_h = logposterior(proposed);
+
+    <span class="keyword">if</span> isnan(new_h)||~isreal(new_h), new_h = -Inf; <span class="keyword">end</span>
+
+    <span class="keyword">if</span> new_h &gt; cur_h || log(rand) &lt; min(new_h - cur_h, 0)
+        samples(:, m) = proposed;
+        cur_h = new_h;
+    <span class="keyword">else</span>
+        samples(:, m) = samples(:, m-1);
+    <span class="keyword">end</span>
+
+    sigma = 0.1;
+
+    heights(m) = cur_h;
+
+    <span class="keyword">if</span> ~mod(m,n_iter/50)
+        waitbar(m/n_iter, h)
+
+        figure(f2);
+        subplot(1,2,1);
+            plot(1:n_iter, samples')
+            xlim([1,n_iter])
+        drawnow
+
+        subplot(1,2,2);
+            histogram(samples(1,:), 21, <span class="string">'FaceColor'</span>, [0 .5 1])
+            hold <span class="string">on</span>
+            histogram(samples(2,:), 21, <span class="string">'FaceColor'</span>, [1 .5 0])
+            hold <span class="string">off</span>
+        drawnow
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+close(h)
+toc
+</pre><pre class="codeoutput">Elapsed time is 6.723492 seconds.
+</pre><img vspace="5" hspace="5" src="metropolis_intro_02.png" alt=""> <h2 id="7">More figures</h2><pre class="codeinput">figure(f1)
+A = samples(1,101:end);
+B = samples(2,101:end);
+
+estimate = mean([A(:) B(:)]);
+post_std = std([A(:) B(:)]);
+fprintf(<span class="string">' &gt; estimate:  (%.1f, %.1f) +/- (%.2f, %.2f)\n'</span>, estimate, post_std)
+
+subplot(3,3,3), plot(A, B, <span class="string">'.'</span>);
+
+subplot(3,3,7), plot(101:n_iter, A); xlim([1 n_iter])
+subplot(3,3,8), plot(101:n_iter, B); xlim([1 n_iter])
+
+subplot(3,3,6), histogram(A, 51, <span class="string">'edgecolor'</span>, <span class="string">'none'</span>)
+subplot(3,3,9), histogram(B, 51, <span class="string">'edgecolor'</span>, <span class="string">'none'</span>)
+subplot(3, 3, [1:2 4:5])
+
+line(xax, pfcn(xax, estimate), <span class="keyword">...</span>
+    <span class="string">'linestyle'</span>, <span class="string">'--'</span>, <span class="keyword">...</span>
+    <span class="string">'color'</span>, [1 .5 0], <span class="keyword">...</span>
+    <span class="string">'linewidth'</span>, 2, <span class="keyword">...</span>
+    <span class="string">'clipping'</span>, <span class="string">'off'</span>)
+</pre><pre class="codeoutput"> &gt; estimate:  (2.0, 3.8) +/- (0.03, 0.24)
+</pre><img vspace="5" hspace="5" src="metropolis_intro_03.png" alt=""> <h2 id="8">Deriving Bayesian credible intervals for model parameters</h2><pre class="codeinput">fprintf(<span class="string">' &gt; Parameter A is between %.2f and %.2f.\n'</span>, <span class="keyword">...</span>
+    prctile(A, [0.025 0.975]*100))
+fprintf(<span class="string">' &gt; Parameter B is between %.2f and %.2f.\n'</span>, <span class="keyword">...</span>
+    prctile(B, [0.025 0.975]*100))
+</pre><pre class="codeoutput"> &gt; Parameter A is between 1.94 and 2.07.
+ &gt; Parameter B is between 3.39 and 4.36.
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Markov Chain Monte Carlo
+% Certainly the most popular Monte Carlo algorithm is Markov chain Monte
+% Carlo (MCMC).  MCMC is a method of drawing samples from a gradually
+% changing distribution.  At each point, the distribution isn't quite
+% right, but over many samples it is.  There are many variations on MCMC.
+% We will focus on a simple one called _Metropolis sampling._
+%
+%% Likelihood functions
+% Throughout, the distribution from which we want to sample will be a
+% probability distribution over some unknown quantity.  We want to know,
+% for example, the probability that some *X* is greater than 0.
+%
+%% Metropolis
+%
+%% Markov Chain Monte Carlo (MCMC) simulation
+clear
+close all
+rng(1)
+
+%% Simulate some psychometric data
+
+truth    =  [2, 3.5];
+
+fprintf(' > truth:     (%.1f, %.1f)\n', truth)
+
+pfcn     =  @(x,p) wblcdf(x,p(1),p(2)) * 0.5 + 0.5;
+
+N        =  1000;
+stimuli  =  0:5;
+prob     =  pfcn(stimuli, truth);
+
+correct  =  binornd(N, prob);
+rate     =  correct/N;
+
+se       =  sqrt((rate .* (1 - rate))./N);
+
+xax      =  linspace(0, 5, 101);
+yax      =  pfcn(xax, truth);
+
+subplot(3, 3, [1:2 4:5])
+plot(xax, yax, 'b-', ...
+    stimuli, rate, 'ro', ...
+    'linewidth', 2, ...
+    'clipping', 'off', ...
+    'markerfacecolor', 'w')
+ylim([.5 1])
+
+
+line([stimuli; stimuli], rate + 1.96 * [se; -se], -[correct; correct], ...
+    'linew', 2, 'color', 'r')
+
+f1 = gcf();
+
+
+%% Set up likelihood, prior, and posterior
+
+logbinopdf     =  @(c,n,p) log(binopdf(c,n,p));
+
+loglikelihood  =  @(x) sum(logbinopdf(correct, N, pfcn(stimuli, x)));
+
+deviance       =  @(x) -2 * loglikelihood(x);
+
+startingPoint  =  [4, 4]';
+
+guess          =  fminsearch(deviance, startingPoint);
+
+fprintf(' > guess:     (%.1f, %.1f)\n', guess)
+
+logprior       =  @(x) -sum(x);   % log of exppdf(x,1)
+
+logposterior   =  @(x) logprior(x) + loglikelihood(x);  % without scaling
+
+
+%% Markov chain Monte Carlo
+
+proposal =  @(x,s) x + randn(2,1) * s;
+
+sigma    =  0.5;
+n_iter   =  20000;
+
+samples  =  nan(2, n_iter);
+heights  =  nan(1, n_iter);
+
+cur_h    =  logposterior(startingPoint);
+
+heights(1)     =  cur_h;
+samples(:, 1)  =  startingPoint;
+
+tic
+h = waitbar(0, 'Sampling...');
+
+f2 = figure();
+for m = 2:n_iter
+    proposed = proposal(samples(:, m-1), sigma);
+    new_h = logposterior(proposed);
+
+    if isnan(new_h)||~isreal(new_h), new_h = -Inf; end
+    
+    if new_h > cur_h || log(rand) < min(new_h - cur_h, 0)
+        samples(:, m) = proposed;
+        cur_h = new_h;
+    else
+        samples(:, m) = samples(:, m-1);
+    end
+
+    sigma = 0.1;
+    
+    heights(m) = cur_h;
+
+    if ~mod(m,n_iter/50)
+        waitbar(m/n_iter, h)
+        
+        figure(f2);
+        subplot(1,2,1);  
+            plot(1:n_iter, samples')
+            xlim([1,n_iter])
+        drawnow
+        
+        subplot(1,2,2);  
+            histogram(samples(1,:), 21, 'FaceColor', [0 .5 1])
+            hold on
+            histogram(samples(2,:), 21, 'FaceColor', [1 .5 0])
+            hold off
+        drawnow
+    end
+end
+close(h)
+toc
+
+
+%% More figures
+
+figure(f1)
+A = samples(1,101:end);
+B = samples(2,101:end);
+
+estimate = mean([A(:) B(:)]);
+post_std = std([A(:) B(:)]);
+fprintf(' > estimate:  (%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate, post_std)
+
+subplot(3,3,3), plot(A, B, '.');
+
+subplot(3,3,7), plot(101:n_iter, A); xlim([1 n_iter])
+subplot(3,3,8), plot(101:n_iter, B); xlim([1 n_iter])
+
+subplot(3,3,6), histogram(A, 51, 'edgecolor', 'none')
+subplot(3,3,9), histogram(B, 51, 'edgecolor', 'none')
+subplot(3, 3, [1:2 4:5])
+
+line(xax, pfcn(xax, estimate), ...
+    'linestyle', 'REPLACE_WITH_DASH_DASH', ...
+    'color', [1 .5 0], ...
+    'linewidth', 2, ...
+    'clipping', 'off')
+
+
+%%   Deriving Bayesian credible intervals for model parameters
+
+fprintf(' > Parameter A is between %.2f and %.2f.\n', ...
+    prctile(A, [0.025 0.975]*100))
+fprintf(' > Parameter B is between %.2f and %.2f.\n', ...
+    prctile(B, [0.025 0.975]*100))
+
+
+
+##### SOURCE END #####
+--></body></html>
