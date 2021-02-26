@@ -63,7 +63,9 @@ classdef Norm2d
 		end
 
 	        %Transpose data if necessary to be 2xn
-        	if size(dat,2) == 2
+        	if size(dat) == [2 2]
+			; %do nothing
+		elseif size(dat,2) == 2
            		dat = dat';
         	end
 
@@ -81,7 +83,6 @@ classdef Norm2d
 			     cvTerms(dat,sampleMean,nObs) varTerms(dat(2,:),sampleMean(2),nObs)];
 
 		dataObj = phoenix.Norm2d(sampleMean,sampleCov);
-		dataObj = updateInternalProperties(dataObj);
 		%fprintf("Bivariate Normal object created\n")
 
 	end
