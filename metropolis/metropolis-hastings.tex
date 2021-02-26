@@ -122,7 +122,7 @@
  \item A widely applicable algorithm for numerical integration is the \red{Metropolis-Hastings} (MH) algorithm\pause
  \item In the MH algorithm, we will randomly generate \red{candidate samples} from some simple
  distribution, and then decide to accept or reject the candidate\pause
- \item MH algorithms need some customization and fine-tuning to be most efficient
+ \item MH algorithms need some customization and fine-tuning to be most efficient\pause
  \item One intuition for the MH algorithm is that it is a rejection sampler with an adaptive envelope
 \end{itemize}
 }
@@ -161,16 +161,14 @@ Metropolis-Hastings sampling algorithm proceeds as follows:
 \frame{\frametitle{Sampling in MATLAB}
 
 
-\begin{exercise}[Metropolis-Hastings sampling in MATLAB]
-Write a new class called \texttt{ MetropolisHastings() }
-
-Make the class inherit from \texttt{ handle } (like my HillClimber class, which you can use as a starting point)
+\begin{exercise}[Metropolis sampling in MATLAB]
+Write a new class called \texttt{ Metropolis() }
 
 The constructor should work by taking an anonymous function as input (call the property \texttt{ Target } of type \texttt{ function\_handle }), with other inputs such as parameters of the algorithm optional (with defaults)
 
-In addition to the standard methods, \texttt{ MetropolisHastings() } should have at least a method \texttt{ Draw(N) } to draw $N$ samples
+In addition to the standard methods, \texttt{ Metropolis() } should have at least a method \texttt{ DrawSamples(N) } to draw $N$ samples
 
-You should assume that \texttt{ Target } has exactly one input, but the input may be a vector
+You should assume that \texttt{ TargetLogPdf } has exactly one input, but the input may be a vector
 
 Finally, make sure the \texttt{ disp() } method outputs something informative about the current state of the sampler
 
