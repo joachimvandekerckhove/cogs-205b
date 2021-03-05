@@ -6,9 +6,9 @@ classdef Metropolis < handle
                 
         InitialValues  double {mustBeReal, mustBeFinite}
         
-        TargetLogPdf
+        TargetLogPdf function_handle
         
-        TransitionStd = 1
+        TransitionStd  double {mustBeReal, mustBeFinite} = 1
         
     end
     
@@ -28,6 +28,9 @@ classdef Metropolis < handle
         XHistory = []
         YHistory = []
         
+        LogAcceptanceRatio
+        BurnIn
+        
     end
         
     % Methods are functions that belong to the class
@@ -41,6 +44,8 @@ classdef Metropolis < handle
             obj.TargetLogPdf   = TargetLogPdf;
             obj.InitialValues  = InitialValues;
             obj.XDim           = numel(InitialValues);
+            
+            obj.validateInputs;
             
             obj.CurrentPointX  = obj.InitialValues;
             
@@ -97,7 +102,7 @@ classdef Metropolis < handle
         function s = getSampleStatistics(obj)
         
             error('Not yet implemented: getSampleStatistics()')
-            
+%             s.mean = 
         end
                 
     end

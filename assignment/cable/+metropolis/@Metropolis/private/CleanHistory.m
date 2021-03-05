@@ -5,6 +5,9 @@ function [X, Y, I] = CleanHistory(obj)
 % belong to the retained points.
 
             error('Not yet implemented')
+            X = obj.XHistory(:,obj.BurnIn+1:end);
+            Y = obj.YHistory(:,obj.BurnIn+1:end);
+            I = obj.BurnIn:length(obj.XHistory);
             
 end
 
