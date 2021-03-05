@@ -54,6 +54,12 @@ f1 = gcf();
 
 %% Set up likelihood, prior, and posterior
 
+% binopdf =@(x,y,z) builtin('binopdf', x,y,z);
+
+% logbinopdf = @(c,n,p) c.*log(p)+(n-c).*log((1-p));
+
+% which ('binopdf')
+
 logbinopdf     =  @(c,n,p) log(binopdf(c,n,p));
 
 loglikelihood  =  @(x) sum(logbinopdf(correct, N, pfcn(stimuli, x)));
