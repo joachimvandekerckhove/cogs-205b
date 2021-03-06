@@ -97,14 +97,5 @@ classdef WienerNode < Node
             error('Not yet implemented')
         end
         
-    end
-    
-    
-    % Static methods don't need the object as input
-    methods (Static)
-        
-        testSuite()
-        
-    end
-    
+    end    
 end
