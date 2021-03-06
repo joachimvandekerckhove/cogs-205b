@@ -60,7 +60,7 @@ classdef WienerNode < Node
         % Probability density kernel
         function knl = pdfKernel(obj, parameters)
             y = obj.Data ./ (parameters(1,2).^2)
-            transformation = fy(y , parameters(4));
+            transformation = fy(y , parameters(1,4));
             knl = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1).^2) .* obj.Data .* 0.5))...
                  .* transformation
         end
