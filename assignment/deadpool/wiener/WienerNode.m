@@ -81,7 +81,7 @@ classdef WienerNode < Node
                         end
                     end
                 end
-                print(i)
+                disp(i)
             end
         end
         
