@@ -61,13 +61,13 @@ classdef WienerNode < Node
         function knl = pdfKernel(obj, parameters)
             transformation = obj.fy( parameters(1,2), parameters(1,4));
             for i = 1:length(transformation)
-                knl(i) = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1,1).^2) .* abs(obj.Data(i)) .* 0.5)) .* transformation(i)
+                knl(i) = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1,1).^2) .* obj.Data(i) .* 0.5)) .* transformation(i)
             end
         end
 
         function dy = fy(obj, alpha, beta)
         %myFun - Description
-            point = abs(obj.Data) ./ (alpha.^2);
+            point = obj.Data ./ (alpha.^2);
             evaluation = [];
             dy = [];
             for i = 1:length(point)
