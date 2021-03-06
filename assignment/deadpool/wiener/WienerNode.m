@@ -73,16 +73,15 @@ classdef WienerNode < Node
                 bandera = 0;
                 while 1;
                     stepn = stepn + 1;
-                    evaluation(stepn,i) = pi .* stepn .* exp(-((stepn).^2 .* (pi).^2 .* 0.5 .* point(i))) .* sin(stepn .* pi .* beta);
+                    evaluation(stepn,i) = stepn .* exp(-((stepn).^2 .* (pi).^2 .* 0.5 .* point(i))) .* sin(stepn .* pi .* beta);
                     disp(evaluation(stepn,i))
                     if stepn > 1;
                         if abs(evaluation(stepn - 1,i) - evaluation(stepn,i)) <= 0.0001;
-                            dy(i) = sum(evaluation(:,i));
+                            dy(i) = pi .* sum(evaluation(:,i));
                             break;
                         end
                     end
                 end
-                disp(i)
             end
         end
         
