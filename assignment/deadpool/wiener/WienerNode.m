@@ -59,24 +59,21 @@ classdef WienerNode < Node
         
         % Probability density kernel
         function knl = pdfKernel(obj, parameters)
-            y = obj.Data ./ (parameters(1,2).^2);
-            transformation = []
-            for i = 1:length(y)
-                transformation(i) = fy( y(i) , parameters(1,4) );
-                knl(i) = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1,1).^2) .* obj.Data(i) .* 0.5)) .* transformation(i)
-            end
+            transformation = fy( parameters(1,2), parameters(1,4));
+            knl(i) = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1,1).^2) .* obj.Data(i) .* 0.5)) .* transformation(i)
         end
 
-        function dy = fy(point, beta)
+        function dy = fy(obj, alpha, beta)
         %myFun - Description
+            point = obj.Data ./ (alpha.^2)
             evaluation = []
             stepn = 0;
             while bandera == 0;
                 stepn = stepn+1;
-                evaluation(stepn) = pi .* sk(point,stepn,beta);
+                evaluation(stepn) = pi .* stepn .* exp(-(stepn).^2 .* (pi).^2 .* 0.5 .* point) .* sin(stepn .* pi .* beta);;
                 if stepn > 1;
                     if abs(evaluation(stepn - 1)-evaluation(stepn)) <= 0.00001;
-                        dy = pi .* sum(evaluation);
+                        dy = sum(evaluation);
                         bandera = 1;
                     else
                         bandera = 0;
@@ -85,11 +82,6 @@ classdef WienerNode < Node
                     bandera = 0;
                 end
             end
-        end
-
-        function pointk = sk(xv,k,w)
-        %myFun - Description
-            pointk = k .* exp(- (k).^2 .* (pi).^2 .* 0.5 .* xv) .* sin(k .* pi .* w);
         end
         
         % Probability density log kernel
