@@ -76,7 +76,7 @@ classdef WienerNode < Node
                     evaluation(stepn,i) = stepn .* exp(-((stepn).^2 .* (pi).^2 .* 0.5 .* point(i))) .* sin(stepn .* pi .* beta);
                     disp(evaluation(stepn,i))
                     if stepn > 1;
-                        if abs(evaluation(stepn - 1,i) - evaluation(stepn,i)) <= 0.0001;
+                        if abs(evaluation(stepn - 1,i) - evaluation(stepn,i)) <= 0.000001;
                             dy(i) = pi .* sum(evaluation(:,i));
                             break;
                         end
