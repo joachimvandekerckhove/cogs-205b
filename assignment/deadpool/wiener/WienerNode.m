@@ -67,7 +67,7 @@ classdef WienerNode < Node
         function dy = fy(xax, parameter, tol)
         %myFun - Description
             stepn = 0;
-            while bandera = 0;
+            while bandera == 0;
                 stepn = stepn+1;
                 evaluation(stepn,1) = pi .* sk(xax,stepn,parameter);
                 if stepn > 1;
