@@ -81,6 +81,7 @@ classdef WienerNode < Node
                         end
                     end
                 end
+                print(i)
             end
         end
         
