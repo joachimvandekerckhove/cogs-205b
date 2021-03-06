@@ -62,7 +62,7 @@ classdef WienerNode < Node
             y = obj.Data ./ (parameters(1,2).^2);
             transformation = []
             for i = 1:length(y)
-                transformation(i) = fy(y(i) , parameters(1,4));
+                transformation(i) = fy( y(i) , parameters(1,4) );
                 knl(i) = 1 ./ (parameters(1,2).^2) .* exp(-parameters(1,1) .* parameters(1,2) .* parameters(1,4) - ((parameters(1,1).^2) .* obj.Data(i) .* 0.5)) .* transformation(i)
             end
         end
@@ -93,8 +93,8 @@ classdef WienerNode < Node
         end
         
         % Probability density log kernel
-        function knl = logPdfKernel(obj, parameters)
-            knl = log(pdfKernel(obj, parameters));
+        function logknl = logPdfKernel(obj, parameters)
+            logknl = log(pdfKernel(obj, parameters));
         end
         
         % Random number generator
