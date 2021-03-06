@@ -3,7 +3,6 @@ Classdef WienerNode < Node
     
     % The main property is now the data, but Data is defined in the parent
     properties
-        
     end
     
     % The main properties are the mean and standard deviation
