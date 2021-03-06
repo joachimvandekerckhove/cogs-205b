@@ -65,6 +65,7 @@ classdef WienerNode < Node
 
         function dy = fy(obj, alpha, beta)
         %myFun - Description
+            bandera = 0;
             point = obj.Data ./ (alpha.^2)
             evaluation = []
             stepn = 0;
