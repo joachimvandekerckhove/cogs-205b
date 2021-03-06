@@ -1,5 +1,14 @@
 Classdef WienerNode < Node
     % WIENERNODE  A class for the Wiener distribution node in a graph
+    
+    % The main property is now the data, but Data is defined in the parent
+    properties
+    end
+    
+    % The main properties are the mean and standard deviation
+    properties (SetAccess = private)
+    end
+    
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
         ScalingConstant = 1;
