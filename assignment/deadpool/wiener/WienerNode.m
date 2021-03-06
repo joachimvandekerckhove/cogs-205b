@@ -1,4 +1,4 @@
-Classdef WienerNode < Node
+classdef WienerNode < Node
     % WIENERNODE  A class for the Wiener distribution node in a graph
     
     % The main property is now the data, but Data is defined in the parent
