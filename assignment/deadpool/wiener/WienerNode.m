@@ -65,16 +65,18 @@ classdef WienerNode < Node
 
         function dy = fy(obj, alpha, beta)
         %myFun - Description
-            bandera = 0;
-            point = obj.Data ./ (alpha.^2)
-            evaluation = []
-            stepn = 0;
+            point = obj.Data ./ (alpha.^2);
+            evaluation = [];
+            dy = []
+            for i = 1:length(point)
+                stepn = 0;
+                bandera = 0;
             while bandera == 0;
                 stepn = stepn+1;
-                evaluation(stepn) = pi .* stepn .* exp(-(stepn).^2 .* (pi).^2 .* 0.5 .* point) .* sin(stepn .* pi .* beta);;
+                evaluation(stepn,i) = pi .* stepn .* exp(-(stepn).^2 .* (pi).^2 .* 0.5 .* point(i)) .* sin(stepn .* pi .* beta);;
                 if stepn > 1;
-                    if abs(evaluation(stepn - 1)-evaluation(stepn)) <= 0.00001;
-                        dy = sum(evaluation);
+                    if abs(evaluation(stepn - 1,i)-evaluation(stepn,i)) <= 0.00001;
+                        dy(i) = sum(evaluation(:,i));
                         bandera = 1;
                     else
                         bandera = 0;
