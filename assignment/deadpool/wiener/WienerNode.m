@@ -67,7 +67,7 @@ classdef WienerNode < Node
         %myFun - Description
             point = obj.Data ./ (alpha.^2);
             evaluation = [];
-            dy = []
+            dy = [];
             for i = 1:length(point)
                 stepn = 0;
                 bandera = 0;
@@ -75,7 +75,7 @@ classdef WienerNode < Node
                     stepn = stepn+1;
                     evaluation(stepn,i) = pi .* stepn .* exp(-(stepn).^2 .* (pi).^2 .* 0.5 .* point(i)) .* sin(stepn .* pi .* beta);;
                     if stepn > 1;
-                        if abs(evaluation(stepn - 1,i)-evaluation(stepn,i)) <= 0.00001;
+                        if abs(evaluation(stepn - 1,i) - evaluation(stepn,i)) <= 0.0001;
                             dy(i) = sum(evaluation(:,i));
                             bandera = 1;
                         else
