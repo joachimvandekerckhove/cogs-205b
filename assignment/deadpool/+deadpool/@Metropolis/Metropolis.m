@@ -9,6 +9,8 @@ classdef Metropolis < handle
         TargetLogPdf;
         
         TransitionStd = 1;
+
+        BurnIn(1,1) int64 {mustBeFinite,mustBeReal,mustBePositive} = 1;
         
     end    
 
@@ -32,10 +34,17 @@ classdef Metropolis < handle
         XHistory = [];
         % Vector of densities at each accepted value.
         YHistory = [];
+        % Posterior samples without burnin period
+        PosteriorSamples = [];
     end
 
     % Methods are functions that belong to the class
     methods
+
+        function obj = set.BurnIn(obj,val)
+            %Set number of burnin iterations
+            obj.BurnIn = val;
+        end
         
         %%% Constructor function %%%
         
@@ -53,7 +62,24 @@ classdef Metropolis < handle
             obj.AddToHistory();
         end
 
+        %%% Display function %%%
+        
+        % Print the state of the sampler to screen
+        function disp(obj,niter)
+            
+            wb = waitbar(0,'Sampling... ')
+
+            waitbar(obj.StepCount ./ niter , wb )
+            
+        end
+
+        % Sampler function
+
         function DrawSamples(obj, R)
+
+            if R < obj.BurnIn
+                error('Number of Iterations Must be Greater than BurnIn')
+            end
             
             % Draws R samples from the target distribution
             
@@ -75,10 +101,26 @@ classdef Metropolis < handle
                 if obj.Accept()
                     obj.MakeProposalCurrent();
                 end
+
+                disp(obj,R)
                 
                 % Add the current point to the chain
                 obj.AddToHistory(); 
-            end 
+            end
+            obj.PosteriorSamples = obj.CleanHystory()
         end
+
+        function s = getSampleStatistics(obj)
+        
+            muhat     = mean(obj.XHistory , 2);
+            sigmahat  = std(obj.XHistory , [] , 2);
+            quantiles = quantile(obj.XHistory,[0.025,0.25,0.5,0.75,0.975],2);
+            s = table(muhat,sigmahat,quantiles);
+            s.Properties.VariableNames = {'Mean','SD','2.5%','25%','50%','75%','97.5%'};
+            a = sym('theta_%d',[obj.XDim , 1]);
+            s.Properties.RowNames = a;
+        end
+                
+    end
 
 end
