@@ -4,7 +4,5 @@ function EvaluateCurrentPoint(obj)
 % in current point Y.
 
 %             error('Not yet implemented')
-
-            
             obj.CurrentPointY = obj.TargetLogPdf(obj.CurrentPointX);
 end 
