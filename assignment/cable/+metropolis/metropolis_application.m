@@ -83,7 +83,7 @@ startingPoint = [ ...
     2 2]';
 
 for c = 1:nChains
-    m(c) = Metropolis(logposterior, startingPoint(:,c));
+    m(c) = metropolis.Metropolis(logposterior, startingPoint(:,c));
 end
 
 tic
