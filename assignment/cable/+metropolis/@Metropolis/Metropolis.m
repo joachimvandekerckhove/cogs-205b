@@ -82,13 +82,13 @@ classdef Metropolis < handle
         
         function DrawSamples(obj, R)
             
-            obj.DetermineBurnIn(R);
-            R = R + obj.BurnIn; % these will be removed later
+%             obj.DetermineBurnIn(R);
+%             R = R + obj.BurnIn; % these will be removed later
             obj.numSamples = R;
             % Draws R samples from the target distribution
             obj.PreallocateBigVectors()
-            
-            for i = 2:R
+             % For some reason, it calls obj.disp() here ????
+            for i = 1:R
                 
                 obj.StepCount = i;
 %                 obj.disp()
@@ -114,7 +114,9 @@ classdef Metropolis < handle
                 
             end
             % Strip out the burn in
-            [obj.XHistory,obj.YHistory,~] = obj.CleanHistory();
+%             [obj.XHistory,obj.YHistory,~] = obj.CleanHistory();
+            obj.transposeOutput()
+            % obj.disp() gets called here, too.
         end
         
         
