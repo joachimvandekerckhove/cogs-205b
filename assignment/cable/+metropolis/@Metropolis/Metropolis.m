@@ -121,9 +121,8 @@ classdef Metropolis < handle
         function s = getSampleStatistics(obj)
         
             error('Not yet implemented: getSampleStatistics()')
-            [X,Y,~] = obj.CleanHistory()
-            s.mean = mean(Y,1);
-            s.sigma = std(Y,0,1);
+            s.mean = mean(obj.YHistory,1);
+            s.sigma = std(obj.YHistory,0,1);
         end
                 
     end

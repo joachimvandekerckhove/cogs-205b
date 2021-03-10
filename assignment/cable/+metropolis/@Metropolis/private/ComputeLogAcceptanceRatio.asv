@@ -6,6 +6,6 @@ function ComputeLogAcceptanceRatio(obj)
 %             error('Not yet implemented')
 
 %     obj.LogAcceptanceRatio = log(obj.ProposedPointY / obj.CurrentPointY);
-% This is based on log(x), so log(y1) - log(y2) = y1/y2?
+% Subtracting log
     obj.LogAcceptanceRatio = min(obj.ProposedPointY - obj.CurrentPointY, 0);
 end
