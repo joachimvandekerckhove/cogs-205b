@@ -22,7 +22,7 @@ classdef Metropolis < handle
         ProposedPointY
         
         XDim
-        StepCount = 0
+        StepCount = 1
         Accept = true
         
         XHistory = []
@@ -30,6 +30,9 @@ classdef Metropolis < handle
         
         LogAcceptanceRatio
         BurnIn = 100;
+        
+        randList = []
+        numSamples
         
     end
         
@@ -61,8 +64,17 @@ classdef Metropolis < handle
         % Print the state of the sampler to screen
         function disp(obj)
             
-            error('Not yet implemented: disp()')
-            
+%             error('Not yet implemented: disp()')
+%             if obj.StepCount == 1
+%                 h = waitbar(0,'Sampling...');
+%             end
+%             if ~mod(obj.StepCount,(obj.numSamples)/100)
+%                 waitbar(obj.StepCount/(obj.numSamples), h)
+%                 drawnow
+%             end
+%             if obj.StepCount == obj.numSamples
+%                 close(h)
+%             end
         end
         
         
@@ -72,11 +84,14 @@ classdef Metropolis < handle
             
             obj.DetermineBurnIn(R);
             R = R + obj.BurnIn; % these will be removed later
+            obj.numSamples = R;
             % Draws R samples from the target distribution
+            obj.PreallocateBigVectors()
             
-            
-            for i = 1:R
+            for i = 2:R
                 
+                obj.StepCount = i;
+%                 obj.disp()
                 %  Draw a randomly selected point from the proposal
                 %  distribution
                 obj.DrawProposal();

@@ -5,7 +5,7 @@ function DecideAccept(obj)
 
 %             error('Not yet implemented')
     if obj.ProposedPointY > obj.CurrentPointY ||...
-            obj.LogAcceptanceRatio > rand
+            obj.LogAcceptanceRatio > log(obj.randList(obj.XDim+1,obj.StepCount))
         obj.Accept = true;
     else
         obj.Accept = false;

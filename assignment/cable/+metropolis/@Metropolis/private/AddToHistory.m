@@ -4,7 +4,7 @@ function AddToHistory(obj)
 % current function value to the history of function values YHistory
 
     % Set history vectors to be vertical, not horizontal
-    obj.XHistory = [obj.XHistory;reshape(obj.CurrentPointX,[1,2])];
-    obj.YHistory = [obj.YHistory;obj.CurrentPointY];
+    obj.XHistory(:,obj.StepCount) = obj.CurrentPointX;
+    obj.YHistory(obj.StepCount) = obj.CurrentPointY;
 
 end

@@ -4,5 +4,5 @@ function DrawProposal(obj)
 % point.  The standard deviation of the offset is given by the
 % TransitionStd property.
 
-    obj.ProposedPointX = obj.CurrentPointX + rand(obj.XDim,1) * obj.TransitionStd;
+    obj.ProposedPointX = obj.CurrentPointX + obj.randList(1:obj.XDim,obj.StepCount) .* obj.TransitionStd;
 end

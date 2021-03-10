@@ -9,4 +9,5 @@ function obj = DetermineBurnIn(obj,numSamples)
         obj.BurnIn = round(numSamples/100); % Throw away 1% of data
     end
     
+    obj.BurnIn = obj.BurnIn; % to account for initial value
 end
