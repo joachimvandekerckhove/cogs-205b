@@ -1,6 +1,6 @@
-function EvaluateCurrentPoint(point)
+function dy = EvaluateCurrentPoint(obj)
 % EvaluateCurrentPoint - targetlogpdf at x
 
     % Compute the ln of the posterior distribution at current point.
-    obj.PointY(:,1) = obj.TargetLogPdf(point(:,1));
+    dy = obj.TargetLogPdf(obj.PointX);
 end

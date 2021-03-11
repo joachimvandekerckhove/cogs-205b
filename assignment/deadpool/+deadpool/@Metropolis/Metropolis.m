@@ -57,7 +57,7 @@ classdef Metropolis < handle
             
             obj.PointX  = obj.InitialValues;
             
-            obj.EvaluateCurrentPoint(obj.PointX); 
+            obj.PointY = obj.EvaluateCurrentPoint(obj); 
             
             obj.AddToHistory();
         end
