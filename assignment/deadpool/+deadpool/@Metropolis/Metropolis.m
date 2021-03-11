@@ -115,7 +115,7 @@ classdef Metropolis < handle
             quantiles = quantile(Posteriors,[0.025,0.25,0.5,0.75,0.975],2);
             s = table(muhat,sigmahat,quantiles);
             s.Properties.VariableNames = {'Mean','SD','2.5% , 25% , 50% , 75% , 97.5%'};
-            a = sym('theta_%d',[obj.XDim , 1]);
+            a = 1:obj.XDim;
             s.Properties.RowNames = a;
         end
                 
