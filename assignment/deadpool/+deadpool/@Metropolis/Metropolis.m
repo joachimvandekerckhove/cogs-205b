@@ -65,20 +65,20 @@ classdef Metropolis < handle
         %%% Display function %%%
         
         % Print the state of the sampler to screen
-        function disp(obj,niter)
+        %function disp(obj,niter)
             
-            wb = waitbar(0,'Sampling... ')
+        %    wb = waitbar(0,'Sampling... ')
 
-            waitbar(obj.StepCount ./ niter , wb )
+        %    waitbar(obj.StepCount ./ niter , wb )
             
-        end
+        %end
 
         % Sampler function
 
         function DrawSamples(obj, R)
 
             if R < obj.BurnIn
-                error('Number of Iterations Must be Greater than BurnIn')
+                error('Number of Iterations Must be Greater than BurnIn');
             end
             
             % Draws R samples from the target distribution
@@ -98,30 +98,25 @@ classdef Metropolis < handle
                 
                 % If the proposal should be accepted, make the proposed
                 % point the current point
-                if obj.Accept()
-                    obj.MakeProposalCurrent();
-                end
+                obj.MakeProposalCurrent();
 
-                disp(obj,R)
+                %disp(obj,R)
                 
                 % Add the current point to the chain
                 obj.AddToHistory(); 
             end
-            obj.PosteriorSamples = obj.CleanHystory()
+            obj.PosteriorSamples = obj.CleanHistory();
         end
 
-        function s = getSampleStatistics(obj)
-        
-            Posteriors = obj.PosteriorSamples(1:obj.XDim,:)
+        function s = getSampleStatistics(obj)        
+            Posteriors = obj.PosteriorSamples(1:obj.XDim,:);
             muhat     = mean(Posteriors , 2);
             sigmahat  = std(Posteriors , [] , 2);
             quantiles = quantile(Posteriors,[0.025,0.25,0.5,0.75,0.975],2);
 
 
             s = table(muhat,sigmahat,quantiles);
-            s.Properties.VariableNames = {'Mean','SD','2.5%','25%','50%','75%','97.5%'};
-            a = sym('theta_%d',[obj.XDim , 1]);
-            s.Properties.RowNames = a;
+            s.Properties.VariableNames = {'Mean','SD','2.5% , 25% , 50% , 75% , 97.5%'};
         end
                 
     end
