@@ -75,10 +75,10 @@ classdef Metropolis < handle
 
         % Sampler function
 
-        function DrawSamples(R)
+        function DrawSamples(obj, R)
 
             if R < obj.BurnIn
-                error('Number of Iterations Must be Greater than BurnIn')
+                error('Number of Iterations Must be Greater than BurnIn');
             end
             
             % Draws R samples from the target distribution
@@ -107,12 +107,12 @@ classdef Metropolis < handle
                 % Add the current point to the chain
                 obj.AddToHistory(); 
             end
-            obj.PosteriorSamples = obj.CleanHistory()
+            obj.PosteriorSamples = obj.CleanHistory();
         end
 
         function s = getSampleStatistics(obj)
         
-            Posteriors = obj.PosteriorSamples(1:obj.XDim,:)
+            Posteriors = obj.PosteriorSamples(1:obj.XDim,:);
             muhat     = mean(Posteriors , 2);
             sigmahat  = std(Posteriors , [] , 2);
             quantiles = quantile(Posteriors,[0.025,0.25,0.5,0.75,0.975],2);
