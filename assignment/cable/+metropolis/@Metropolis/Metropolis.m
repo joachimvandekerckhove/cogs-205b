@@ -34,6 +34,9 @@ classdef Metropolis < handle
         randList = []
         numSamples
         
+        h
+        dispFlag = true;
+        
     end
         
     % Methods are functions that belong to the class
@@ -63,36 +66,37 @@ classdef Metropolis < handle
         
         % Print the state of the sampler to screen
         function disp(obj)
-            
-%             error('Not yet implemented: disp()')
-%             if obj.StepCount == 1
-%                 h = waitbar(0,'Sampling...');
-%             end
-%             if ~mod(obj.StepCount,(obj.numSamples)/100)
-%                 waitbar(obj.StepCount/(obj.numSamples), h)
-%                 drawnow
-%             end
-%             if obj.StepCount == obj.numSamples
-%                 close(h)
-%             end
+            % Draw a progress bar that updates infrequently
+            if obj.StepCount == 2
+                obj.dispFlag = true;
+                obj.h = waitbar(0,'Sampling...');
+            end
+            if ~mod(obj.StepCount,(obj.numSamples)/100)
+                waitbar(obj.StepCount/(obj.numSamples), obj.h);
+                drawnow;
+            end
+            if obj.dispFlag == false
+                close(obj.h);
+                obj.dispFlag = true;
+            end
         end
         
         
         % Sample function
         
         function DrawSamples(obj, R)
-            
+            obj.StepCount = 1;
             obj.DetermineBurnIn(R);
             R = R + obj.BurnIn; % these will be removed later
             obj.numSamples = R;
             % Draws R samples from the target distribution
-            obj.PreallocateBigVectors()
+            obj.PreallocateBigVectors();
             tally = 0;
-             % For some reason, it calls obj.disp() here ????
+%             obj.disp()
             for i = 1:R
                 
                 obj.StepCount = i;
-%                 obj.disp()
+                obj.disp();
                 %  Draw a randomly selected point from the proposal
                 %  distribution
                 obj.DrawProposal();
@@ -117,9 +121,12 @@ classdef Metropolis < handle
             end
             % Strip out the burn in
             [obj.XHistory,obj.YHistory,~] = obj.CleanHistory();
-            obj.transposeOutput()
-            % obj.disp() gets called here, too.
+            obj.transposeOutput();
             fprintf(1,"Num times accepted = %i\n",tally)
+            
+            % Close the waitbar
+            obj.endDisp();
+            obj.disp();
         end
         
         
