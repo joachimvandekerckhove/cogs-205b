@@ -108,8 +108,7 @@ classdef Metropolis < handle
             obj.PosteriorSamples = obj.CleanHistory();
         end
 
-        function s = getSampleStatistics(obj)
-        
+        function s = getSampleStatistics()        
             Posteriors = obj.PosteriorSamples(1:obj.XDim,:);
             muhat     = mean(Posteriors , 2);
             sigmahat  = std(Posteriors , [] , 2);
