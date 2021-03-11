@@ -75,7 +75,7 @@ classdef Metropolis < handle
 
         % Sampler function
 
-        function DrawSamples(obj, R)
+        function DrawSamples(R)
 
             if R < obj.BurnIn
                 error('Number of Iterations Must be Greater than BurnIn')
@@ -107,7 +107,7 @@ classdef Metropolis < handle
                 % Add the current point to the chain
                 obj.AddToHistory(); 
             end
-            obj.PosteriorSamples = obj.CleanHistory(obj)
+            obj.PosteriorSamples = obj.CleanHistory()
         end
 
         function s = getSampleStatistics(obj)
