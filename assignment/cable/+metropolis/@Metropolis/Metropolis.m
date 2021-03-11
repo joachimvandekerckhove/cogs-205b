@@ -87,6 +87,7 @@ classdef Metropolis < handle
             obj.numSamples = R;
             % Draws R samples from the target distribution
             obj.PreallocateBigVectors()
+            tally = 0;
              % For some reason, it calls obj.disp() here ????
             for i = 1:R
                 
@@ -107,6 +108,7 @@ classdef Metropolis < handle
                 % point the current point
                 if obj.Accept()
                     obj.MakeProposalCurrent();
+                    tally = tally + 1;
                 end
                 
                 % Add the current point to the chain
@@ -117,6 +119,7 @@ classdef Metropolis < handle
 %             [obj.XHistory,obj.YHistory,~] = obj.CleanHistory();
             obj.transposeOutput()
             % obj.disp() gets called here, too.
+            fprintf(1,"Num times accepted = %i\n",tally)
         end
         
         
