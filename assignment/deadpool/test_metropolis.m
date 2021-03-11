@@ -28,9 +28,6 @@ logbinopdf     =  @(c,n,p) log(binopdf(c,n,p));
 %% Log likelihood function
 loglikelihood  =  @(x) sum(logbinopdf(correct, N, pfcn(stimuli, x)));
 
-%% Deviance
-deviance       =  @(x) -2 * loglikelihood(x);
-
 % log prior density of exppdf(x,1)
 logprior       =  @(x) -sum(x);   
 

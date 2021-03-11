@@ -1,4 +1,4 @@
-function DrawProposal()
+function DrawProposal(obj)
 %DrawProposal - add Normal noise to previous value
 
     % Draw an XDim standard normal column vector

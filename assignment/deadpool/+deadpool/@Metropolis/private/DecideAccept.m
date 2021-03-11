@@ -1,4 +1,4 @@
-function DecideAccept()
+function DecideAccept(obj)
 %DecideAccept - accept-reject algorith
 
     % Calculate the logarithm of u ~ uniform(0,1) to compare acceptance ratio.

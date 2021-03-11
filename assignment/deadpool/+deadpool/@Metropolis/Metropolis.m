@@ -65,13 +65,13 @@ classdef Metropolis < handle
         %%% Display function %%%
         
         % Print the state of the sampler to screen
-        function disp(obj,niter)
+        %function disp(obj,niter)
             
-            wb = waitbar(0,'Sampling... ')
+        %    wb = waitbar(0,'Sampling... ')
 
-            waitbar(obj.StepCount ./ niter , wb )
+        %    waitbar(obj.StepCount ./ niter , wb )
             
-        end
+        %end
 
         % Sampler function
 
@@ -98,11 +98,11 @@ classdef Metropolis < handle
                 
                 % If the proposal should be accepted, make the proposed
                 % point the current point
-                if obj.Accept()
+                if obj.Accept
                     obj.MakeProposalCurrent();
                 end
 
-                disp(obj,R)
+                %disp(obj,R)
                 
                 % Add the current point to the chain
                 obj.AddToHistory(); 

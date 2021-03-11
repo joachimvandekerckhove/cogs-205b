@@ -1,4 +1,4 @@
-function ComputeLogAcceptanceRatio()
+function ComputeLogAcceptanceRatio(obj)
 %ComputeLogAcceptanceRatio - ln of acceptance ratio
 
     % Calculate the ln of the ratio between the densities at previous and current point

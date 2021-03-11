@@ -1,4 +1,4 @@
-function MakeProposalCurrent()
+function MakeProposalCurrent(obj)
 %MakeProposalCurrent - makes proposed pouint current point
 
     % If the proposed value was accepted keep as current point
