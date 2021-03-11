@@ -77,7 +77,7 @@ logposterior   =  @(x) logprior(x) + loglikelihood(x);  % without scaling
 nChains = 4;
 
 startingPoint = [ ...
-    2 3.5
+    4 4
     4 2 
     2 4
     2 2]';
