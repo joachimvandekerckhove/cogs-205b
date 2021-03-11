@@ -22,9 +22,6 @@ correct  =  binornd(N, prob);
 %% Mean of simulated data
 rate     =  correct/N;
 
-% Standard error of simulated data 
-se       =  sqrt((rate .* (1 - rate))./N);
-
 %% Log likelihood single observation
 logbinopdf     =  @(c,n,p) log(binopdf(c,n,p));
 
