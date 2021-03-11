@@ -107,7 +107,7 @@ classdef Metropolis < handle
                 % Add the current point to the chain
                 obj.AddToHistory(); 
             end
-            obj.PosteriorSamples = CleanHystory(obj)
+            obj.PosteriorSamples = obj.CleanHistory(obj)
         end
 
         function s = getSampleStatistics(obj)
