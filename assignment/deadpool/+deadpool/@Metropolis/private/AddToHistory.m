@@ -1,4 +1,4 @@
-function AddToHistory()
+function AddToHistory(obj)
 %AddToHystory - adds point X and PointY to history
 
     % Add current point to the history of X and Y
