@@ -98,9 +98,7 @@ classdef Metropolis < handle
                 
                 % If the proposal should be accepted, make the proposed
                 % point the current point
-                if obj.Accept
-                    obj.MakeProposalCurrent();
-                end
+                obj.MakeProposalCurrent();
 
                 %disp(obj,R)
                 
