@@ -60,7 +60,6 @@ classdef WienerNode < Node
         % Probability density kernel
         function knl = pdfKernel(obj, parameters)
             error('Not yet implemented')
-            % Drift, Bound, Nondecision, Bias
 %             knl = Wiener(parameters(1), parameters(2), parameters(3), parameters(4)).pdf(obj.Data);
         end
         
