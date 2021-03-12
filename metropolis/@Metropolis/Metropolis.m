@@ -6,7 +6,7 @@ classdef Metropolis < handle
                 
         InitialValues  double {mustBeReal, mustBeFinite}
         
-        TargetLogPdf function_handle
+        TargetLogPdf
         
         TransitionStd = 1
         
