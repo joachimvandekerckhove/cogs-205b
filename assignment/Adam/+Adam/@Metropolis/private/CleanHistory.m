@@ -6,7 +6,7 @@ function [X, Y, I] = CleanHistory(obj)
 
 X=obj.XHistory(obj.burnin+1:end);
 Y=obj.YHistory(obj.burnin+1:end);
-I=obj.StepCount(obj.burnin+1:end)
+I=obj.StepCount(obj.burnin+1:end);
             
 end
 
