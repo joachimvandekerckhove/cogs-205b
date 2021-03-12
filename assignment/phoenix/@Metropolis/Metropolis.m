@@ -24,11 +24,12 @@ classdef Metropolis < handle
         
         XDim
         StepCount = 0
-	AR
+	logAcceptRatio
         Accept = true
         
         XHistory = []
         YHistory = []
+	posteriorSamples = []
 
 	BurnIn = 10 %Arbitrary number here, should derive this
         
@@ -100,14 +101,15 @@ classdef Metropolis < handle
 		%obj.StepCount = obj.StepCount + 1
                 
             end
+	    obj.posteriorSamples = obj.CleanHistory();
             
         end
         
         
         function s = getSampleStatistics(obj)
         
-            s = mean(obj.YHistory);
-	    %postSD = std(obj.YHistory);
+            postMean = mean(obj.PosteriorSamples);
+	    postSD = std(obj.PosteriorSamples);
             
         end
                 
