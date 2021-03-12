@@ -1,6 +1,6 @@
 classdef Metropolis < handle
     % Metropolis  A class for the Metropolis algorithm
-    
+    % ZZ
     % The main properties
     properties
                 
@@ -28,6 +28,8 @@ classdef Metropolis < handle
         XHistory = []
         YHistory = []
         
+        logAcceptanceRatio = 0
+        burnin=102
     end
         
     % Methods are functions that belong to the class
@@ -56,8 +58,12 @@ classdef Metropolis < handle
         % Print the state of the sampler to screen
         function disp(obj)
             
-            error('Not yet implemented: disp()')
+            s = getSampleStatistics(obj);
             
+            fprintf('Current Mean: %.2f',s(1));
+            fprintf('Current Standard Deviation: %.2f',s(2));
+            
+
         end
         
         
@@ -95,8 +101,10 @@ classdef Metropolis < handle
         
         
         function s = getSampleStatistics(obj)
-        
-            error('Not yet implemented: getSampleStatistics()')
+            
+            Cmean=mean(obj.YHistory);
+            Cstd=std(obj.YHistory);
+            s=[Cmean;Cstd];
             
         end
                 
