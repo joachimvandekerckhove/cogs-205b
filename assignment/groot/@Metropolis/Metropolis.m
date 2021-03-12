@@ -23,7 +23,7 @@ classdef Metropolis < handle
         
         XDim 
         StepCount = 0
-        AcceptRatio = 0
+        LogAcceptRatio = 0
         Accept = true
         
         XHistory = []
