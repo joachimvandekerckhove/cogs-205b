@@ -73,10 +73,6 @@ logposterior   =  @(x) logprior(x) + loglikelihood(x);  % without scaling
 
 
 %% Markov chain Monte Carlo
-% 
-% m = Metropolis(logposterior, startingPoint);
-% m.DrawSamples(20000);
-
 
 nChains = 4;
 
@@ -92,7 +88,6 @@ end
 
 tic
 parfor c = 1:nChains
-    %m(c).DrawSamples(20000);
     t = m(c);
     t.DrawSamples(20000)
     m(c) = t;
