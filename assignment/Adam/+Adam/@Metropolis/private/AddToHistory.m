@@ -5,6 +5,6 @@ function AddToHistory(obj)
 
 obj.XHistory=[obj.XHistory obj.CurrentPointX];
 obj.YHistory=[obj.YHistory obj.CurrentPointY];
-obj.StepCount=[obj.StepCount obj.StepCount+1];
+obj.StepCount = obj.StepCount+1;
 
 end
