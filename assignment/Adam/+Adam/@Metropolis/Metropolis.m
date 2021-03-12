@@ -60,8 +60,8 @@ classdef Metropolis < handle
             
             s = getSampleStatistics(obj);
             
-            fprintf('Current Mean: %.2f',s(1));
-            fprintf('Current Standard Deviation: %.2f',s(2));
+            fprintf('Current Mean: %.2f\n',s(1));
+            fprintf('Current Standard Deviation: %.2f\n',s(2));
             
 
         end
