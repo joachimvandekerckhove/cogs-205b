@@ -4,8 +4,8 @@ function DecideAccept(obj)
 % accepted, and to false otherwise 
 
 
-if obj.logAcceptanceRatio > rand()
-    obj.Accept=ture;
+if obj.logAcceptanceRatio > log(rand())
+    obj.Accept=true;
 else
     obj.Accept=false;
 end
