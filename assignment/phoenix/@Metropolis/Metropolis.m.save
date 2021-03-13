@@ -61,6 +61,13 @@ classdef Metropolis < handle
         % Print the state of the sampler to screen
         function disp(obj)
 		%s = getSampleStatistics(obj);
+        	%fprintf("Current Mean: %.2f", s)               
+		%fprintf("Step %.2f", obj.StepCount)
+		%fprintf("Current X: %.2f", obj.CurrentPointX)
+		%fprintf("Current Y: %.2f", obj.CurrentPointY)
+		%fprintf("Prop X: %.2f", obj.ProposedPointX)
+		%fprintf("Prop Y: %.2f", obj.ProposedPointY)
+
         end
         
         
@@ -100,11 +107,10 @@ classdef Metropolis < handle
         
         
         function s = getSampleStatistics(obj)
-            %use cleaned posterior (burnin discarded) = n x 2
+            post	
             postMean = mean(obj.PosteriorSamples);
 	    postSD = std(obj.PosteriorSamples);
-	    s = table(postMean', postSD');
-	    s.Properties.VariableNames = {'Posterior Mean' 'Posterior SD'};
+		
             
         end
                 
