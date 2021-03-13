@@ -1,12 +1,13 @@
 classdef Metropolis < handle
     % Metropolis  A class for the Metropolis algorithm
+    % phoenix
     
     % The main properties
     properties
                 
         InitialValues  double {mustBeReal, mustBeFinite}
         
-        TargetLogPdf
+        TargetLogPdf function_handle %this should be some default anonymous function
         
         TransitionStd = 1
         
@@ -23,10 +24,14 @@ classdef Metropolis < handle
         
         XDim
         StepCount = 0
+	logAcceptRatio
         Accept = true
         
         XHistory = []
         YHistory = []
+	posteriorSamples = []
+
+	BurnIn = 10 %Arbitrary number here, should derive this
         
     end
         
@@ -55,9 +60,7 @@ classdef Metropolis < handle
         
         % Print the state of the sampler to screen
         function disp(obj)
-            
-            error('Not yet implemented: disp()')
-            
+		%s = getSampleStatistics(obj);
         end
         
         
@@ -88,15 +91,20 @@ classdef Metropolis < handle
                 
                 % Add the current point to the chain
                 obj.AddToHistory();
+		%obj.StepCount = obj.StepCount + 1
                 
             end
+	    obj.posteriorSamples = obj.CleanHistory();
             
         end
         
         
         function s = getSampleStatistics(obj)
-        
-            error('Not yet implemented: getSampleStatistics()')
+            %use cleaned posterior (burnin discarded) = n x 2
+            postMean = mean(obj.PosteriorSamples);
+	    postSD = std(obj.PosteriorSamples);
+	    s = table(postMean', postSD');
+	    s.Properties.VariableNames = {'Posterior Mean' 'Posterior SD'};
             
         end
                 
