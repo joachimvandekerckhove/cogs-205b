@@ -4,9 +4,9 @@ function [X, Y, I] = CleanHistory(obj)
 % of corresponding function values; and I, the vector of indices that
 % belong to the retained points.
 
-X=obj.XHistory(obj.burnin+1:end);
+X=obj.XHistory(:,obj.burnin+1:end);
 Y=obj.YHistory(obj.burnin+1:end);
-I=obj.StepCount(obj.burnin+1:end)
+I=obj.StepCount(obj.burnin+1:end);
             
 end
 
