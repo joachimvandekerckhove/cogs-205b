@@ -11,7 +11,7 @@
 This course provides an in-depth introduction to writing MATLAB programs to run simulations and numerical experiments.  Topics covered include program structure, random number generation, plotting, version control, basic model fitting, and numerical methods for integration and optimization.  Weekly programming assignments will ensure that students master the techniques presented.  Material includes working with linux-based remote computers and using common collaboration tools.
 
 ## Weekly meeting time and place
-Fridays 1:00 - 3:50P via Zoom; or asynchronously as determined by the instructor.
+Thursdays 2:00 - 4:50P via Zoom; or asynchronously as determined by the instructor.
 
 ## Prerequisites
 Must be comfortable with basic MATLAB and mathematical statistics at the level of one graduate course (e.g., COGS 203A/B, STATS 210, or equivalent).
