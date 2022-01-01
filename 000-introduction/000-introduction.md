@@ -1,4 +1,4 @@
-% Computational Lab Skills for Cognitive Science I-1
+% Computational Lab Skills for Cognitive Science
 % Joachim Vandekerckhove
 
 ---
@@ -7,7 +7,7 @@
 
 ---
 
-<img src="https://www.hpc.iastate.edu/sites/default/files/uploads/HPCHowTo/HPCCluster.JPG" width="650" />
+<img src="p/HPCCluster.JPG" width="650" />
 
 ---
 
@@ -17,8 +17,8 @@
 
 ### Unix
 
-<img src="http://www.ee.surrey.ac.uk/Teaching/Unix/media/unix-tree.png" width="500" />
-<img src="http://www.ee.surrey.ac.uk/Teaching/Unix/media/linux-penguin-small.png" width="80" />
+<img src="p/unix-tree.png" width="500" />
+<img src="p/linux-penguin-small.png" width="80" />
 
 ---
 
@@ -78,7 +78,7 @@ Version control
 
 ---
 
-![](https://wac-cdn.atlassian.com/dam/jcr:fcad863b-e0da-4a55-92ee-7caf4988e34e/02.svg)
+![](p/branch.svg)
 
 ---
 
