@@ -1,0 +1,206 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Solving for zero</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-12"><meta name="DC.source" content="newtonRaphson_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Solving for zero</h1><!--introduction--><p>A special case optimization problem is finding input values s.th. a function evaluates to 0.  This is closely related to the other optimization practices.  It is often called "solving" a function, "root finding," or simply "zero finding."</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Second title</a></li></ul></div><h2 id="1">Second title</h2><p>A simple but powerful algorithm for zero finding is the Newton-Raphson algorithm (sometimes just called Newton's).  The algorithm proceeds along these steps:</p><pre class="language-matlab">1. Start
+</pre><pre class="language-matlab">2. Define <span class="string">function</span> <span class="string">as</span> <span class="string">f(x)</span>
+</pre><pre class="language-matlab">3. Define <span class="string">derivative</span> <span class="string">of</span> <span class="string">function</span> <span class="string">as</span> <span class="string">g(x)</span>
+</pre><pre class="language-matlab">4. Input:
+	a. Initial guess <span class="string">x0</span>
+	b. Tolerable Error <span class="string">e</span>
+	c. Maximum Iteration <span class="string">N</span>
+</pre><pre class="language-matlab">5. Initialize <span class="string">iteration</span> <span class="string">counter</span> <span class="string">step</span> <span class="string">=</span> <span class="string">1</span>
+</pre><pre class="language-matlab">6. Do
+	If <span class="string">g(x0)</span> <span class="string">=</span> <span class="string">0</span>
+		Print <span class="string">"Mathematical</span> <span class="string">Error"</span>
+		Stop
+	End <span class="string">If</span>
+</pre><pre class="language-matlab">	x1 = x0 - f(x0) / g(x0)
+	x0 = x1
+</pre><pre class="language-matlab">	step = step + 1
+</pre><pre class="language-matlab">	If <span class="string">step</span> <span class="string">&gt;</span> <span class="string">N</span>
+		Print <span class="string">"Not</span> <span class="string">Convergent"</span>
+		Stop
+	End <span class="string">If</span>
+</pre><pre>    While abs f(x1) &gt; e</pre><pre class="language-matlab">7. Print <span class="string">root</span> <span class="string">as</span> <span class="string">x1</span>
+</pre><pre class="language-matlab">8. Stop
+</pre><p>One reason not everyone likes the NR algorithm is that it requires the user to provide the first derivative of the objective function as a function.  There are ways around this, but let's look at a scenario where we know the first derivative easily.</p><pre class="codeinput">objective  = @(x) -x.^2 + 5*x + 100;
+derivative = @(x) -2*x + 5;
+
+nr = NewtonRaphson(objective, derivative);
+nr.Solve();
+disp(nr)
+root = nr.Solution
+</pre><pre class="codeoutput">  NewtonRaphson object
+
+      ^ Objective      = @(x)-x.^2+5*x+100
+      ^ Derivative     = @(x)-2*x+5
+      ^ CurrentX       = -7.807764
+      ^ CurrentY       = -0.000000
+      ^ StepCount      = 7
+      ^ TolerableError = 0.000000
+
+root =
+   -7.8078
+</pre><img vspace="5" hspace="5" src="newtonRaphson_intro_01.png" alt=""> <p>Note that the NR algorithm finds you <b>a</b> solution.  There may be many!</p><pre class="codeinput">objective  = @(x)       5 * sin( 2 * pi * x + 5) + x;
+derivative = @(x) pi * 10 * cos( 2 * pi * x + 5) + 1;
+
+nr = NewtonRaphson(objective, derivative);
+nr.Solve();
+disp(nr)
+root = nr.Solution
+</pre><pre class="codeoutput">  NewtonRaphson object
+
+      ^ Objective      = @(x)5*sin(2*pi*x+5)+x
+      ^ Derivative     = @(x)pi*10*cos(2*pi*x+5)+1
+      ^ CurrentX       = 1.761526
+      ^ CurrentY       = 0.000000
+      ^ StepCount      = 7
+      ^ TolerableError = 0.000000
+
+root =
+    1.7615
+</pre><img vspace="5" hspace="5" src="newtonRaphson_intro_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Solving for zero
+% A special case optimization problem is finding
+% input values s.th. a function evaluates to 0.  This is closely related to
+% the other optimization practices.  It is often called "solving" a
+% function, "root finding," or simply "zero finding."
+%
+%% Second title
+% A simple but powerful algorithm for zero finding is the Newton-Raphson
+% algorithm (sometimes just called Newton's).  The algorithm proceeds along
+% these steps:
+
+%%
+% 
+%   1. Start
+%   
+%   2. Define function as f(x)
+%   
+%   3. Define derivative of function as g(x)
+%   
+%   4. Input:
+%   	a. Initial guess x0 
+%   	b. Tolerable Error e
+%   	c. Maximum Iteration N
+%   
+%   5. Initialize iteration counter step = 1
+%   
+%   6. Do 
+%   	If g(x0) = 0
+%   		Print "Mathematical Error"
+%   		Stop
+%   	End If
+%   
+%   	x1 = x0 - f(x0) / g(x0)
+%   	x0 = x1
+%   	
+%   	step = step + 1
+%   	
+%   	If step > N
+%   		Print "Not Convergent"
+%   		Stop
+%   	End If
+%   
+%      While abs f(x1) > e 
+%   
+%   7. Print root as x1
+%   
+%   8. Stop
+% 
+
+%%
+% One reason not everyone likes the NR algorithm is that it requires the
+% user to provide the first derivative of the objective function as a
+% function.  There are ways around this, but let's look at a scenario where
+% we know the first derivative easily.
+
+objective  = @(x) -x.^2 + 5*x + 100;
+derivative = @(x) -2*x + 5;
+
+nr = NewtonRaphson(objective, derivative);
+nr.Solve();
+disp(nr)
+root = nr.Solution
+
+%%
+% Note that the NR algorithm finds you *a* solution.  There may be many!
+
+objective  = @(x)       5 * sin( 2 * pi * x + 5) + x;
+derivative = @(x) pi * 10 * cos( 2 * pi * x + 5) + 1;
+
+nr = NewtonRaphson(objective, derivative);
+nr.Solve();
+disp(nr)
+root = nr.Solution
+
+
+##### SOURCE END #####
+--></body></html>
