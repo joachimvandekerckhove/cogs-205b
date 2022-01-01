@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Quadrature</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-02-19"><meta name="DC.source" content="quadrature_intro.m"><style type="text/css">
+      --><title>Quadrature</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-01-01"><meta name="DC.source" content="quadrature_intro.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,8 +67,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Quadrature</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Gauss-Hermite Quadrature</a></li><li><a href="#4">Gauss-Hermite Example</a></li></ul></div><h2 id="1">Gauss-Hermite Quadrature</h2><p>There are many specialized methods for efficient integration.  They only work in very specific circumstances.  One that is very useful is <b>Gauss-Hermite quadrature</b>, which is ideal for integrating functions that include a normal distribution as a factor.  For example, consider the expected value of <img src="quadrature_intro_eq17663307419741296505.png" alt="$f(x)$"> if <img src="quadrature_intro_eq01570185680853650194.png" alt="$x \sim N(\mu,\sigma^2)$">:</p><p><img src="quadrature_intro_eq00165413181323594935.png" alt="$$E(f(x)) = \int_{-\infty}^{+\infty}f(x)p(x)dx$$"></p><p><img src="quadrature_intro_eq15673993555296986865.png" alt="$$p(x) = \frac{1}{\sqrt{2\pi}\sigma}&#xA;\exp\left[{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}\right]$$"></p><p>It turns out this can be well approximated by a weighted average of the function evaluated at specifically chosen points:</p><p><img src="quadrature_intro_eq10388608788287975788.png" alt="$$ \int_{-\infty}^{+\infty}f(x)p(x)dx = \frac{1}{\sqrt{\pi}}\sum_k^K w_k&#xA;f\left( x_k \sigma\sqrt{2} + \mu \right) $$"></p><h2 id="4">Gauss-Hermite Example</h2><p>Let's see this at work for <img src="quadrature_intro_eq09584362207907576838.png" alt="$f(x) = x^4$">:</p><pre class="codeinput">fcn = @(x) x.^4 ;
-</pre><p>Let's also set the parameters of the <img src="quadrature_intro_eq12428413953531653171.png" alt="$x$"> distribution:</p><pre class="codeinput">mu = 1;
+  </style></head><body><div class="content"><h1>Quadrature</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Gauss-Hermite Quadrature</a></li><li><a href="#4">Gauss-Hermite Example</a></li></ul></div><h2 id="1">Gauss-Hermite Quadrature</h2><p>There are many specialized methods for efficient integration.  They only work in very specific circumstances.  One that is very useful is <b>Gauss-Hermite quadrature</b>, which is ideal for integrating functions that include a normal distribution as a factor.  For example, consider the expected value of <img src="quadrature_intro_eq01058714691934937683.png" alt="$f(x)$"> if <img src="quadrature_intro_eq08283415342608574388.png" alt="$x \sim N(\mu,\sigma^2)$">:</p><p><img src="quadrature_intro_eq15871263955908782952.png" alt="$$E(f(x)) = \int_{-\infty}^{+\infty}f(x)p(x)dx$$"></p><p><img src="quadrature_intro_eq11683782443000000597.png" alt="$$p(x) = \frac{1}{\sqrt{2\pi}\sigma}&#xA;\exp\left[{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}\right]$$"></p><p>It turns out this can be well approximated by a weighted average of the function evaluated at specifically chosen points:</p><p><img src="quadrature_intro_eq02849282414845222337.png" alt="$$ \int_{-\infty}^{+\infty}f(x)p(x)dx = \frac{1}{\sqrt{\pi}}\sum_k^K w_k&#xA;f\left( x_k \sigma\sqrt{2} + \mu \right) $$"></p><h2 id="4">Gauss-Hermite Example</h2><p>Let's see this at work for <img src="quadrature_intro_eq05341950331529872904.png" alt="$f(x) = x^4$">:</p><pre class="codeinput">fcn = @(x) x.^4 ;
+</pre><p>Let's also set the parameters of the <img src="quadrature_intro_eq16247206711595679522.png" alt="$x$"> distribution:</p><pre class="codeinput">mu = 1;
 si = 1;
 </pre><p>Those specifically chosen points are called the <b>quadrature nodes</b>, and you can just look them up!  These are the weights <tt>w</tt> and nodes <tt>x</tt> for 20 nodes (the values change if you choose a different number of nodes).</p><pre class="codeinput">w = [ 2.22939E-13  4.39934E-10  1.08607E-7  7.80256E-6  2.28339E-4 <span class="keyword">...</span>
       0.00324377   0.0248105    0.109017    0.286676    0.462244   <span class="keyword">...</span>
@@ -86,7 +86,7 @@ A =
 
    10.0000
 
-</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Quadrature
 % 

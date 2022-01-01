@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Joachim Vandekerckhove">
+  <title>MATLAB code organization</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+<style>
+  html, .view body { background-color: black; counter-reset: slideidx; }
+  body, .view section { background-color: white; border-radius: 12px }
+  /* A section is a slide. It's size is 800x600, and this will never change */
+  section, .view head > title {
+      font-family: 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', arial, serif;
+      font-size: 30px;
+  }
+
+  .view section:after {
+    counter-increment: slideidx;
+    content: counter(slideidx, decimal-leading-zero);
+    position: absolute; bottom: -80px; right: 100px;
+    color: white;
+  }
+
+  .view head > title {
+    color: white;
+    text-align: center;
+    margin: 1em 0 1em 0;
+  }
+
+  h1, h2 {
+    margin-top: 200px;
+    text-align: center;
+    font-size: 80px;
+  }
+  h3 {
+    margin: 100px 0 50px 100px;
+  }
+
+  ul {
+      margin: 50px 200px;
+  }
+  li > ul {
+      margin: 15px 50px;
+  }
+
+  p {
+    margin: 75px;
+    font-size: 50px;
+  }
+
+  blockquote {
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-size: 60px;
+    padding: 50px;
+  }
+  blockquote:before {
+    content: open-quote;
+  }
+  blockquote:after {
+    content: close-quote;
+  }
+
+  /* Figures are displayed full-page, with the caption
+     on top of the image/video */
+  figure {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+  }
+  figure > * {
+    position: absolute;
+  }
+  figure > img, figure > video {
+    width: 100%; height: 100%;
+  }
+  figcaption {
+    margin: 70px;
+    font-size: 50px;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 40px;
+    text-align: right;
+    background-color: #F3F4F8;
+    border-top: 1px solid #CCC;
+  }
+
+  /* Transition effect */
+  /* Feel free to change the transition effect for original
+     animations. See here:
+     https://developer.mozilla.org/en/CSS/CSS_transitions
+     How to use CSS3 Transitions: */
+  section {
+    -moz-transition: left 400ms linear 0s;
+    -webkit-transition: left 400ms linear 0s;
+    -ms-transition: left 400ms linear 0s;
+    transition: left 400ms linear 0s;
+  }
+  .view section {
+    -moz-transition: none;
+    -webkit-transition: none;
+    -ms-transition: none;
+    transition: none;
+  }
+
+  .view section[aria-selected] {
+    border: 5px red solid;
+  }
+
+  /* Before */
+  section { left: -150%; }
+  /* Now */
+  section[aria-selected] { left: 0; }
+  /* After */
+  section[aria-selected] ~ section { left: +150%; }
+
+  /* Incremental elements */
+
+  /* By default, visible */
+  .incremental > * { opacity: 1; }
+
+  /* The current item */
+  .incremental > *[aria-selected] { opacity: 1; }
+
+  /* The items to-be-selected */
+  .incremental > *[aria-selected] ~ * { opacity: 0; }
+
+  /* The progressbar, at the bottom of the slides, show the global
+     progress of the presentation. */
+  #progress-bar {
+    height: 2px;
+    background: #AAA;
+  }
+</style>
+</head>
+<body>
+<section class="title">
+  <h1 class="title">MATLAB code organization</h1>
+  <footer>
+    <span class="author">Joachim Vandekerckhove</span> · 
+  </footer>
+</section>
+<section id="calling-system-commands" class="slide level2">
+<h2>Calling system commands</h2>
+<pre><code>system()
+
+!</code></pre>
+</section>
+<section id="functions-and-scripts" class="slide level2">
+<h2>Functions and scripts</h2>
+<h3 id="basic-scoping">Basic scoping</h3>
+<p>In every programming language, we use names to refer to things – functions, variables, objects, and so on. This link between a name and a thing is called <strong>name binding</strong>.</p>
+<p>Name bindings are context specific. The variable <code>foo</code> can refer to one thing in one program and to another thing in another program.</p>
+<p>Scope rules are the rules that determine where a specific name binding is valid.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="scripts">Scripts</h3>
+<p>In MATLAB, the <strong>workspace</strong> is one scope. Scripts work in the workspace scope.</p>
+<p>This has mostly disadvantages. Most importantly, running a script <em>twice</em> can easily give different results if a variable was changed in the course of the script.</p>
+<p>The main use case of a script is if you are automating an entire MATLAB session (e.g., running in batch mode on the cluster).</p>
+</section>
+<section class="slide level2">
+
+<h3 id="functions">Functions</h3>
+<p>MATLAB functions have their own scope. You can make variables inside a function, overwrite them and delete them, and they will not affect the workspace (unless you explicitly try, which you shouldn’t, it’s very rude).</p>
+<p>MATLAB’s <code>function-end statement</code> defines a scope.</p>
+</section>
+<section class="slide level2">
+
+<h4 id="intermediate-scoping">Intermediate scoping</h4>
+<p>You can define a function inside another function’s <code>function-end statement</code>. Such nested functions <em>can</em> share variables with their parent function.</p>
+<p>You can also define a second function in another function’s m-file but outside the <code>function-end statement</code>. Such subfunctions cannot share variables with their parent function.</p>
+</section>
+<section class="slide level2">
+
+<h4 id="anonymous-functions">Anonymous functions</h4>
+<p>You can also define functions “on the fly” inside a script or another function. Such anonymous functions can <em>see</em> the variables in their parent scope but can’t <em>change</em> them. Anonymous functions can be saved as variables, which will be incredibly useful soon.</p>
+<pre><code>myAnonFun = @(x,y) sprintf(&#39;%d^%d = %g&#39;, x,y,x^y)</code></pre>
+<p>Anonymous functions can store variables:</p>
+<pre><code>&gt;&gt; a = 5;
+&gt;&gt; timesA = @(x) x * a;
+&gt;&gt; timesA(3)
+ans =
+    15
+&gt;&gt; a = 4;
+&gt;&gt; timesA(3)
+ans =
+    15</code></pre>
+</section>
+<section class="slide level2">
+
+<h4 id="default-inputs">Default inputs</h4>
+<p>MATLAB functions start with a template line that defines the input and output variables:</p>
+<pre><code>function [myOutput, secondOut] = thisIsFun(firstIn, another)</code></pre>
+<p>There’s a function, <code>nargin</code> that counts the number of input arguments (there’s also <code>nargout</code>, the purpose of which I will let you figure out on your own). So this is a common structure:</p>
+<pre><code>if nargin &lt; 2
+    another = 1;      % default in case only one was provided
+    if nargin &lt; 1
+        firstIn = 0;  % default in case no input was provided
+    end
+end</code></pre>
+</section>
+<section id="reading-and-writing-text-files" class="slide level2">
+<h2>Reading and writing text files</h2>
+<pre><code>uiimport()
+readmatrix(), writematrix()
+readcell(), writecell()
+readtable(), writetable()</code></pre>
+<h3 id="getting-input-from-the-console">Getting input from the console</h3>
+<pre><code>input()</code></pre>
+</section>
+<section class="slide level2">
+
+<h3 id="printing-to-the-console">Printing to the console</h3>
+<p>Unformatted printing</p>
+<pre><code>disp()</code></pre>
+<p>Formatted printing and format strings</p>
+<pre><code>sprintf()
+fprintf()</code></pre>
+</section>
+<section class="slide level2">
+
+<h3 id="printing-to-a-file">Printing to a file</h3>
+<p>Streams and file IDs</p>
+<pre><code>fopen(), fclose()
+fprintf()</code></pre>
+<h3 id="low-level-io">Low-level I/O</h3>
+<p>Pointers in streams</p>
+<pre><code>fscanf()</code></pre>
+<p>A relatively general-purpose structure is this:</p>
+<pre><code>fid = fopen(&#39;myFile.ext&#39;);
+while ~feof(fid)
+    buffer = fgetl();  % read until next line break
+    % do something depending on line
+end
+fclose(fid);</code></pre>
+</section>
+<section id="classes-and-packages" class="slide level2">
+<h2><span class="citation" data-cites="classes">@classes</span> and +packages</h2>
+<h3 id="object-oriented-programming">Object-oriented programming</h3>
+<p>Object-oriented programming involves thinking of problems as interactions between entities.</p>
+<p>A class is a set of objects with similar features. A typical kind of class is a <code>User</code> or a <code>Product</code>. MATLAB objects have <em>properties</em> (variables that belong to it) and <em>methods</em> (functions that belong to it).</p>
+<p>Classes can exist in a hierarchy, where they inherit properties or methods from superclasses.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="methods">Methods</h3>
+<p>Constructor – <code>className()</code></p>
+<p>Display – <code>disp()</code></p>
+<p>Getters – <code>get.MyProperty()</code></p>
+<p>Setters – <code>set.MyProperty()</code></p>
+<p>Ordinary methods – <code>obj.someMethod()</code> or (equivalently) <code>someMethod(obj)</code></p>
+<p>Static methods – <code>someMethod()</code> (does not take an object as input)</p>
+</section>
+<section class="slide level2">
+
+<h3 id="class-files-class-folders">Class files, class folders</h3>
+<p>There are two ways to define a MATLAB class. You can define a class in its own file (which will get large), or you can define it in many files inside a dedicated folder that starts with an <code>@</code>.</p>
+<p>Class methods and properties are <em>scoped to the class</em>; they can be <em>public</em> (visible externally), <em>private</em> (visible only to other methods in the class), or <em>protected</em> (also visible to child class methods). They can be given a number of attributes.</p>
+</section>
+<section class="slide level2">
+
+<h3 id="a-class">A class</h3>
+<pre><code>classdef LabResult
+   properties
+      CurrentValue
+   end
+   properties (Transient)
+      Status
+   end
+   methods
+      function obj = LabResult(cv)
+         obj.CurrentValue = cv;
+         obj = assignStatus(obj);
+      end
+      function obj = assignStatus(obj)
+         if obj.CurrentValue &lt; 10
+             obj.Status = &#39;Too low&#39;;
+         else 
+             obj.Status = &#39;Too high&#39;;
+         end
+      end
+   end
+   methods (Static)
+      function obj = loadobj(s)
+         if isstruct(s) 
+             obj = LabResults(s.CurrentValue);
+         else 
+             obj = assignStatus(s);
+         end
+      end
+   end
+end</code></pre>
+</section>
+<section class="slide level2">
+
+<h3 id="package-folders">Package folders</h3>
+<p>MATLAB is very widely used and many people contribute code to it. Function name clashes are somewhat inevitable. This is where <strong>package folders</strong> come in handy.</p>
+<p>A package folder is just a folder whose name starts with <code>+</code>.</p>
+<p>Names of classes and functions are <em>scoped to the package folder</em>. Internally, they all see each other. Externally, you have to prepend the package name (i.e., you can call functions in the package with <code>myPackage.myFun</code> and you can create classes with <code>myPackage.myClass</code>).</p>
+</section>
+<section id="use-cases" class="slide level2">
+<h2>Use cases</h2>
+<p><strong>Classes</strong> are most useful when you have multiple functions that operate on a similar kind of data or type of variable.</p>
+<p><strong>Packages</strong> are most useful when you have many functions that functionally belong together but aren’t necessarily associated with a particular kind of input.</p>
+</section>
+<section id="assignment" class="slide level2">
+<h2>Assignment</h2>
+<p>Make a +package called /+&lt;your-pseudonym&gt; with just a class <code>@Norm2d</code></p>
+<ul>
+<li><code>@norm2d % implements the bivariate normal likelihood equivalence class</code></li>
+<li>Has at least the properties <code>Mean</code> (2x1 vector) and <code>Covariance</code> (2x2 matrix)</li>
+<li>Include getters/setters and these six methods: (log)pdf, (log)cdf, rand, deviance</li>
+<li>Make sure everything works on matrix input</li>
+<li>Avoid duplicating code</li>
+</ul>
+</section>
+<!-- {{{{ dzslides core
+#
+#
+#     __  __  __       .  __   ___  __
+#    |  \  / /__` |    | |  \ |__  /__`
+#    |__/ /_ .__/ |___ | |__/ |___ .__/ core :€
+#
+#
+# The following block of code is not supposed to be edited.
+# But if you want to change the behavior of these slides,
+# feel free to hack it!
+#
+-->
+
+<div id="progress-bar"></div>
+
+<!-- Default Style -->
+<style>
+  * { margin: 0; padding: 0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+  [role="note"] { display: none; }
+  body {
+    width: 800px; height: 600px;
+    margin-left: -400px; margin-top: -300px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+    display: none;
+  }
+  .view body {
+    position: static;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    display: inline-block;
+    overflow: visible; overflow-x: hidden;
+    /* undo Dz.onresize */
+    transform: none !important;
+    -moz-transform: none !important;
+    -webkit-transform: none !important;
+    -o-transform: none !important;
+    -ms-transform: none !important;
+  }
+  .view head, .view head > title { display: block }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  .view section {
+    pointer-events: auto;
+    position: static;
+    width: 800px; height: 600px;
+    margin: -150px -200px;
+    float: left;
+
+    transform: scale(.4);
+    -moz-transform: scale(.4);
+    -webkit-transform: scale(.4);
+    -o-transform: scale(.4);
+    -ms-transform: scale(.4);
+  }
+  .view section > * { pointer-events: none; }
+  section[aria-selected] { pointer-events: auto; }
+  html { overflow: hidden; }
+  html.view { overflow: visible; }
+  body.loaded { display: block; }
+  .incremental {visibility: hidden; }
+  .incremental[active] {visibility: visible; }
+  #progress-bar{
+    bottom: 0;
+    position: absolute;
+    -moz-transition: width 400ms linear 0s;
+    -webkit-transition: width 400ms linear 0s;
+    -ms-transition: width 400ms linear 0s;
+    transition: width 400ms linear 0s;
+  }
+  .view #progress-bar {
+    display: none;
+  }
+</style>
+
+<script>
+  var Dz = {
+    remoteWindows: [],
+    idx: -1,
+    step: 0,
+    html: null,
+    slides: null,
+    progressBar : null,
+    params: {
+      autoplay: "1"
+    }
+  };
+
+  Dz.init = function() {
+    document.body.className = "loaded";
+    this.slides = Array.prototype.slice.call($$("body > section"));
+    this.progressBar = $("#progress-bar");
+    this.html = document.body.parentNode;
+    this.setupParams();
+    this.onhashchange();
+    this.setupTouchEvents();
+    this.onresize();
+    this.setupView();
+  }
+
+  Dz.setupParams = function() {
+    var p = window.location.search.substr(1).split('&');
+    p.forEach(function(e, i, a) {
+      var keyVal = e.split('=');
+      Dz.params[keyVal[0]] = decodeURIComponent(keyVal[1]);
+    });
+  // Specific params handling
+    if (!+this.params.autoplay)
+      $$.forEach($$("video"), function(v){ v.controls = true });
+  }
+
+  Dz.onkeydown = function(aEvent) {
+    // Don't intercept keyboard shortcuts
+    if (aEvent.altKey
+      || aEvent.ctrlKey
+      || aEvent.metaKey
+      || aEvent.shiftKey) {
+      return;
+    }
+    if ( aEvent.keyCode == 37 // left arrow
+      || aEvent.keyCode == 38 // up arrow
+      || aEvent.keyCode == 33 // page up
+    ) {
+      aEvent.preventDefault();
+      this.back();
+    }
+    if ( aEvent.keyCode == 39 // right arrow
+      || aEvent.keyCode == 40 // down arrow
+      || aEvent.keyCode == 34 // page down
+    ) {
+      aEvent.preventDefault();
+      this.forward();
+    }
+    if (aEvent.keyCode == 35) { // end
+      aEvent.preventDefault();
+      this.goEnd();
+    }
+    if (aEvent.keyCode == 36) { // home
+      aEvent.preventDefault();
+      this.goStart();
+    }
+    if (aEvent.keyCode == 32) { // space
+      aEvent.preventDefault();
+      this.toggleContent();
+    }
+    if (aEvent.keyCode == 70) { // f
+      aEvent.preventDefault();
+      this.goFullscreen();
+    }
+    if (aEvent.keyCode == 79) { // o
+      aEvent.preventDefault();
+      this.toggleView();
+    }
+  }
+
+  /* Touch Events */
+
+  Dz.setupTouchEvents = function() {
+    var orgX, newX;
+    var tracking = false;
+
+    var db = document.body;
+    db.addEventListener("touchstart", start.bind(this), false);
+    db.addEventListener("touchmove", move.bind(this), false);
+
+    function start(aEvent) {
+      aEvent.preventDefault();
+      tracking = true;
+      orgX = aEvent.changedTouches[0].pageX;
+    }
+
+    function move(aEvent) {
+      if (!tracking) return;
+      newX = aEvent.changedTouches[0].pageX;
+      if (orgX - newX > 100) {
+        tracking = false;
+        this.forward();
+      } else {
+        if (orgX - newX < -100) {
+          tracking = false;
+          this.back();
+        }
+      }
+    }
+  }
+
+  Dz.setupView = function() {
+    document.body.addEventListener("click", function ( e ) {
+      if (!Dz.html.classList.contains("view")) return;
+      if (!e.target || e.target.nodeName != "SECTION") return;
+
+      Dz.html.classList.remove("view");
+      Dz.setCursor(Dz.slides.indexOf(e.target) + 1);
+    }, false);
+  }
+
+  /* Adapt the size of the slides to the window */
+
+  Dz.onresize = function() {
+    var db = document.body;
+    var sx = db.clientWidth / window.innerWidth;
+    var sy = db.clientHeight / window.innerHeight;
+    var transform = "scale(" + (1/Math.max(sx, sy)) + ")";
+
+    db.style.MozTransform = transform;
+    db.style.WebkitTransform = transform;
+    db.style.OTransform = transform;
+    db.style.msTransform = transform;
+    db.style.transform = transform;
+  }
+
+
+  Dz.getNotes = function(aIdx) {
+    var s = $("section:nth-of-type(" + aIdx + ")");
+    var d = s.$("[role='note']");
+    return d ? d.innerHTML : "";
+  }
+
+  Dz.onmessage = function(aEvent) {
+    var argv = aEvent.data.split(" "), argc = argv.length;
+    argv.forEach(function(e, i, a) { a[i] = decodeURIComponent(e) });
+    var win = aEvent.source;
+    if (argv[0] === "REGISTER" && argc === 1) {
+      this.remoteWindows.push(win);
+      this.postMsg(win, "REGISTERED", document.title, this.slides.length);
+      this.postMsg(win, "CURSOR", this.idx + "." + this.step);
+      return;
+    }
+    if (argv[0] === "BACK" && argc === 1)
+      this.back();
+    if (argv[0] === "FORWARD" && argc === 1)
+      this.forward();
+    if (argv[0] === "START" && argc === 1)
+      this.goStart();
+    if (argv[0] === "END" && argc === 1)
+      this.goEnd();
+    if (argv[0] === "TOGGLE_CONTENT" && argc === 1)
+      this.toggleContent();
+    if (argv[0] === "SET_CURSOR" && argc === 2)
+      window.location.hash = "#" + argv[1];
+    if (argv[0] === "GET_CURSOR" && argc === 1)
+      this.postMsg(win, "CURSOR", this.idx + "." + this.step);
+    if (argv[0] === "GET_NOTES" && argc === 1)
+      this.postMsg(win, "NOTES", this.getNotes(this.idx));
+  }
+
+  Dz.toggleContent = function() {
+    // If a Video is present in this new slide, play it.
+    // If a Video is present in the previous slide, stop it.
+    var s = $("section[aria-selected]");
+    if (s) {
+      var video = s.$("video");
+      if (video) {
+        if (video.ended || video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      }
+    }
+  }
+
+  Dz.setCursor = function(aIdx, aStep) {
+    // If the user change the slide number in the URL bar, jump
+    // to this slide.
+    aStep = (aStep != 0 && typeof aStep !== "undefined") ? "." + aStep : ".0";
+    window.location.hash = "#" + aIdx + aStep;
+  }
+
+  Dz.onhashchange = function() {
+    var cursor = window.location.hash.split("#"),
+        newidx = 1,
+        newstep = 0;
+    if (cursor.length == 2) {
+      newidx = ~~cursor[1].split(".")[0];
+      newstep = ~~cursor[1].split(".")[1];
+      if (newstep > Dz.slides[newidx - 1].$$('.incremental > *').length) {
+        newstep = 0;
+        newidx++;
+      }
+    }
+    this.setProgress(newidx, newstep);
+    if (newidx != this.idx) {
+      this.setSlide(newidx);
+    }
+    if (newstep != this.step) {
+      this.setIncremental(newstep);
+    }
+    for (var i = 0; i < this.remoteWindows.length; i++) {
+      this.postMsg(this.remoteWindows[i], "CURSOR", this.idx + "." + this.step);
+    }
+  }
+
+  Dz.back = function() {
+    if (this.idx == 1 && this.step == 0) {
+      return;
+    }
+    if (this.step == 0) {
+      this.setCursor(this.idx - 1,
+                     this.slides[this.idx - 2].$$('.incremental > *').length);
+    } else {
+      this.setCursor(this.idx, this.step - 1);
+    }
+  }
+
+  Dz.forward = function() {
+    if (this.idx >= this.slides.length &&
+        this.step >= this.slides[this.idx - 1].$$('.incremental > *').length) {
+        return;
+    }
+    if (this.step >= this.slides[this.idx - 1].$$('.incremental > *').length) {
+      this.setCursor(this.idx + 1, 0);
+    } else {
+      this.setCursor(this.idx, this.step + 1);
+    }
+  }
+
+  Dz.goStart = function() {
+    this.setCursor(1, 0);
+  }
+
+  Dz.goEnd = function() {
+    var lastIdx = this.slides.length;
+    var lastStep = this.slides[lastIdx - 1].$$('.incremental > *').length;
+    this.setCursor(lastIdx, lastStep);
+  }
+
+  Dz.toggleView = function() {
+    this.html.classList.toggle("view");
+
+    if (this.html.classList.contains("view")) {
+      $("section[aria-selected]").scrollIntoView(true);
+    }
+  }
+
+  Dz.setSlide = function(aIdx) {
+    this.idx = aIdx;
+    var old = $("section[aria-selected]");
+    var next = $("section:nth-of-type("+ this.idx +")");
+    if (old) {
+      old.removeAttribute("aria-selected");
+      var video = old.$("video");
+      if (video) {
+        video.pause();
+      }
+    }
+    if (next) {
+      next.setAttribute("aria-selected", "true");
+      if (this.html.classList.contains("view")) {
+        next.scrollIntoView();
+      }
+      var video = next.$("video");
+      if (video && !!+this.params.autoplay) {
+        video.play();
+      }
+    } else {
+      // That should not happen
+      this.idx = -1;
+      // console.warn("Slide doesn't exist.");
+    }
+  }
+
+  Dz.setIncremental = function(aStep) {
+    this.step = aStep;
+    var old = this.slides[this.idx - 1].$('.incremental > *[aria-selected]');
+    if (old) {
+      old.removeAttribute('aria-selected');
+    }
+    var incrementals = $$('.incremental');
+    if (this.step <= 0) {
+      $$.forEach(incrementals, function(aNode) {
+        aNode.removeAttribute('active');
+      });
+      return;
+    }
+    var next = this.slides[this.idx - 1].$$('.incremental > *')[this.step - 1];
+    if (next) {
+      next.setAttribute('aria-selected', true);
+      next.parentNode.setAttribute('active', true);
+      var found = false;
+      $$.forEach(incrementals, function(aNode) {
+        if (aNode != next.parentNode)
+          if (found)
+            aNode.removeAttribute('active');
+          else
+            aNode.setAttribute('active', true);
+        else
+          found = true;
+      });
+    } else {
+      setCursor(this.idx, 0);
+    }
+    return next;
+  }
+
+  Dz.goFullscreen = function() {
+    var html = $('html'),
+        requestFullscreen = html.requestFullscreen || html.requestFullScreen || html.mozRequestFullScreen || html.webkitRequestFullScreen;
+    if (requestFullscreen) {
+      requestFullscreen.apply(html);
+    }
+  }
+  
+  Dz.setProgress = function(aIdx, aStep) {
+    var slide = $("section:nth-of-type("+ aIdx +")");
+    if (!slide)
+      return;
+    var steps = slide.$$('.incremental > *').length + 1,
+        slideSize = 100 / (this.slides.length - 1),
+        stepSize = slideSize / steps;
+    this.progressBar.style.width = ((aIdx - 1) * slideSize + aStep * stepSize) + '%';
+  }
+  
+  Dz.postMsg = function(aWin, aMsg) { // [arg0, [arg1...]]
+    aMsg = [aMsg];
+    for (var i = 2; i < arguments.length; i++)
+      aMsg.push(encodeURIComponent(arguments[i]));
+    aWin.postMessage(aMsg.join(" "), "*");
+  }
+  
+  function init() {
+    Dz.init();
+    window.onkeydown = Dz.onkeydown.bind(Dz);
+    window.onresize = Dz.onresize.bind(Dz);
+    window.onhashchange = Dz.onhashchange.bind(Dz);
+    window.onmessage = Dz.onmessage.bind(Dz);
+  }
+
+  window.onload = init;
+</script>
+
+
+<script> // Helpers
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+
+      // closest thing possible to the ECMAScript 5 internal IsCallable
+      // function 
+      if (typeof this !== "function")
+      throw new TypeError(
+        "Function.prototype.bind - what is trying to be fBound is not callable"
+      );
+
+      var aArgs = Array.prototype.slice.call(arguments, 1),
+          fToBind = this,
+          fNOP = function () {},
+          fBound = function () {
+            return fToBind.apply( this instanceof fNOP ? this : oThis || window,
+                   aArgs.concat(Array.prototype.slice.call(arguments)));
+          };
+
+      fNOP.prototype = this.prototype;
+      fBound.prototype = new fNOP();
+
+      return fBound;
+    };
+  }
+
+  var $ = (HTMLElement.prototype.$ = function(aQuery) {
+    return this.querySelector(aQuery);
+  }).bind(document);
+
+  var $$ = (HTMLElement.prototype.$$ = function(aQuery) {
+    return this.querySelectorAll(aQuery);
+  }).bind(document);
+
+  $$.forEach = function(nodeList, fun) {
+    Array.prototype.forEach.call(nodeList, fun);
+  }
+
+</script>
+<!-- vim: set fdm=marker: }}} -->
+</body>
+</html>

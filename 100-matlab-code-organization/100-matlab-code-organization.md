@@ -1,8 +1,5 @@
-class: center, middle
-
-# MATLAB code organization
-.right[Joachim Vandekerckhove]
-.right[Winter 2021]
+% MATLAB code organization
+% Joachim Vandekerckhove
 
 ---
 

@@ -1,4 +1,5 @@
-# Good coding practice
+% Good coding practice
+% Joachim Vandekerckhove
 
 ---
 
