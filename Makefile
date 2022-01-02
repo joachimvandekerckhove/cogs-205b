@@ -1,3 +1,5 @@
+all: subdirs README.md
+
 SUBDIRS = \
     000-introduction \
     100-matlab-code-organization \
@@ -12,6 +14,9 @@ subdirs: $(SUBDIRS)
 
 $(SUBDIRS):
 	$(MAKE) -C $@ all
+
+README.md: syllabus.md
+	cp syllabus.md README.md
 
 clean:
 	for dir in $(SUBDIRS); do \
