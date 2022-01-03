@@ -142,6 +142,24 @@
     background: #AAA;
   }
 </style>
+  <style>
+  p {
+    font-size: 25px;
+    margin: 15px 50px;
+  }
+  ul, ol {
+    font-size: 25px;
+    margin: 15px 75px;
+  }
+  code {
+    color: #8728F1;
+  }
+  pre code {
+    font-size: 20px;
+    margin: 15px 50px;
+    display: block;
+  }
+  </style>
 </head>
 <body>
 <section class="title">
@@ -150,43 +168,31 @@
     <span class="author">Joachim Vandekerckhove</span> · 
   </footer>
 </section>
-<section id="calling-system-commands" class="slide level2">
-<h2>Calling system commands</h2>
-<pre><code>system()
-
-!</code></pre>
-</section>
-<section id="functions-and-scripts" class="slide level2">
-<h2>Functions and scripts</h2>
-<h3 id="basic-scoping">Basic scoping</h3>
+<section id="scope" class="title-slide slide level2"><h2>Scope</h2></section><section id="basic-scoping" class="slide level3">
+<h3>Basic scoping</h3>
 <p>In every programming language, we use names to refer to things – functions, variables, objects, and so on. This link between a name and a thing is called <strong>name binding</strong>.</p>
 <p>Name bindings are context specific. The variable <code>foo</code> can refer to one thing in one program and to another thing in another program.</p>
 <p>Scope rules are the rules that determine where a specific name binding is valid.</p>
-</section>
-<section class="slide level2">
-
-<h3 id="scripts">Scripts</h3>
+</section><section id="scripts" class="slide level3">
+<h3>Scripts</h3>
 <p>In MATLAB, the <strong>workspace</strong> is one scope. Scripts work in the workspace scope.</p>
 <p>This has mostly disadvantages. Most importantly, running a script <em>twice</em> can easily give different results if a variable was changed in the course of the script.</p>
 <p>The main use case of a script is if you are automating an entire MATLAB session (e.g., running in batch mode on the cluster).</p>
-</section>
-<section class="slide level2">
-
-<h3 id="functions">Functions</h3>
+</section><section id="functions" class="slide level3">
+<h3>Functions</h3>
 <p>MATLAB functions have their own scope. You can make variables inside a function, overwrite them and delete them, and they will not affect the workspace (unless you explicitly try, which you shouldn’t, it’s very rude).</p>
 <p>MATLAB’s <code>function-end statement</code> defines a scope.</p>
-</section>
-<section class="slide level2">
-
-<h4 id="intermediate-scoping">Intermediate scoping</h4>
-<p>You can define a function inside another function’s <code>function-end statement</code>. Such nested functions <em>can</em> share variables with their parent function.</p>
-<p>You can also define a second function in another function’s m-file but outside the <code>function-end statement</code>. Such subfunctions cannot share variables with their parent function.</p>
-</section>
-<section class="slide level2">
-
-<h4 id="anonymous-functions">Anonymous functions</h4>
-<p>You can also define functions “on the fly” inside a script or another function. Such anonymous functions can <em>see</em> the variables in their parent scope but can’t <em>change</em> them. Anonymous functions can be saved as variables, which will be incredibly useful soon.</p>
+</section><section id="intermediate-scoping" class="slide level3">
+<h3>Intermediate scoping</h3>
+<p>You can define a function inside another function’s <code>function-end statement</code>. Such <strong>nested functions</strong> <em>can</em> share variables with their parent function.</p>
+<p>You can also define a second function in another function’s m-file but outside the <code>function-end statement</code>. Such <strong>subfunctions</strong> cannot share variables with their parent function.</p>
+<p>Nested functions and subfunctions are only callable from the parent funtion.</p>
+</section><section id="anonymous-functions" class="slide level3">
+<h3>Anonymous functions</h3>
+<p>You can also define functions “on the fly” inside a script or another function. Such <strong>anonymous functions</strong> can <em>see</em> the variables in their parent scope but can’t <em>change</em> them. Anonymous functions can be saved as variables, which will be incredibly useful soon.</p>
 <pre><code>myAnonFun = @(x,y) sprintf(&#39;%d^%d = %g&#39;, x,y,x^y)</code></pre>
+</section><section id="anonymous-functions-1" class="slide level3">
+<h3>Anonymous functions</h3>
 <p>Anonymous functions can store variables:</p>
 <pre><code>&gt;&gt; a = 5;
 &gt;&gt; timesA = @(x) x * a;
@@ -197,45 +203,41 @@ ans =
 &gt;&gt; timesA(3)
 ans =
     15</code></pre>
-</section>
-<section class="slide level2">
-
-<h4 id="default-inputs">Default inputs</h4>
+</section><section id="default-inputs" class="slide level3">
+<h3>Default inputs</h3>
 <p>MATLAB functions start with a template line that defines the input and output variables:</p>
-<pre><code>function [myOutput, secondOut] = thisIsFun(firstIn, another)</code></pre>
+<pre><code>function [myOut, secondOut] = thisIsFun(myIn, secondIn)</code></pre>
 <p>There’s a function, <code>nargin</code> that counts the number of input arguments (there’s also <code>nargout</code>, the purpose of which I will let you figure out on your own). So this is a common structure:</p>
 <pre><code>if nargin &lt; 2
-    another = 1;      % default in case only one was provided
+    secondIn = 1; % default in case only one was given
     if nargin &lt; 1
-        firstIn = 0;  % default in case no input was provided
+        myIn = 0;  % default in case no inputs
     end
 end</code></pre>
-</section>
-<section id="reading-and-writing-text-files" class="slide level2">
-<h2>Reading and writing text files</h2>
-<pre><code>uiimport()
-readmatrix(), writematrix()
-readcell(), writecell()
-readtable(), writetable()</code></pre>
-<h3 id="getting-input-from-the-console">Getting input from the console</h3>
+</section><section id="console-io" class="slide level3">
+<h3>Console I/O</h3>
+<h4 id="getting-input-from-the-console">Getting input from the console</h4>
 <pre><code>input()</code></pre>
-</section>
-<section class="slide level2">
-
-<h3 id="printing-to-the-console">Printing to the console</h3>
+<h4 id="printing-to-the-console">Printing to the console</h4>
 <p>Unformatted printing</p>
 <pre><code>disp()</code></pre>
 <p>Formatted printing and format strings</p>
 <pre><code>sprintf()
 fprintf()</code></pre>
-</section>
-<section class="slide level2">
-
-<h3 id="printing-to-a-file">Printing to a file</h3>
+</section><section id="file-io" class="slide level3">
+<h3>File I/O</h3>
+<h4 id="reading-and-writing-text-files">Reading and writing text files</h4>
+<pre><code>uiimport()
+readmatrix(), writematrix()
+readcell(), writecell()
+readtable(), writetable()</code></pre>
+</section><section id="printing-to-a-file" class="slide level3">
+<h3>Printing to a file</h3>
 <p>Streams and file IDs</p>
 <pre><code>fopen(), fclose()
 fprintf()</code></pre>
-<h3 id="low-level-io">Low-level I/O</h3>
+</section><section id="low-level-io" class="slide level3">
+<h3>Low-level I/O</h3>
 <p>Pointers in streams</p>
 <pre><code>fscanf()</code></pre>
 <p>A relatively general-purpose structure is this:</p>
@@ -245,33 +247,29 @@ while ~feof(fid)
     % do something depending on line
 end
 fclose(fid);</code></pre>
+</section><section class="slide level3">
+
 </section>
-<section id="classes-and-packages" class="slide level2">
-<h2><span class="citation" data-cites="classes">@classes</span> and +packages</h2>
-<h3 id="object-oriented-programming">Object-oriented programming</h3>
+<section id="classes-and-packages" class="title-slide slide level2"><h2><span class="citation" data-cites="classes">@classes</span> and +packages</h2></section><section id="object-oriented-programming" class="slide level3">
+<h3>Object-oriented programming</h3>
 <p>Object-oriented programming involves thinking of problems as interactions between entities.</p>
 <p>A class is a set of objects with similar features. A typical kind of class is a <code>User</code> or a <code>Product</code>. MATLAB objects have <em>properties</em> (variables that belong to it) and <em>methods</em> (functions that belong to it).</p>
 <p>Classes can exist in a hierarchy, where they inherit properties or methods from superclasses.</p>
-</section>
-<section class="slide level2">
-
-<h3 id="methods">Methods</h3>
+</section><section id="methods" class="slide level3">
+<h3>Methods</h3>
 <p>Constructor – <code>className()</code></p>
 <p>Display – <code>disp()</code></p>
 <p>Getters – <code>get.MyProperty()</code></p>
 <p>Setters – <code>set.MyProperty()</code></p>
 <p>Ordinary methods – <code>obj.someMethod()</code> or (equivalently) <code>someMethod(obj)</code></p>
 <p>Static methods – <code>someMethod()</code> (does not take an object as input)</p>
-</section>
-<section class="slide level2">
-
-<h3 id="class-files-class-folders">Class files, class folders</h3>
+</section><section id="class-files-class-folders" class="slide level3">
+<h3>Class files, class folders</h3>
 <p>There are two ways to define a MATLAB class. You can define a class in its own file (which will get large), or you can define it in many files inside a dedicated folder that starts with an <code>@</code>.</p>
 <p>Class methods and properties are <em>scoped to the class</em>; they can be <em>public</em> (visible externally), <em>private</em> (visible only to other methods in the class), or <em>protected</em> (also visible to child class methods). They can be given a number of attributes.</p>
-</section>
-<section class="slide level2">
+</section><section class="slide level3">
 
-<h3 id="a-class">A class</h3>
+<h4 id="a-class">A class</h4>
 <pre><code>classdef LabResult
    properties
       CurrentValue
@@ -280,50 +278,73 @@ fclose(fid);</code></pre>
       Status
    end
    methods
-      function obj = LabResult(cv)
-         obj.CurrentValue = cv;
-         obj = assignStatus(obj);
-      end
-      function obj = assignStatus(obj)
-         if obj.CurrentValue &lt; 10
-             obj.Status = &#39;Too low&#39;;
-         else 
-             obj.Status = &#39;Too high&#39;;
-         end
-      end
-   end
-   methods (Static)
-      function obj = loadobj(s)
-         if isstruct(s) 
-             obj = LabResults(s.CurrentValue);
-         else 
-             obj = assignStatus(s);
-         end
-      end
+      ...
    end
 end</code></pre>
-</section>
-<section class="slide level2">
+</section><section class="slide level3">
 
-<h3 id="package-folders">Package folders</h3>
+<h4 id="methods-end-block-with-a-constructor"><code>methods-end block</code> with a constructor</h4>
+<pre><code>methods
+
+   function obj = LabResult(cv)  % &lt;- constructor method
+      obj.CurrentValue = cv;
+      obj = assignStatus(obj);
+   end
+
+   function obj = assignStatus(obj)
+      if obj.CurrentValue &lt; 10
+          obj.Status = &#39;Too low&#39;;
+      else 
+          obj.Status = &#39;Too high&#39;;
+      end
+   end
+
+end</code></pre>
+</section><section class="slide level3">
+
+<h4 id="methods-end-block-for-static-methods"><code>methods-end block</code> for static methods</h4>
+<pre><code>methods (Static)
+   % Static methods do not take the object as input
+
+   function obj = loadobj(s)
+      if isstruct(s) 
+          obj = LabResults(s.CurrentValue);
+      else 
+          obj = assignStatus(s);
+      end
+   end
+
+end</code></pre>
+</section><section id="package-folders" class="slide level3">
+<h3>Package folders</h3>
 <p>MATLAB is very widely used and many people contribute code to it. Function name clashes are somewhat inevitable. This is where <strong>package folders</strong> come in handy.</p>
 <p>A package folder is just a folder whose name starts with <code>+</code>.</p>
 <p>Names of classes and functions are <em>scoped to the package folder</em>. Internally, they all see each other. Externally, you have to prepend the package name (i.e., you can call functions in the package with <code>myPackage.myFun</code> and you can create classes with <code>myPackage.myClass</code>).</p>
-</section>
-<section id="use-cases" class="slide level2">
-<h2>Use cases</h2>
+</section><section id="use-cases" class="slide level3">
+<h3>Use cases</h3>
 <p><strong>Classes</strong> are most useful when you have multiple functions that operate on a similar kind of data or type of variable.</p>
 <p><strong>Packages</strong> are most useful when you have many functions that functionally belong together but aren’t necessarily associated with a particular kind of input.</p>
+</section><section class="slide level3">
+
 </section>
-<section id="assignment" class="slide level2">
-<h2>Assignment</h2>
+<section id="calling-system-commands" class="title-slide slide level2"><h2>Calling system commands</h2></section><section id="system-commands" class="slide level3">
+<h3>System commands</h3>
+<p>You can execute external programs from within MATLAB using these:</p>
+<pre><code>system()
+!</code></pre>
+<p>Example:</p>
+<pre><code>system(&#39;echo 5*8 | bc&#39;)
+!make all</code></pre>
+</section><section id="assignment" class="slide level3">
+<h3>Assignment</h3>
 <p>Make a +package called /+&lt;your-pseudonym&gt; with just a class <code>@Norm2d</code></p>
 <ul>
-<li><code>@norm2d % implements the bivariate normal likelihood equivalence class</code></li>
+<li><code>@Norm2d % implements the bivariate normal likelihood equivalence class</code></li>
 <li>Has at least the properties <code>Mean</code> (2x1 vector) and <code>Covariance</code> (2x2 matrix)</li>
-<li>Include getters/setters and these six methods: (log)pdf, (log)cdf, rand, deviance</li>
+<li>Include getters/setters and these six methods: <code>pdf</code>, <code>logpdf</code>, <code>cdf</code>, <code>logcdf</code>, <code>rand</code>, <code>deviance</code></li>
 <li>Make sure everything works on matrix input</li>
 <li>Avoid duplicating code</li>
+<li>Pass the test suite</li>
 </ul>
 </section>
 <!-- {{{{ dzslides core

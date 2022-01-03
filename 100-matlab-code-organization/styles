@@ -1,0 +1,18 @@
+<style>
+p {
+  font-size: 25px;
+  margin: 15px 50px;
+}
+ul, ol {
+  font-size: 25px;
+  margin: 15px 75px;
+}
+code {
+  color: #8728F1;
+}
+pre code {
+  font-size: 20px;
+  margin: 15px 50px;
+  display: block;
+}
+</style>
