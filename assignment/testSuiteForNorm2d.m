@@ -1,11 +1,11 @@
-% TESTSUITEASSIGNMENT2  Runs unit tests for a Norm2d object
+%% TESTSUITEFORNORM2D  Runs unit tests for a Norm2d object
 %
 % Supply your pseudonym to test:
 %
-%     TESTSUITEASSIGNMENT2(pseudonym)
+%     TESTSUITEFORNORM2D(pseudonym)
 %
 
-function testSuiteAssignment2(pseudonym)
+function testSuiteForNorm2d(pseudonym)
 
 %% Start with some sanity checks
 
@@ -15,17 +15,21 @@ if ~nargin
 end
 
 % Is the reference directory also there?
-if exist('magneto/','dir')
-    addpath('magneto/')
+referenceDir = 'xavier';
+if exist(referenceDir, 'dir')
+    addpath(referenceDir)
 else
-    error('magneto/ not found.  Are you in the assignment/ directory?')
+    error('Norm2d:testSuite:referenceDirNotFound', ...
+        '%s/ not found.  Are you in the assignment/ directory?', ...
+        referenceDir)
 end
 
 % Is the input valid?
 if exist(pseudonym,'dir')
     addpath(pseudonym)
 else
-    error('%s/ not found.  Are you in the assignment/ directory?', ...
+    error('Norm2d:testSuite:pseudonymDirNotFound', ...
+        '%s/ not found.  Are you in the assignment/ directory?', ...
         pseudonym)
 end
 
@@ -67,7 +71,8 @@ testMean              = [15; 8];
 testCovariance        = [45 1; 1 12];
 testStandardDeviation = sqrt(diag(testCovariance));
 
-ref = magneto.Norm2d(testMean, testCovariance);
+ref = [];
+eval(sprintf('ref = %s.Norm2d(testMean, testCovariance);', referenceDir))
 
 % test that the mean sticks
 this.Mean = testMean;
@@ -224,10 +229,10 @@ assertEqualUpToTol(this.pdf(testMean + 20 * testStandardDeviation), 0, ...
 %% Tests of the cdf method
 
 assertEqualUpToTol(this.cdf(testMean - 20 * testStandardDeviation), 0, ...
-    'cdf . left tail')
+    'cdf . left tail is 0')
 
 assertEqualUpToTol(this.cdf(testMean + 20 * testStandardDeviation), 1, ...
-    'cdf . right tail')
+    'cdf . right tail is 1')
 
 
 
@@ -291,8 +296,8 @@ fprintf('#%s#\n', dashline);
             fprintf('#%s#\n', dashline);
             fprintf('!  Test failed: %s\n', condition)
             disp('!  I expected a==b:')
-            a
-            b
+            disp('a:'), disp(a)
+            disp('b:'), disp(b)
             throwAsCaller(failure(condition))
         end
     end
@@ -305,8 +310,8 @@ fprintf('#%s#\n', dashline);
             fprintf('#%s#\n', dashline);
             fprintf('!  Test failed: %s\n', condition)
             disp('!  I expected a<b:')
-            a
-            b
+            disp('a:'), disp(a)
+            disp('b:'), disp(b)
             throwAsCaller(failure(condition))
         end
     end
@@ -319,8 +324,8 @@ fprintf('#%s#\n', dashline);
             fprintf('#%s#\n', dashline);
             fprintf('!  Test failed: %s\n', condition)
             disp('!  I expected size(a) == size(b):')
-            a
-            b
+            disp('a:'), disp(a)
+            disp('b:'), disp(b)
             throwAsCaller(failure(condition))
         end
     end
