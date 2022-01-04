@@ -22,7 +22,7 @@
 
 ---
 
-Shell commands
+### Shell commands
 
 * ls
 * touch, rm
@@ -35,7 +35,7 @@ Shell commands
 
 ---
 
-Shell commands: Accessing remote computers
+### Shell commands: Accessing remote computers
 
 * wget
 * ssh
@@ -46,7 +46,7 @@ Shell commands: Accessing remote computers
 
 ---
 
-Basic scripting
+### Basic scripting
 
 * cat, more, less
 * head, tail
@@ -59,7 +59,7 @@ Basic scripting
 
 ---
 
-Permissions and keys
+### Permissions and keys
 
 * rwxrwxrwxd, dotfiles
 * sudo
@@ -70,7 +70,7 @@ Permissions and keys
 
 ---
 
-Version control
+## Version control
 
 * Allow tracking of changes
 * Allow branching and merging
@@ -82,7 +82,7 @@ Version control
 
 ---
 
-git
+### git
 
 * Lots of functionality
 * High performace
@@ -93,7 +93,7 @@ git
 
 ---
 
-git commands
+### git commands
 
 * git clone
 * git status
@@ -107,7 +107,7 @@ git commands
 
 ---
 
-git habits
+### git habits
 
 * commit often
 * always update to latest versions
@@ -117,22 +117,56 @@ git habits
 
 ---
 
-Example workflow
+### git first time
 
-1. `git clone git@github.com:user/repo.git`
-1. `git -C repo/ checkout -b small-edits`
-1. _(make new file)_
-1. `git -C repo/ add .`
-1. _(make small edit)_
-1. `git -C repo/ commit -a -m "Small change"`
-1. _(make small edit)_
-1. `git -C repo/ commit -a -m "Tiny change"`
-1. `git push`
-1. _(open pull request)_
+1. Create an ssh key pair and copy the public key to your github.com account
+1. Fork the repo on github.com
+1. Give git your identity locally
+
+<!-- end list -->
+
+    git config --global user.email
+        "joachim.vandekerckhove@gmail.com"
+    git config --global user.name "joachim-student"
+
+
+4. Clone the repo locally
+
+<!-- end list -->
+
+    git clone git@github.com:joachim-student/cogs-205b.git
 
 ---
 
-Example workflow
+### Example workflow
+
+5. Create your own branch
+
+<!-- end list -->
+
+    git -C cogs-205b/ checkout -b small-edits
+  
+6. Make changes, commit frequently
+
+<!-- end list -->
+
+      (make new file)
+    git -C cogs-205b/ add .
+      (make small edit)
+    git -C cogs-205b/ commit -a -m "Small change"
+      (make small edit)
+    git -C cogs-205b/ commit -a -m "Tiny change"
+
+7. Push
+
+<!-- end list -->
+
+    git -C cogs-205b/ push --set-upstream origin small-edits
+    git -C cogs-205b/ push
+
+---
+
+### Example workflow
 
 1. `git checkout main`
 1. `git fetch --all --prune`
@@ -143,38 +177,24 @@ Example workflow
 1. `git push`
 1. _(open pull request)_
 
----
-
 [Git tutorial](https://www.atlassian.com/git/tutorials/)
 
 [Git cheat sheet](https://www.atlassian.com/dam/jcr:e7e22f25-bba2-4ef1-a197-53f46b6df4a5/SWTM-2088_Atlassian-Git-Cheatsheet.pdf)
 
 ---
 
-Markdown
-
----
-
- \<your-pseudonym\>
-
----
-
-## Learning goals
+### Learning goals
 
 You will need to use these technologies to do and submit the assignments
 
 ---
 
-## Assignment
+### Assignment
 
-Write and run a shell script
+Write and run a shell script: \<your-pseudonym\>.sh
 
----
-
- \<your-pseudonym\>.sh
-
-1. + First clones the class git repository and makes a new branch
-1. + Then makes a new directory /assignment/\<your-pseudonym\>/ in the git repository
-1. + Makes a copy of itself in the new directory
-1. + Pushes the updates to the git repository
+1. First clones the class git repository and makes a new branch
+1. Then makes a new directory /assignment/\<your-pseudonym\>/ in the git repository
+1. Makes a copy of itself in the new directory
+1. Pushes the updates to the git repository
 * Difficulty: your pseudonym appears in script only once

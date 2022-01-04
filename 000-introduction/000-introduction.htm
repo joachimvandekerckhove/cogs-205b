@@ -142,6 +142,24 @@
     background: #AAA;
   }
 </style>
+  <style>
+  p {
+    font-size: 25px;
+    margin: 15px 50px;
+  }
+  ul, ol {
+    font-size: 25px;
+    margin: 15px 75px;
+  }
+  code {
+    color: #8728F1;
+  }
+  pre code {
+    font-size: 20px;
+    margin: 15px 50px;
+    display: block;
+  }
+  </style>
 </head>
 <body>
 <section class="title">
@@ -150,25 +168,20 @@
     <span class="author">Joachim Vandekerckhove</span> · 
   </footer>
 </section>
-<section id="high-performance-computing" class="slide level2">
-<h2>High performance computing</h2>
+<section class="slide level3">
+
 </section>
-<section class="slide level2">
+<section id="high-performance-computing" class="title-slide slide level2"><h2>High performance computing</h2></section><section class="slide level3">
 
 <p><img src="p/HPCCluster.JPG" width="650" /></p>
-</section>
-<section class="slide level2">
+</section><section class="slide level3">
 
 <p><img src="p/hpc3.png" width="650" /></p>
-</section>
-<section class="slide level2">
-
-<h3 id="unix">Unix</h3>
+</section><section id="unix" class="slide level3">
+<h3>Unix</h3>
 <p><img src="p/unix-tree.png" width="500" /> <img src="p/linux-penguin-small.png" width="80" /></p>
-</section>
-<section class="slide level2">
-
-<p>Shell commands</p>
+</section><section id="shell-commands" class="slide level3">
+<h3>Shell commands</h3>
 <ul>
 <li>ls</li>
 <li>touch, rm</li>
@@ -179,10 +192,8 @@
 <li>history</li>
 <li>man, whatis</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>Shell commands: Accessing remote computers</p>
+</section><section id="shell-commands-accessing-remote-computers" class="slide level3">
+<h3>Shell commands: Accessing remote computers</h3>
 <ul>
 <li>wget</li>
 <li>ssh</li>
@@ -190,10 +201,8 @@
 <li>sshfs</li>
 <li>screen</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>Basic scripting</p>
+</section><section id="basic-scripting" class="slide level3">
+<h3>Basic scripting</h3>
 <ul>
 <li>cat, more, less</li>
 <li>head, tail</li>
@@ -204,10 +213,8 @@
 <li>grep, sed</li>
 <li>|, &gt;, &gt;&gt;, &lt;, &lt;&lt;, &amp;&amp;, and \</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>Permissions and keys</p>
+</section><section id="permissions-and-keys" class="slide level3">
+<h3>Permissions and keys</h3>
 <ul>
 <li>rwxrwxrwxd, dotfiles</li>
 <li>sudo</li>
@@ -215,23 +222,14 @@
 <li>private key <em>id_rsa</em> (=key)</li>
 </ul>
 <p><a href="https://linuxjourney.com/">Linux-fu</a></p>
-</section>
-<section class="slide level2">
+</section><section class="slide level3">
 
-<p>Version control</p>
-<ul>
-<li>Allow tracking of changes</li>
-<li>Allow branching and merging</li>
-<li>Highly secure</li>
-</ul>
 </section>
-<section class="slide level2">
+<section id="version-control" class="title-slide slide level2"><h2>Version control</h2></section><section class="slide level3">
 
 <p><img src="p/branch.svg" /></p>
-</section>
-<section class="slide level2">
-
-<p>git</p>
+</section><section id="git" class="slide level3">
+<h3>git</h3>
 <ul>
 <li>Lots of functionality</li>
 <li>High performace</li>
@@ -239,10 +237,8 @@
 <li>Not too hard to get started</li>
 <li>Quite hard to master</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>git commands</p>
+</section><section id="git-commands" class="slide level3">
+<h3>git commands</h3>
 <ul>
 <li>git clone</li>
 <li>git status</li>
@@ -254,10 +250,8 @@
 <li>git fetch</li>
 <li>git -C my/dir</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>git habits</p>
+</section><section id="git-habits" class="slide level3">
+<h3>git habits</h3>
 <ul>
 <li>commit often</li>
 <li>always update to latest versions</li>
@@ -265,26 +259,47 @@
 <li>comment a lot</li>
 <li>test changes before committing</li>
 </ul>
-</section>
-<section class="slide level2">
-
-<p>Example workflow</p>
+</section><section id="git-first-time" class="slide level3">
+<h3>git first time</h3>
 <ol type="1">
-<li><code>git clone git@github.com:user/repo.git</code></li>
-<li><code>git -C repo/ checkout -b small-edits</code></li>
-<li><em>(make new file)</em></li>
-<li><code>git -C repo/ add .</code></li>
-<li><em>(make small edit)</em></li>
-<li><code>git -C repo/ commit -a -m "Small change"</code></li>
-<li><em>(make small edit)</em></li>
-<li><code>git -C repo/ commit -a -m "Tiny change"</code></li>
-<li><code>git push</code></li>
-<li><em>(open pull request)</em></li>
+<li>Create an ssh key pair and copy the public key to your github.com account</li>
+<li>Fork the repo on github.com</li>
+<li>Give git your identity locally</li>
 </ol>
-</section>
-<section class="slide level2">
-
-<p>Example workflow</p>
+<!-- end list -->
+<pre><code>git config --global user.email
+    &quot;joachim.vandekerckhove@gmail.com&quot;
+git config --global user.name &quot;joachim-student&quot;</code></pre>
+<ol start="4" type="1">
+<li>Clone the repo locally</li>
+</ol>
+<!-- end list -->
+<pre><code>git clone git@github.com:joachim-student/cogs-205b.git</code></pre>
+</section><section id="example-workflow" class="slide level3">
+<h3>Example workflow</h3>
+<ol start="5" type="1">
+<li>Create your own branch</li>
+</ol>
+<!-- end list -->
+<pre><code>git -C cogs-205b/ checkout -b small-edits</code></pre>
+<ol start="6" type="1">
+<li>Make changes, commit frequently</li>
+</ol>
+<!-- end list -->
+<pre><code>  (make new file)
+git -C cogs-205b/ add .
+  (make small edit)
+git -C cogs-205b/ commit -a -m &quot;Small change&quot;
+  (make small edit)
+git -C cogs-205b/ commit -a -m &quot;Tiny change&quot;</code></pre>
+<ol start="7" type="1">
+<li>Push</li>
+</ol>
+<!-- end list -->
+<pre><code>git -C cogs-205b/ push --set-upstream origin small-edits
+git -C cogs-205b/ push</code></pre>
+</section><section id="example-workflow-1" class="slide level3">
+<h3>Example workflow</h3>
 <ol type="1">
 <li><code>git checkout main</code></li>
 <li><code>git fetch --all --prune</code></li>
@@ -295,44 +310,19 @@
 <li><code>git push</code></li>
 <li><em>(open pull request)</em></li>
 </ol>
-</section>
-<section class="slide level2">
-
 <p><a href="https://www.atlassian.com/git/tutorials/">Git tutorial</a></p>
 <p><a href="https://www.atlassian.com/dam/jcr:e7e22f25-bba2-4ef1-a197-53f46b6df4a5/SWTM-2088_Atlassian-Git-Cheatsheet.pdf">Git cheat sheet</a></p>
-</section>
-<section class="slide level2">
-
-<p>Markdown</p>
-</section>
-<section class="slide level2">
-
-<p>&lt;your-pseudonym&gt;</p>
-</section>
-<section id="learning-goals" class="slide level2">
-<h2>Learning goals</h2>
+</section><section id="learning-goals" class="slide level3">
+<h3>Learning goals</h3>
 <p>You will need to use these technologies to do and submit the assignments</p>
-</section>
-<section id="assignment" class="slide level2">
-<h2>Assignment</h2>
-<p>Write and run a shell script</p>
-</section>
-<section class="slide level2">
-
-<p>&lt;your-pseudonym&gt;.sh</p>
+</section><section id="assignment" class="slide level3">
+<h3>Assignment</h3>
+<p>Write and run a shell script: &lt;your-pseudonym&gt;.sh</p>
 <ol type="1">
-<li><ul>
 <li>First clones the class git repository and makes a new branch</li>
-</ul></li>
-<li><ul>
 <li>Then makes a new directory /assignment/&lt;your-pseudonym&gt;/ in the git repository</li>
-</ul></li>
-<li><ul>
 <li>Makes a copy of itself in the new directory</li>
-</ul></li>
-<li><ul>
 <li>Pushes the updates to the git repository</li>
-</ul></li>
 </ol>
 <ul>
 <li>Difficulty: your pseudonym appears in script only once</li>
