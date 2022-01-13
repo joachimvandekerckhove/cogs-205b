@@ -17,5 +17,5 @@ cd ../../
 cp $pseudo.sh cogs-205b/assignment/$pseudo
 cd cogs-205b/
 git commit -a -m "week 1 assignment"
-git push --set-upstream origin small-edits
+git push --set-upstream origin week1
 
