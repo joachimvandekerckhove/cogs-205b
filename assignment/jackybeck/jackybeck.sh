@@ -11,7 +11,6 @@ git clone git@github.com:$pseudo/cogs-205b.git
 cd cogs-205b/
 git checkout -b week1
 git add .
-git commit
 cd assignment
 mkdir $pseudo/
 cd ../../
