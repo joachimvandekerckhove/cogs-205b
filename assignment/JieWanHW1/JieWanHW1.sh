@@ -16,4 +16,3 @@ cp $MyName.sh cogs-205b/assignment/$MyName/
 git -C cogs-205b/ add .
 git -C cogs-205b/ commit -a -m "small change"
 git -C cogs-205b/ push --set-upstream origin new-edits
-

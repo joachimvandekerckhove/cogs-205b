@@ -1,0 +1,18 @@
+#!/bin/bash
+
+repo="git@github.com:tiffany-raber/cogs-205b.git"
+
+git clone "$repo"
+git -C cogs-205b/ checkout -b assignment-1
+
+mydir=cogs-205b/assignment/"wanda-maximoff"
+
+mkdir "$mydir"
+
+cp "$0" "$mydir"
+
+git -C cogs-205b/ add . 
+git -C cogs-205b/ commit -a -m "A1 submission"
+git -C cogs-205b/ push --set-upstream origin assignment-1
+
+
