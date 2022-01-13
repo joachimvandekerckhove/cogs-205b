@@ -21,7 +21,6 @@ cp $pseudo.sh $course/assignment/$pseudo/
 
 cd $course/
 git add .
-git -a -m "Small change"
 git commit -a -m "Tiny change"
 
 git push --set-upstream origin new-edits
