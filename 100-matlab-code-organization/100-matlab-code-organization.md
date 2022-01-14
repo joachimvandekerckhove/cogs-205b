@@ -238,7 +238,7 @@ MATLAB is very widely used and many people contribute code to it.  Function name
 
 A package folder is just a folder whose name starts with `+`. 
  
-Names of classes and functions are _scoped to the package folder_.  Internally, they all see each other.  Externally, you have to prepend the package name (i.e., you can call functions in the package with `myPackage.myFun` and you can create classes with `myPackage.myClass`).
+You have to prepend the package name (i.e., you can call functions in the package with `myPackage.myFun` and you can create classes with `myPackage.myClass`), unless you use the `import` command to make package functions visible.
 
 
 ---
