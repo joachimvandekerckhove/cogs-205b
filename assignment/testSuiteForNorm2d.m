@@ -226,31 +226,45 @@ assertEqualUpToTol(this.pdf(testMean + 20 * testStandardDeviation), 0, ...
 
 
 
-%% Tests of the cdf method
+if exist('mvncdf') %#ok<EXIST>
 
-assertEqualUpToTol(this.cdf(testMean - 20 * testStandardDeviation), 0, ...
-    'cdf . left tail is 0')
+    %% Tests of the cdf method
 
-assertEqualUpToTol(this.cdf(testMean + 20 * testStandardDeviation), 1, ...
-    'cdf . right tail is 1')
+    assertEqualUpToTol(this.cdf(testMean - 20 * testStandardDeviation), 0, ...
+        'cdf . left tail is 0')
+
+    assertEqualUpToTol(this.cdf(testMean + 20 * testStandardDeviation), 1, ...
+        'cdf . right tail is 1')
 
 
+    %% Some tests that only work on orthogonal cases
 
-%% Some tests that only work on orthogonal cases
+    this.Covariance = eye(2);
 
-this.Covariance = eye(2);
+    assertEqualUpToTol(this.cdf(testMean), 0.25, ...
+        'cdf . at median is 1/4')
 
-assertEqualUpToTol(this.cdf(testMean), 0.25, ...
-    'cdf . at median is 1/4')
+    assertLessThan(this.cdf(testMean - 1e-5), 0.25, ...
+        'cdf . goes down left')
 
-assertLessThan(this.cdf(testMean - 1e-5), 0.25, ...
-    'cdf . goes down left')
+    assertLessThan(0.25, this.cdf(testMean + 1e-5), ...
+        'cdf . goes up right')
 
-assertLessThan(0.25, this.cdf(testMean + 1e-5), ...
-    'cdf . goes up right')
+    this.Covariance = testCovariance;
 
-this.Covariance = testCovariance;
+else
 
+    skipCheck('cdf . left tail is 0')
+
+    skipCheck('cdf . right tail is 1')
+
+    skipCheck('cdf . at median is 1/4')
+
+    skipCheck('cdf . goes down left')
+
+    skipCheck('cdf . goes up right')
+
+end
 
 
 %% Tests of random number generation
@@ -271,8 +285,16 @@ testMean = [1 2 3; 4 5 6];
 assertSameSize(this.pdf(testMean), ref.pdf(testMean), ...
     'pdf . correct size')
 
-assertSameSize(this.cdf(testMean), ref.cdf(testMean), ...
-    'cdf . correct size')
+if exist('mvncdf') %#ok<EXIST>
+
+    assertSameSize(this.cdf(testMean), ref.cdf(testMean), ...
+        'cdf . correct size')
+
+else
+
+    skipCheck('cdf . correct size')
+
+end
 
 assertSameSize(this.rnd(8), ref.rnd(8), ...
     'rnd . correct size')
@@ -283,6 +305,9 @@ assertSameSize(this.rnd(8), ref.rnd(8), ...
 fprintf('#%s#\n', dashline);
 fprintf('# %74s  #\n', datestr(now))
 fprintf('#%-77s#\n', sprintf('  All tests passed for "%s"  ', class(this)))
+if ~exist('mvncdf') %#ok<EXIST>
+    fprintf('#%-77s#\n', sprintf('  Some tests were skipped because the Statistics Toolbox was not found.'))
+end
 fprintf('#%s#\n', dashline);
 
 
@@ -357,6 +382,13 @@ fprintf('#%s#\n', dashline);
             MException( ....
                 'magneto:testSuite', ...
                 sprintf('TESTSUITE failed for condition "%s"', condition));
+    end
+
+    % Skip message
+    function skipCheck(condition)
+        fprintf('# %-63s ', sprintf(' %s', condition));
+        lookBusy(2)
+        fprintf('not tested  #\n');
     end
 
     % If reports generate too fast, people don't believe they did anything
