@@ -319,7 +319,7 @@ end</code></pre>
 <h3>Package folders</h3>
 <p>MATLAB is very widely used and many people contribute code to it. Function name clashes are somewhat inevitable. This is where <strong>package folders</strong> come in handy.</p>
 <p>A package folder is just a folder whose name starts with <code>+</code>.</p>
-<p>Names of classes and functions are <em>scoped to the package folder</em>. Internally, they all see each other. Externally, you have to prepend the package name (i.e., you can call functions in the package with <code>myPackage.myFun</code> and you can create classes with <code>myPackage.myClass</code>).</p>
+<p>You have to prepend the package name (i.e., you can call functions in the package with <code>myPackage.myFun</code> and you can create classes with <code>myPackage.myClass</code>), unless you use the <code>import</code> command to make package functions visible.</p>
 </section><section id="use-cases" class="slide level3">
 <h3>Use cases</h3>
 <p><strong>Classes</strong> are most useful when you have multiple functions that operate on a similar kind of data or type of variable.</p>
