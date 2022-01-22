@@ -1,5 +1,5 @@
-function output3 = cdf(X, Mu, Sigma)
+function output3 = cdf(obj,X)
 
-    output3 = mvncdf(X, Mu, Sigma);
+    output3 = mvncdf(X, obj.Mean, obj.Covariance);
 
 end

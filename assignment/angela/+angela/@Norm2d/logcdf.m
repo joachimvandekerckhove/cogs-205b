@@ -1,6 +1,6 @@
-function output4 = logcdf(X, Mu, Sigma)
+function output4 = logcdf(obj,X)
 
-    output4 = log(mvtcdf(X, Mu, Sigma));
+    output4 = log(mvtcdf(X, obj.Mean, obj.Covariance));
 
 end
 
