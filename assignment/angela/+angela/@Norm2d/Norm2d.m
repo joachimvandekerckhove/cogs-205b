@@ -2,8 +2,11 @@ classdef Norm2d
     
     properties
         
-        Mean (2,1) double {mustBeReal, mustBeFinite}                       = [0;0]
-        Covariance (2,2) double {mustBeReal, mustBeFinite}                      = [1 0;0 1]
+        Mean (2,1) double {mustBeReal, mustBeFinite} ...
+            = [0;0]
+        Covariance (2,2) double {mustBeReal, mustBeFinite, ...
+            mustBePositive, mustBeSymmetric(Covariance)} ...
+            = [1 0.1;0.1 1]
         
     end
     
@@ -51,8 +54,13 @@ classdef Norm2d
         
         % updater for precision and correlation
         function obj = updateProperties(obj)
-            obj.Precision = 1./obj.Covariance
-            obj.Correlation = obj.Covariance(3)/(obj.Covariance(1)*obj.Covariance(4))
+            obj.Precision = pinv(obj.Covariance);
+            
+            c12 = obj.Covariance(3);
+            sigma1 = sqrt(obj.Covariance(1));
+            sigma2 = sqrt(obj.Covariance(4));
+            
+            obj.Correlation = c12./(sigma1*sigma2);
         end
         
         
@@ -68,9 +76,22 @@ classdef Norm2d
         
         output5 = rng(Mu,Sigma,size)
         
-        output6 = deviance(Data,Mu,Sigma)       
+        output6 = deviance(Data,Mu,Sigma)
+        
+        
+
         
     end
+        
     
     
+end
+
+% check for symmetry
+function mustBeSymmetric(a)
+    if ~issymmetric(a)
+        eidType = 'mustBeSymmetric:notSymmetric';
+        msgType = 'Input must be symmetric.';
+        throwAsCaller(MException(eidType,msgType))
+    end    
 end
