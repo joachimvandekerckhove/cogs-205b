@@ -6,7 +6,7 @@ classdef Norm2d
             = [0;0]
         Covariance (2,2) double {mustBeReal, mustBeFinite, ...
             mustBePositive, mustBeSymmetric(Covariance)} ...
-            = [1 0.1;0.1 1]
+            = [1 1e-5;1e-5 1]
         
     end
     
@@ -46,6 +46,11 @@ classdef Norm2d
         
         % setter for covariance
         function obj = set.Covariance(obj, val)
+            
+%             if ~all(val(:) > 0)
+%                 val(val==0) = 1e-5;
+%             end
+            
             obj.Covariance = val;
             % update contingent properties
             obj = updateProperties(obj);
@@ -66,20 +71,26 @@ classdef Norm2d
         
         %%% computation functions / ordinary methods %%%
         
-        output1 = pdf(X,Mu,Sigma)
+        output1 = pdf(obj,X)
         
-        output2 = logpdf(X,Mu,Sigma)
+        output2 = logpdf(obj,X)
         
-        output3 = cdf(X,Mu,Sigma)
+        output3 = cdf(obj,X)
         
-        output4 = logcdf(X,Mu,Sigma)
+        output4 = logcdf(obj,X)
         
-        output5 = rng(Mu,Sigma,size)
+        output5 = rng(obj,size)
         
-        output6 = deviance(Data,Mu,Sigma)
+        output6 = deviance(obj,X)
         
         
-
+        %%% things that make life easier %%%
+        
+        % standardize a 2 x n variate
+        z = standardize(obj,X)
+        
+        % gaussian exponent term
+        a = expTerm(obj, z)
         
     end
         
