@@ -3,11 +3,14 @@ classdef Norm2d
     %   Detailed explanation goes here
     
     properties
-        Property1
+        Mean
+        Covariance
+        Precision
+        Correlation
     end
     
     methods
-        function obj = Norm2d(inputArg1,inputArg2)
+        function obj = Norm2d(inputArg1)
             %NORM2D Construct an instance of this class
             %   Detailed explanation goes here
             obj.Property1 = inputArg1 + inputArg2;
