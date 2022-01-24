@@ -1,6 +1,6 @@
 function output2 = logpdf(obj,X)
 
-    sigma1 = obj.Covariance(1); sigma2 = obj.Covariance(4);
+    sigma1 = sqrt(obj.Covariance(1)); sigma2 = sqrt(obj.Covariance(4));
 
     z = obj.standardize(X);
     
