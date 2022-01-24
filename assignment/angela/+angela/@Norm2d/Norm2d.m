@@ -5,16 +5,16 @@ classdef Norm2d
         Mean (2,1) double {mustBeReal, mustBeFinite} ...
             = [0;0]
         Covariance (2,2) double {mustBeReal, mustBeFinite, ...
-            mustBePositive, mustBeSymmetric(Covariance)} ...
-            = [1 1e-5;1e-5 1]
+            mustBeNonnegative, mustBeSymmetric(Covariance)} ...
+            = [1 0;0 1]
         
     end
     
     % derived properties that are set internally
     properties (SetAccess = private)
         
-        Precision (2,2) double
-        Correlation (1,1) double
+        Precision (2,2) double {mustBeFinite}
+        Correlation (1,1) double {mustBeFinite}
         
     end
     
@@ -47,10 +47,6 @@ classdef Norm2d
         % setter for covariance
         function obj = set.Covariance(obj, val)
             
-%             if ~all(val(:) > 0)
-%                 val(val==0) = 1e-5;
-%             end
-            
             obj.Covariance = val;
             % update contingent properties
             obj = updateProperties(obj);
@@ -59,7 +55,7 @@ classdef Norm2d
         
         % updater for precision and correlation
         function obj = updateProperties(obj)
-            obj.Precision = pinv(obj.Covariance);
+            obj.Precision = inv(obj.Covariance);
             
             c12 = obj.Covariance(3);
             sigma1 = sqrt(obj.Covariance(1));
@@ -82,6 +78,8 @@ classdef Norm2d
         output5 = rng(obj,size)
         
         output6 = deviance(obj,X)
+        
+        output7 = rnd(obj, size)
         
         
         %%% things that make life easier %%%
