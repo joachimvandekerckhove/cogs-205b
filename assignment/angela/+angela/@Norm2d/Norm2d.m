@@ -55,7 +55,7 @@ classdef Norm2d
         
         % updater for precision and correlation
         function obj = updateProperties(obj)
-            obj.Precision = inv(obj.Covariance);
+            obj.Precision = pinv(obj.Covariance);
             
             c12 = obj.Covariance(3);
             sigma1 = sqrt(obj.Covariance(1));
@@ -67,22 +67,26 @@ classdef Norm2d
         
         %%% computation functions / ordinary methods %%%
         
-        output1 = pdf(obj,X)
+        % probability density function
+        yax = pdf(obj,X)
         
-        output2 = logpdf(obj,X)
+        % log probability density function
+        yax = logpdf(obj,X)
+
+        % cumulative distribution function
+        yax = cdf(obj,X)
         
-        output3 = cdf(obj,X)
+        % log cumulative distribution function
+        yax = logcdf(obj,X)
         
-        output4 = logcdf(obj,X)
+        % random number generator
+        x = rnd(obj,size)
         
-        output5 = rng(obj,size)
-        
-        output6 = deviance(obj,X)
-        
-        output7 = rnd(obj, size)
+        % deviance
+        yax = deviance(obj,X)
         
         
-        %%% things that make life easier %%%
+        %%% methods that make life easier %%%
         
         % standardize a 2 x n variate
         z = standardize(obj,X)
@@ -90,9 +94,7 @@ classdef Norm2d
         % gaussian exponent term
         a = expTerm(obj, z)
         
-    end
-        
-    
+    end  
     
 end
 

@@ -1,6 +1,6 @@
-function output6 = deviance(obj,X)
+function yax = deviance(obj,X)
     
-    output6 = sum(obj.logpdf(X)) * -2;
+    yax = sum(obj.logpdf(X)) * -2;
 
 end
 

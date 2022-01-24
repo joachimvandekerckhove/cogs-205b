@@ -8,13 +8,4 @@ function z = standardize(obj, X)
     z = ((x1 - mu1)/sigma1).^2 - (2 * roe * ((x1 - mu1)/sigma1) ...
         .* ((x2 - mu2)/sigma2)) + ((x2 - mu2)/sigma2).^2;
     
-%%% delete later but this is for sanity check
-%     a = ((x1 - mu1)/sigma1).^2;
-%     
-%     b = (2 * roe * ((x1 - mu1)/sigma1) .* ((x2 - mu2)/sigma2));
-%     
-%     c = ((x2-mu2)/sigma2).^2;  
-%     
-%     z = a - b + c
-    
 end
