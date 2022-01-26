@@ -2,8 +2,8 @@ classdef Norm2d
     properties % variables that belong to the class.
         Mean(2, 1) double {mustBeFinite, mustBeReal} ...
             = [0; 0];
-        Covariance(2, 2) double {mustBeFinite, mustBeReal} ...
-            = [0 0; 0 0];
+        Covariance(2, 2) double {mustBeFinite, mustBeReal, mustBeSymmetricPositiveDefinite} ...
+            = [1 0; 0 1];
     end
     
     properties (SetAccess = private)
@@ -44,11 +44,15 @@ classdef Norm2d
             obj = updatePrecision(obj);
             obj = updateCorrelation(obj);
         end
-        
-        
-        
+      
         
     end
 end
 
-
+function mustBeSymmetricPositiveDefinite(testCovariance)
+    if ~chol(testCovariance)
+        ME = MException('Convariance: NotSymmetricPositiveDefinite', ...
+            'Covariance matrix is not symmetric positive definite.');
+        throw(ME)
+    end
+end
