@@ -21,6 +21,7 @@ classdef Norm2d
                 end
             end 
             obj = updatePrecision(obj);
+            obj = updateCorrelation(obj);
         end
         
         % Update Function
@@ -28,7 +29,9 @@ classdef Norm2d
             obj.Precision = inv(obj.Covariance);
         end
         
-        % TODO: function update Correlation.
+        function obj = updateCorrelation(obj)
+            obj.Correlation = obj.Covariance(2, 1)./(sqrt(obj.Covariance(1,1)*obj.Covariance(2,2)));
+        end
       
         % SETTERS
         
@@ -39,6 +42,7 @@ classdef Norm2d
         function obj = set.Covariance(obj, val)
             obj.Covariance = val;
             obj = updatePrecision(obj);
+            obj = updateCorrelation(obj);
         end
         
         
