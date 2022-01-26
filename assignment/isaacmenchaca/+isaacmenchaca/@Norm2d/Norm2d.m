@@ -1,26 +1,50 @@
 classdef Norm2d
-    %NORM2D Summary of this class goes here
-    %   Detailed explanation goes here
-    
-    properties
-        Mean
-        Covariance
-        Precision
-        Correlation
+    properties % variables that belong to the class.
+        Mean(2, 1) double {mustBeFinite, mustBeReal} ...
+            = [0; 0];
+        Covariance(2, 2) double {mustBeFinite, mustBeReal} ...
+            = [0 0; 0 0];
     end
     
-    methods
-        function obj = Norm2d(inputArg1)
-            %NORM2D Construct an instance of this class
-            %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
+    properties (SetAccess = private)
+        Precision
+        Correlation 
+    end
+    
+    methods 
+        
+        function obj = Norm2d(Mu, Sigma)
+            if nargin > 0
+                obj.Mean = Mu;
+                if nargin > 1
+                    obj.Covariance = Sigma;
+                end
+            end 
+            obj = updatePrecision(obj);
         end
         
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
+        % Update Function
+        function obj = updatePrecision(obj)
+            obj.Precision = inv(obj.Covariance);
         end
+        
+        % TODO: function update Correlation.
+      
+        % SETTERS
+        
+        function obj = set.Mean(obj, val)
+            obj.Mean = val;
+        end
+        
+        function obj = set.Covariance(obj, val)
+            obj.Covariance = val;
+            obj = updatePrecision(obj);
+        end
+        
+        
+        
+        
     end
 end
+
 
