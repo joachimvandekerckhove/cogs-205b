@@ -179,37 +179,23 @@ classdef Normal
             
         end
         
-        
-        % Print the distribution to screen
-        function str = print(obj)
-        
-            t = sprintf('+');
-            b = sprintf('+');
-            
-            f = '     %s  %-20s=%8.4f\n';
-            
-            str = sprintf('%s%s%s', ...
-                sprintf('  %s distribution with parameters:\n', obj.Name), ...
-                sprintf(f, t, 'Mean'              , obj.Mean              ), ...
-                sprintf(f, b, 'Standard deviation', obj.StandardDeviation ));
-            
-        end
-        
+      
         
         %%% Getters and setters %%%
         
-        % Setter for StandardDeviation
-        function obj = set.StandardDeviation(obj, val)
+        % Setter for Covariance
+        function obj = set.Covariance(obj, val)
             % Set the value
-            obj.StandardDeviation = val;
+            obj.Covariance = val;
             % Update contingent properties
-            obj = updateStandardDeviation(obj);
+            obj = updateCovariance(obj);
         end
         
-        % Updater for StandardDeviation
-        function obj = updateStandardDeviation(obj)
-            obj.Variance  = obj.StandardDeviation^2;
-            obj.Precision = 1/obj.Variance;
+        % Updater for Covariance
+        function obj = updateCovariance(obj)
+            obj.Correlation=obj.Covariance(1,2)./(sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2)));
+            obj.Precision=inv(obj.Covariance);
+            obj.StandardDeviation=sqrt(diag(obj.Covariance));
         end
         
         
