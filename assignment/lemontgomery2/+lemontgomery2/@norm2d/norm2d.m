@@ -44,8 +44,47 @@ classdef Norm2d
         %%% Display function %%%
         
         % Print the distrubtion to screen
+        function disp(obj)
+        
+            t = sprintf('+');
+            b = sprintf('+');
+            c = sprintf('+');
+            j = sprintf('+');
+
+            
+            f = '     %s  %-20s=%8.4f\n';
+            
+            fprintf('  %s distribution with parameters:\n', obj.Name);
+
+            fprintf(f, t, 'Mean'          , obj.Mean       );
+            fprintf(f, b, 'Covariance'    , obj.Covariance );
+            fprintf(f, c, 'Precision'     , obj.Precision  );
+            fprintf(f, j, 'Correlation'   , obj.Correlation);
+
+            
+            fprintf('\n');
+            
+        end
         
         % Print the distribution to screen
+        function str = print(obj)
+        
+            t = sprintf('+');
+            b = sprintf('+');
+            c = sprintf('+');
+            j = sprintf('+');
+            
+            f = '     %s  %-20s=%8.4f\n';
+            
+            str = sprintf('%s%s%s', ...
+                sprintf('  %s distribution with parameters:\n', obj.Name), ...
+                sprintf(f, t, 'Mean'       , obj.Mean        ), ...
+                sprintf(f, b, 'Covariance' , obj.Covariance  ), ...
+                sprintf(f, t, 'Precision'  , obj.Precision   ), ...
+                sprintf(f, b, 'Correlation', obj.Correlation ));
+            
+        end
+        
         
         %%% Getters and setters %%%
 
@@ -110,19 +149,22 @@ classdef Norm2d
             
             % Generating first distribution
             function x1 = firstrng(obj, size)
-                x1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), 1, size);
+                x1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), [1, size]);
             end
             
             % Generating second distribution
             function x2 = secondrng(obj, size)
                 x2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
-                        * ((x1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
+                        .* ((x1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
                         obj.Covariance(2,2)^2 * sqrt(1 - obj.Correlation^2), ...
-                        1, size);
+                        [1, size]);
             end
         end
         
         % Deviance
+        function dev = deviance(obj, data)
+            dev = -2 * sum(obj.logpdf(obj, data));
+        end
     end
 end
 
