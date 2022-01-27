@@ -1,5 +1,5 @@
 classdef Norm2d
-    properties (SetAccess = private)
+    properties
         Mean(2,1) double{mustBeReal,mustBeFinite} 
         Covariance (2,2) double{mustBeReal, mustBeFinite}
        
