@@ -1,4 +1,4 @@
-classdef Normal < Distribution
+classdef Normal %< Distribution
     % NORMAL  A class for the normal distribution
     
     % The main properties are the mean and standard deviation
