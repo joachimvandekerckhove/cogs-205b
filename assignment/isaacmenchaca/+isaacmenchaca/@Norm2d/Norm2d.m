@@ -25,12 +25,17 @@ classdef Norm2d
                 end
             end 
             
-            obj = updateSigmas(obj);
-            obj = updatePrecision(obj);
-            obj = updateCorrelation(obj);
+            obj = updateParameters(obj);
         end
         
         % Update Function
+        
+        function obj = updateParameters(obj)
+            obj = updateSigmas(obj);
+            obj = updatePrecision(obj);
+            obj = updateCorrelation(obj);
+        end 
+        
         function obj = updatePrecision(obj)
             obj.Precision = inv(obj.Covariance);
         end
@@ -52,15 +57,14 @@ classdef Norm2d
         
         function obj = set.Covariance(obj, val)
             obj.Covariance = val;
-            obj = updateSigmas(obj);
-            obj = updatePrecision(obj);
-            obj = updateCorrelation(obj);
+            obj = updateParameters(obj);
         end
         
         % Ordinary Methods
-        
-        yax = pdf(obj, X, Mu, Sigma);
-        z = standardize(obj, X)
+        z = standardized(obj, X);
+        yax = pdf(obj, X);
+        yax = logpdf(obj, X);
+        yax = cdf(obj, X)
       
         
     end
