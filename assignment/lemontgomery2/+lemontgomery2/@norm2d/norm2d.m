@@ -48,18 +48,14 @@ classdef Norm2d
         
             t = sprintf('+');
             b = sprintf('+');
-            c = sprintf('+');
-            j = sprintf('+');
 
             
             f = '     %s  %-20s=%8.4f\n';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
-            fprintf(f, t, 'Mean'          , obj.Mean       );
-            fprintf(f, b, 'Covariance'    , obj.Covariance );
-            fprintf(f, c, 'Precision'     , obj.Precision  );
-            fprintf(f, j, 'Correlation'   , obj.Correlation);
+            fprintf(f, t, 'Mean'      , obj.Mean       );
+            fprintf(f, b, 'Covariance', obj.Covariance );
 
             
             fprintf('\n');
@@ -71,20 +67,15 @@ classdef Norm2d
         
             t = sprintf('+');
             b = sprintf('+');
-            c = sprintf('+');
-            j = sprintf('+');
             
             f = '     %s  %-20s=%8.4f\n';
             
             str = sprintf('%s%s%s', ...
                 sprintf('  %s distribution with parameters:\n', obj.Name), ...
-                sprintf(f, t, 'Mean'       , obj.Mean        ), ...
-                sprintf(f, b, 'Covariance' , obj.Covariance  ), ...
-                sprintf(f, t, 'Precision'  , obj.Precision   ), ...
-                sprintf(f, b, 'Correlation', obj.Correlation ));
+                sprintf(f, t, 'Mean'      , obj.Mean       ), ...
+                sprintf(f, b, 'Covariance', obj.Covariance ));
             
         end
-        
         
         %%% Getters and setters %%%
 
