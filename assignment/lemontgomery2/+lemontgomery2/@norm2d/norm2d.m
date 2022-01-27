@@ -82,30 +82,44 @@ classdef Norm2d
         end
         
         % Log Probability density function
-        function yax = logPdf(obj, xax)
-            yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel;
+        function yax = logpdf(obj, xax)
+            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1)))^2 ...
+                  - 2 * obj.Correlation ...
+                  * ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
+                  * ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
+                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2)))^2;
+            yax = pi * sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)) ...
+                  * (1 - obj.Correlation^2)^(-0.5) * zax;
         end
         
         % Cumulative distribution function
-        function yax = cdf(xax, Mean, Covariance)
+        function yax = cdf(obj, xax)
             yax = mvncdf(xax, obj.Mean, obj.Covariance);
         end
         
         % Log Cumulative distribution function
-        function yax = logCdf(obj, xax)
+        function yax = logcdf(obj, xax)
             yax = log(obj.cdf(xax));
         end
         
         % Random number generator
-        function x = rng(Mean, Covariance, size)
-            if nargin < 3, size = 1; end
-            x1 = obj.unstandardized(normrnd(obj.Mean(1), obj.Covariance(1,1), obj.size));
-            newMean = obj.Mean(2) ...
-                        + obj.Covariance(2,2) * obj.Correlation ...
-                        * ((obj.x1 - obj.Mean(1)) / obj.Covariance(1,1));
-            newCovariance = obj.Covariance(2,2)^2 * sqrt(1 - obj.Correlation^2);
-            x2 = obj.unstandardized(normrnd(obj.newMean, obj.newCovariance, obj.size));
+        function x = rng(obj, size)
+            x1 = firstrng(obj, size);
+            x2 = secondrng(obj, size);
             x = [x1; x2];
+            
+            % Generating first distribution
+            function x1 = firstrng(obj, size)
+                x1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), 1, size);
+            end
+            
+            % Generating second distribution
+            function x2 = secondrng(obj, size)
+                x2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
+                        * ((x1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
+                        obj.Covariance(2,2)^2 * sqrt(1 - obj.Correlation^2), ...
+                        1, size);
+            end
         end
         
         % Deviance
