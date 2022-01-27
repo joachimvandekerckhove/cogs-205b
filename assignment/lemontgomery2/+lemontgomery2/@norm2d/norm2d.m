@@ -162,3 +162,12 @@ function mustBePositiveDefinite(Covariance)
         throwAsCaller(MException(eidType,msgType))
     end
 end
+
+% Custom validation function
+function mustBeRows(Mean)
+    if size(Mean, 1) ~=2
+        eidType = 'ImData:notCorrectRows';
+        msgType = 'Mean must have 2 rows and n columns';
+        throwAsCaller(MException(eidType,msgType))
+    end
+end
