@@ -25,6 +25,7 @@ classdef Norm2d
             obj.Covariance = val
         end
         
+        
         function obj = Norm2d(mu, sigma)
             if nargin > 0
                 obj.Mean = mu; %mean should be a set to a 2x1 matrix
@@ -32,11 +33,39 @@ classdef Norm2d
                     obj.Covariance = sigma; %covariance needs to be set to a 2x2 covariance matrix
                 end
             end
-            
+            %need an updater for the properties that are based on
+            %covariance
+        end
+
+        %below is somethign you could use as your Norm2d constructor 
+%         
+%         function obj = Norm2d(Mean, Covariance)
+%             if nargin > 0
+%                 obj.Mean = Mean;
+%                 if nargin > 1
+%                     obj.Covariance = Covariance;
+%                 end
+%             end
+%             
+%            obj = updateCovariance(obj);
+% 
+%             
+%         end
+        
+        %you are so brave for making your own pdf function!
+        %joachim suggested that I just clone the Normal.m file from the
+        %assignment folder and then make changes on there (since the
+        %Normal.m file isn't perfect)
+        
+                       
+        % Probability density function FROM JOACHIM'S NORMAL.M
+        function yax = pdf(obj, xax)
+            yax = obj.ScalingConstant ...
+                * obj.Precision ...
+                * pdfKernel(obj, xax);
         end
         
-        
-        function out_pdf = pdf(x, mu, sigma)
+        function out_pdf = pdf(x, mu, sigma) %need to input 
             x1 = x(1,:) 
             x2 = x(2,:)
             m1 = mu(1)
@@ -48,9 +77,13 @@ classdef Norm2d
             out_pdf = 1/2*pi*sig1*sig2*sqrt(1-p^2)*exp((-1/2)*(z/(1-p^2))) 
         end
         
-        function obj = log_pdf(x, mu, sigma, out_pdf)
-           obj = log(out_pdf)
+        function obj = log_pdf(x, mu, sigma, out_pdf) 
+            %if out_pdf is the input, i don't think you need to repeat the x, mu, and sigma
+            %as inputs 
+           obj = log(out_pdf) 
         end
+        
+
         
         function out_cdf = cdf(x, mu, sigma)
             out_cdf = mvncdf(x, mu, sigma)
@@ -62,6 +95,13 @@ classdef Norm2d
         
         function obj = rng(mu, sigma, size)
            % struggling with rng, will continue to work on it
+        end
+        
+        % Random number generator from Joachim's code. Don't use this as-is bc
+        % its not correct without some tweaking 
+        function x = rnd(obj, dims)            
+            if nargin < 2, dims = 1; end            
+            x = obj.unstandardize(randn(dims));            
         end
         
         function obj = deviance(data, mu, sigma)
