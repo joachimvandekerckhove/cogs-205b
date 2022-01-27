@@ -11,6 +11,8 @@ classdef Norm2d
        
         Correlation;
         Precision; 
+        ScaleFactor;
+        logScaleFactor;
 
     end
     
