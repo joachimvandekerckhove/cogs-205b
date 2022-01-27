@@ -3,9 +3,17 @@ classdef Norm2d
     %   Detailed explanation goes here
     
     properties
-        Mean(2,1) double {mustBeReal, mustBeFinite} = 0
-        Covariance(2,2) double {mustBeReal} = 0
+        Mean(2,1) double {mustBeReal, mustBeFinite} = 0 %the default to be 2x1 matrix (suggestion: eye(2,1))
+        Covariance(2,2) double {mustBeReal} = 0 %set the default to be a 2x2 matrix (suggestion: eye(2,2))
+        %make sure to add something that checks that the covariances in the
+        %covariance matrix are the same!
     end
+    
+    %add precision (the first failed I got for when I ran the test suite for your code 
+    % is related to no precision property), correlation, and maybe standard deviation as properties
+    %(that are derived from the original properties)
+    %these should be a in a different section than the mean and covariance properties
+    
     
     methods
         
@@ -19,13 +27,14 @@ classdef Norm2d
         
         function obj = Norm2d(mu, sigma)
             if nargin > 0
-                obj.Mean = mu;
+                obj.Mean = mu; %mean should be a set to a 2x1 matrix
                 if nargin > 1
-                    obj.Covariance = sigma;
+                    obj.Covariance = sigma; %covariance needs to be set to a 2x2 covariance matrix
                 end
             end
             
         end
+        
         
         function out_pdf = pdf(x, mu, sigma)
             x1 = x(1,:) 
