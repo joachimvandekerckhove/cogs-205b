@@ -11,7 +11,7 @@ classdef Norm2d
     properties (SetAccess = private)
       Precision double {mustBeReal}
       Variance double {mustBeReal, mustBeFinite}
-      Correlation double {mustBeReal, mustBeFininte}
+      Correlation double {mustBeReal, mustBeFinite}
     end
 
     % Constant properties
@@ -21,6 +21,19 @@ classdef Norm2d
     end
 
     methods
+
+        %%% Constructor method (create the object) %%%
+        function obj = Norm2d(Mean, Covariance)
+            if nargin > 0
+                obj.Mean = Mean;
+            end
+            if nargin > 1
+                obj.Covariance = Covariance;
+            end
+            obj=updateCovariance(obj);
+        end
+
+        
         function obj = setMeanAndCovariance(obj,Mean1,Covariance1)
              obj.Precision=inv(obj.Covariance1);
              obj.c12=Covariance1(1,2);
