@@ -48,14 +48,16 @@ classdef Norm2d
         
             t = sprintf('+');
             b = sprintf('+');
+            k = sprintf('[');
 
             
-            f = '     %s  %-20s=%8.4f\n';
+            f = '     %s  %-20s=%8.4s %g ; %g ]\n';
+            h = '     %s  %-20s=%8.4s %g %g ; %g %g ]\n';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
-            fprintf(f, t, 'Mean'      , obj.Mean       );
-            fprintf(f, b, 'Covariance', obj.Covariance );
+            fprintf(f, t, 'Mean'              , k,  obj.Mean              );
+            fprintf(h, b, 'Covariance', k, obj.Covariance );
 
             
             fprintf('\n');
@@ -67,13 +69,16 @@ classdef Norm2d
         
             t = sprintf('+');
             b = sprintf('+');
+            k = sprintf('[');
+
             
-            f = '     %s  %-20s=%8.4f\n';
-            
+            f = '     %s  %-20s=%8.4s %g ; %g ]\n';
+            h = '     %s  %-20s=%8.4s %g %g ; %g %g ]\n';
+
             str = sprintf('%s%s%s', ...
                 sprintf('  %s distribution with parameters:\n', obj.Name), ...
-                sprintf(f, t, 'Mean'      , obj.Mean       ), ...
-                sprintf(f, b, 'Covariance', obj.Covariance ));
+                sprintf(f, t, 'Mean'              , k, obj.Mean              ), ...
+                sprintf(h, b, 'Covariance', k, obj.Covariance ));
             
         end
         
