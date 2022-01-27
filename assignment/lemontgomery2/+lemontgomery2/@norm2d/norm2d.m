@@ -5,7 +5,8 @@ classdef Norm2d
     properties
         Mean (2,1) double {mustBeReal, mustBeFinite, mustBeVector} ...
             = [ 0; 0 ]
-        Covariance (2,2) double {mustBeReal, mustBeFinite, mustBePositive} ...
+        Covariance (2,2) double {mustBeReal, mustBeFinite, ...
+                                 mustBePositiveDefinite(Covariance)} ...
             = [ 1 0; 0 1 ]
     end
     
@@ -17,8 +18,8 @@ classdef Norm2d
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
-        ScalingConstant = (2 * pi).^(-0.5);
-        Name = 'Norm2d';
+        ScalingConstant = (2 * pi).^(-1);
+        Name = 'Bivariate Normal';
     end
     
    
@@ -60,7 +61,8 @@ classdef Norm2d
         function obj = updateCovariance(obj)
             obj.Precision = inv(obj.Covariance);
             obj.Correlation = obj.Covariance(1,2) ...
-                / (obj.Covariance(1,1) * obj.Covariance(2,2));
+                              / (sqrt(obj.Covariance(1,1)) ...
+                              * sqrt(obj.Covariance(2,2)));
         end
         
         
@@ -68,13 +70,15 @@ classdef Norm2d
         
         % Probability density function
         function yax = pdf(obj, xax)
+            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1)))^2 ...
+                  - 2 * obj.Correlation ...
+                  * ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
+                  * ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
+                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2)))^2;
             yax = obj.ScalingConstant ...
-                * (obj.Covariance(1,1) * obj.Covariance(2,2) * sqrt(1 - obj.Correlation^2)).^(-0.5) ...
-                * exp(-0.5 ...
-                * ((obj.Mean(1,1) / obj.Covariance(1,1))^2 - 2 * obj.Correlation ...
-                * (xax1 - obj.Mean(1,1))/ obj.Covariance(1,1) * obj.Covariance(2,2) ...
-                + ((xax2 - obj.Mean(2,1)) / obj.Covariance(2,2))^2 ))...
-                * 1 / (1 - obj.Correlation^2);
+                * (sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)))^(-1) ...
+                * sqrt(1 - obj.Correlation^2)^(-1) ...
+                * exp(-0.5 * zax * (1 - obj.Correlation^2)^(-1));
         end
         
         % Log Probability density function
@@ -105,5 +109,14 @@ classdef Norm2d
         end
         
         % Deviance
+    end
+end
+
+% Custom validation function
+function mustBePositiveDefinite(Covariance)
+    if ~ismatrix(chol(Covariance))
+        eidType = 'ImData:notPositiveDefinite';
+        msgType = 'Covariance must be positive definite array';
+        throwAsCaller(MException(eidType,msgType))
     end
 end
