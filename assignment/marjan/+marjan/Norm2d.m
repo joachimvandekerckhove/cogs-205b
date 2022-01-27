@@ -1,34 +1,35 @@
 classdef Norm2d
+% NORM2D A class for a bivariate normal distribution
+
+    % Define & set default values for main properties
     properties
-        Mean(2,1) double{mustBeReal,mustBeFinite} 
-        Covariance (2,2) double{mustBeReal, mustBeFinite}
-       
+        Mean(2,1) double {mustBeReal,mustBeFinite} = [0; 0];
+        Covariance (2,2) double {mustBeReal, mustBeFinite} = eye(1);
     end
+
+    % Create derived properties
     properties (SetAccess = private)
-      Precision
-      Variance
-      Correlation
-
+      Precision double {mustBeReal}
+      Variance double {mustBeReal, mustBeFinite}
+      Correlation double {mustBeReal, mustBeFininte}
     end
-    properties (Access = private)
-      sigma1 %StandardDeviation
-      sigma2
-      c12
 
+    % Constant properties
+    properties(Constant)
+        % Distribution name
+        Name = 'Bivariate Normal';
     end
 
     methods
         function obj = setMeanAndCovariance(obj,Mean1,Covariance1)
-             obj.Mean = Mean1;
-             obj.Covariance=Covariance1;
-             obj.Precision=inv(Covariance1)
-             obj.c12=Covariance1(1,2)
-             obj.sigma1=sqrt(Covariance1(1,1))
-             obj.sigma2=sqrt(Covariance1(2,2))
-             obj.Correlation=obj.c12/(obj.sigma1*obj.sigma2)
+             obj.Precision=inv(obj.Covariance1);
+             obj.c12=Covariance1(1,2);
+             obj.sigma1=sqrt(Covariance1(1,1));
+             obj.sigma2=sqrt(Covariance1(2,2));
+             obj.Correlation=obj.c12/(obj.sigma1*obj.sigma2);
         end
         function out = pdf(obj,X)
-             Ro=obj.c12/(obj.sigma1*obj.sigma2)
+             Ro=obj.c12/(obj.sigma1*obj.sigma2);
              a1=sqrt(1-Ro^2)
              a2=2*pi*obj.sigma1*obj.sigma2*a1
              k=1/a2
