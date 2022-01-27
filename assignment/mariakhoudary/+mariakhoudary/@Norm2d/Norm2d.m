@@ -59,7 +59,7 @@ classdef Norm2d
 
       % Update properties contingent on Covariance
       function obj = updateCovariance(obj)
-          obj.Precision = inv(obj.Covariance);
+          obj.Precision = inv(obj.Covariance); 
           obj.Correlation = obj.Covariance(1,2) / sqrt(obj.Covariance(1,1)*obj.Covariance(2,2));
       end
 
