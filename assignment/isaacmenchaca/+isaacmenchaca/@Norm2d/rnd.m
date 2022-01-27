@@ -1,5 +1,5 @@
 function x = rnd(obj, size)
-    if nargin < 2, dims = 1; end   
+    if nargin < 2, dims = 1; end  % unused variable 
     
     x = zeros(2, size);
     x(1, :) = obj.Mean(1) * randn(1, size) + obj.sigma1;

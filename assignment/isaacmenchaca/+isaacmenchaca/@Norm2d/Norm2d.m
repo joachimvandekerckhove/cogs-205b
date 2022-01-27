@@ -42,6 +42,7 @@ classdef Norm2d
         
         function obj = updateCorrelation(obj)
             obj.Correlation = obj.Covariance(2, 1)./(sqrt(obj.Covariance(1,1)*obj.Covariance(2,2)));
+%             could use obj,sigma1 and obj.sigma2
         end
         
         function obj = updateSigmas(obj)
