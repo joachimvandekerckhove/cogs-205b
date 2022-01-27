@@ -104,7 +104,7 @@ Advantages of indirection include
 
 If a long function has comments like "in this section, we're going to do xyz..." that's a signal that some semantic distance is being created. That section should probably be its own function called `xyz_doer()`
 
-Modern programming languages have essentially no penalty for function calls
+Modern programming languages have essentially no performance penalty for function calls
 
 
 ---
@@ -153,9 +153,9 @@ This often indicates a scenario where the correct action is _not_ to refactor, b
 
 # Assignment for today
 
-Review @Norm2d as implemented by the student before you in the alphabet (Adam reviewed by cable etc.).
+Review @Norm2d as implemented by the student after you in the alphabet (JieWan review adri, adri review angela, etc.).
 
-1. Fork their forked repository and clone it locally
+1. Clone their own repository and examine their solution in the assignment folder
 2. Run the test suite and note any issues
 3. Read the code line by line and add comments for these code smells:
    * Repetitive code / redundancy

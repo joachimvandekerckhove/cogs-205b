@@ -1,24 +1,28 @@
-classdef Normal %< Distribution
-    % NORMAL  A class for the normal distribution
+classdef Norm2d
+    % Norm2d  A class for the normal distribution
     
-    % The main properties are the mean and standard deviation
+    % The main properties are the mean and standard deviation ~~how to make
+    % sure covariance(1, 2) matches (2, 1)
     properties
-        Mean double {mustBeReal, mustBeFinite} ...
-            = 0
-        StandardDeviation double {mustBeReal, mustBeFinite, mustBePositive} ...
-            = 1
+        Mean (2, 1) double {mustBeReal, mustBeFinite} ...
+            = eye(2,1)
+        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance)} ...
+            = eye(2)
+%         Covariance (2, 2) double {mustBeReal, mustBeFinite} ...
+%             = eye(2)
     end
     
     % Derived properties that need to be set internally
     properties (SetAccess = private)
         Precision
-        Variance
+        Correlation
+        StandardDeviation
     end
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
         ScalingConstant = (2*pi).^(-0.5);
-        Name = 'Normal';
+        Name = 'Norm2d';
     end
     
     
@@ -27,17 +31,16 @@ classdef Normal %< Distribution
         
         %%% Constructor function %%%
         
-        % A main constructor, for a new Normal
-        function obj = Normal(Mean, StandardDeviation)
+        % A main constructor, for a new Norm2d
+        function obj = Norm2d(Mean, Covariance)
             if nargin > 0
                 % This triggers the implicit setter for Mean
                 obj.Mean = Mean;
                 if nargin > 1
-                    % This triggers the explicit setter for StandardDeviation
-                    obj.StandardDeviation = StandardDeviation;
+                    obj.Covariance = Covariance;
                 end
             end
-            obj = updateStandardDeviation(obj);
+            obj = updateCovariance(obj);
         end
         
         
@@ -49,50 +52,66 @@ classdef Normal %< Distribution
             t = sprintf('+');
             b = sprintf('+');
             
-            f = '     %s  %-20s=%8.4f\n';
+            f = '     %s  %-20s= %8.4f \t %8.4f \n';
+            F = '     %s  %-20s= %8.4f \t %8.4f \n \t\t\t%8.4f\t%8.4f';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
-            fprintf(f, t, 'Mean'              , obj.Mean              );
-            fprintf(f, b, 'Standard deviation', obj.StandardDeviation );
+            fprintf(f, t, 'Mean'              , obj.Mean           );
+            fprintf(F, b, 'Covariance', obj.Covariance );
             
             fprintf('\n');
             
         end
         
-        
-        % Print the distribution to screen
-        function str = print(obj)
-        
-            t = sprintf('+');
-            b = sprintf('+');
-            
-            f = '     %s  %-20s=%8.4f\n';
-            
-            str = sprintf('%s%s%s', ...
-                sprintf('  %s distribution with parameters:\n', obj.Name), ...
-                sprintf(f, t, 'Mean'              , obj.Mean              ), ...
-                sprintf(f, b, 'Standard deviation', obj.StandardDeviation ));
-            
-        end
+       
         
         
         %%% Getters and setters %%%
         
-        % Setter for StandardDeviation
-        function obj = set.StandardDeviation(obj, val)
+        % Setter for Covariance
+        function obj = set.Covariance(obj, val)
+            obj.Covariance=val;
+            %update contingent properties
+            obj= updateCovariance(obj);
+           
+        end 
+        
+        % Updater for covariance
+       
+        function obj = updateCovariance(obj)
+            obj.Correlation=obj.Covariance(1,2)./(sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2)));
+            obj.Precision=inv(obj.Covariance);
+            obj.StandardDeviation=sqrt(diag(obj.Covariance));
+        end 
+  
+        
+        
+        % Setter for Mean
+        function obj = set.Mean(obj, val)
             % Set the value
-            obj.StandardDeviation = val;
-            % Update contingent properties
-            obj = updateStandardDeviation(obj);
+            obj.Mean = val;
         end
         
-        % Updater for StandardDeviation
-        function obj = updateStandardDeviation(obj)
-            obj.Variance  = obj.StandardDeviation^2;
-            obj.Precision = 1/obj.Variance;
+        %Getter for Covariance
+        function val = get.Covariance(obj)
+            val=obj.Covariance;
+        end 
+        
+        %Getter for Mean
+        function val = get.Mean(obj)
+            val=obj.Mean;
         end
         
+        %Getter for Precision
+        function val = get.Precision(obj)
+            val=obj.Precision;
+        end
+        
+        %Getter for Correlation
+        function val = get.Correlation(obj)
+            val=obj.Correlation;
+        end
         
         % Computation functions
         
@@ -102,6 +121,11 @@ classdef Normal %< Distribution
             yax = 0.5 * (1 + erf(zax ./ sqrt(2)));
         end
         
+        % Log Cumulative density function
+        function yax = logCdf(obj, xax)
+            yax=log(obj.cdf(n));
+        end
+       
         % Probability density function
         function yax = pdf(obj, xax)
             yax = obj.ScalingConstant ...
@@ -144,8 +168,9 @@ classdef Normal %< Distribution
         end
         
         % Unstandardize a variate
-        function x = unstandardize(obj, z)
-            x = obj.Mean + z * obj.StandardDeviation;
+        function [x1, x2] = unstandardize(obj, z)
+            x1 = obj.Mean(1,1) + z .* obj.StandardDeviation(1,1);
+            x2=obj.Mean(2,1) + z .* obj.StandardDeviation(2,1);
         end
         
         % Integrate a function over this distribution
@@ -167,12 +192,13 @@ classdef Normal %< Distribution
         
     end
     
-    
-    % Static methods don't need the object as input
-    methods (Static)
-        
-        testSuite()
-        
-    end
-    
 end
+
+      %validator for covariance values
+        function covarianceValueCheck(Covariance)
+            if~(Covariance(1, 2)==Covariance(2, 1))
+                eidType = 'covarianceValueCheck:notcovarianceValueCheck';
+                msgType = 'The covariance values row 1 col 2 and row 2 col 1 of the covariance matrix must be equal.';
+                throwAsCaller(MException(eidType,msgType))
+            end
+        end
