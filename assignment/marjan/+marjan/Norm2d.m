@@ -33,14 +33,19 @@ classdef Norm2d
             obj=updateCovariance(obj);
         end
 
-        
-        function obj = setMeanAndCovariance(obj,Mean1,Covariance1)
-             obj.Precision=inv(obj.Covariance1);
-             obj.c12=Covariance1(1,2);
-             obj.sigma1=sqrt(Covariance1(1,1));
-             obj.sigma2=sqrt(Covariance1(2,2));
-             obj.Correlation=obj.c12/(obj.sigma1*obj.sigma2);
+        %%% Getters & setters %%%
+        function obj = set.Covariance(obj, val)
+            obj.Covariance = val;
+            obj = updateCovariance(obj);
         end
+
+        function obj = updateCovariance(obj)
+            obj.Precision = inv(obj.Covariance);
+            obj.Correlation = obj.Covariance(1,2) / sqrt(obj.Covariance(1) * obj.Covariance(4));
+        end
+
+
+        
         function out = pdf(obj,X)
              Ro=obj.c12/(obj.sigma1*obj.sigma2);
              a1=sqrt(1-Ro^2)
