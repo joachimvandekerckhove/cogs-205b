@@ -8,7 +8,11 @@ classdef Norm2d
     
     properties (SetAccess = private)
         Precision
-        Correlation 
+        Correlation
+        
+        % adding these.
+        sigma1
+        sigma2
     end
     
     methods 
@@ -20,6 +24,8 @@ classdef Norm2d
                     obj.Covariance = Sigma;
                 end
             end 
+            
+            obj = updateSigmas(obj);
             obj = updatePrecision(obj);
             obj = updateCorrelation(obj);
         end
@@ -32,6 +38,11 @@ classdef Norm2d
         function obj = updateCorrelation(obj)
             obj.Correlation = obj.Covariance(2, 1)./(sqrt(obj.Covariance(1,1)*obj.Covariance(2,2)));
         end
+        
+        function obj = updateSigmas(obj)
+            obj.sigma1 = sqrt(obj.Covariance(1, 1));
+            obj.sigma2 = sqrt(obj.Covariance(2, 2));
+        end 
       
         % SETTERS
         
@@ -41,9 +52,15 @@ classdef Norm2d
         
         function obj = set.Covariance(obj, val)
             obj.Covariance = val;
+            obj = updateSigmas(obj);
             obj = updatePrecision(obj);
             obj = updateCorrelation(obj);
         end
+        
+        % Ordinary Methods
+        
+        yax = pdf(obj, X, Mu, Sigma);
+        z = standardize(obj, X)
       
         
     end
