@@ -1,3 +1,3 @@
-function yax = cdf(obj, X)
+function yax = logcdf(obj, X)
     yax = log(cdf(obj, X));
 end
