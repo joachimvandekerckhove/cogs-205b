@@ -4,7 +4,7 @@ classdef Norm2d
     % Define & set default values for main properties
     properties
         Mean(2,1) double {mustBeReal,mustBeFinite} = [0; 0];
-        Covariance (2,2) double {mustBeReal, mustBeFinite} = eye(1);
+        Covariance (2,2) double {mustBeReal, mustBeFinite, mustBeSymmetric} = eye(1);
     end
 
     % Create derived properties
@@ -45,7 +45,7 @@ classdef Norm2d
         end
 
 
-        
+
         function out = pdf(obj,X)
              Ro=obj.c12/(obj.sigma1*obj.sigma2);
              a1=sqrt(1-Ro^2)
@@ -130,3 +130,10 @@ classdef Norm2d
     end
 end
  
+function mustBeSymmetric(a)
+    if ~issymmetric(a)
+        eidType = 'mustBeSymmetric: not symmetric';
+        msgType = 'Covariance matrix must be symmetric';
+        throwAsCaller(MException(eidType, msgType))
+    end
+end
