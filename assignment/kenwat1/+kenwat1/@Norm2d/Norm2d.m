@@ -2,7 +2,7 @@ classdef Norm2d
     properties
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
-        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositive, mustBeSymmetric(Covariance)}...
+        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance), mustBeSymmetric(Covariance)}...
             = [1 1;1 1]
     end
     
@@ -33,40 +33,6 @@ classdef Norm2d
         end
         
         
-        %     %%% Display function %%%
-        %
-        %     % Print the distribution to screen
-        %     function disp(obj)
-        %
-        %         t = sprintf('+');
-        %         b = sprintf('+');
-        %
-        %         f = '     %s  %-20s=%8.4f\n';
-        %
-        %         fprintf('  %s distribution with parameters:\n', obj.Name);
-        %
-        %         fprintf(f, t, 'Mean'   , obj.Mean            );
-        %         fprintf(f, b, 'Covariance', obj.Covariance );
-        %
-        %         fprintf('\n');
-        %
-        %     end
-        %
-        %     % Print the distribution to screen
-        %     function str = print(obj)
-        %
-        %         t = sprintf('+');
-        %         b = sprintf('+');
-        %
-        %         f = '     %s  %-20s=%8.4f\n';
-        %
-        %         str = sprintf('%s%s%s', ...
-        %             sprintf('  %s distribution with parameters:\n', obj.Name), ...
-        %             sprintf(f, t, 'Mean'    , obj.Mean              ), ...
-        %             sprintf(f, b, 'Covariance', obj.Covariance ));
-        %
-        %     end
-        
         %%% Getters and setters %%%
         
         % Setter for StandardDeviation
@@ -80,8 +46,8 @@ classdef Norm2d
         % Updater for StandardDeviation
         function obj = updateCovariance(obj)
             obj.Precision  = inv(obj.Covariance);
-            obj.Correlation  = obj.Covariance(1,2)./...
-                (sqrt(obj.Covariance(1,1))*sqrt(obj.Covariance(2,2)));
+            obj.Correlation  = obj.Covariance(1,2)...
+                /(sqrt(obj.Covariance(1,1))*sqrt(obj.Covariance(2,2)));
         end
         
         %%% Computation functions %%%
@@ -90,8 +56,8 @@ classdef Norm2d
         function y = pdf(obj,X) % X is a 2 x n matrix
             z = obj.standardize(X);
             y = obj.ScalingConstant ...
-                /(sqrt(obj.Covariance(1,1))*(sqrt(obj.Covariance(2,2)))) ...
-                ./(sqrt(1-obj.Correlation^2)) ...
+                *(sqrt(obj.Covariance(1,1))*(sqrt(obj.Covariance(2,2))))^(-1) ...
+                *(sqrt(1-obj.Correlation^2))^(-1) ...
                 .* exp(-0.5*(z./(1-obj.Correlation^2)));
         end
         
@@ -106,7 +72,8 @@ classdef Norm2d
         
         % Cumulative distribution function
         function y = cdf(obj, X)
-            y = mvncdf(X',obj.Mean',obj.Covariance');
+            temp = mvncdf(X',obj.Mean',obj.Covariance');
+            y = temp';
         end
         
         % Log Cumulative density function
@@ -137,7 +104,7 @@ classdef Norm2d
         function z = standardize(obj, X)
             z1 = (X(1,:) - obj.Mean(1))./(sqrt(obj.Covariance(1,1)));
             z2 = (X(2,:) - obj.Mean(2))./(sqrt(obj.Covariance(2,2)));
-            z =  z1.^2 - (2*obj.Correlation)*z1*z2 + z2.^2;
+            z =  z1.^2 - (2*obj.Correlation).*z1.*z2 + z2.^2;
         end
         
     end
@@ -156,6 +123,14 @@ function mustBeSymmetric(a)
     if issymmetric(a)==0
         eidType = 'Covariance:notSymmetric';
         msgType = 'Input is not symmetric';
+        throwAsCaller(MException(eidType,msgType))
+    end
+end
+
+function mustBePositiveOrEye(a)    
+    if (a(1,1)<=0) || (a(2,2)<=0) || (a(1,2)<0) || (a(2,1)<0)
+        eidType = 'Covariance:notPostiveOrEye';
+        msgType = 'Input is not positive or eye';
         throwAsCaller(MException(eidType,msgType))
     end
 end
