@@ -65,6 +65,8 @@ classdef Norm2d
         yax = pdf(obj, X);
         yax = logpdf(obj, X);
         yax = cdf(obj, X)
+        yax = logcdf(obj, X);
+        x = rnd(obj, X);
       
         
     end
