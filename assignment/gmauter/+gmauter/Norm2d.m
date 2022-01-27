@@ -115,14 +115,14 @@
 %since joachim advised me to just copy and paste Normal.m to start the assignment, that's what I'm
 %going to do and I'm going to make changes/improvments to there
 
-classdef Normal 
+classdef Norm2d 
     % NORMAL  A class for the normal distribution
     
     % The main properties are the mean and standard deviation
     properties
         Mean(2,1) double {mustBeReal, mustBeFinite} ...
             = eye(2,1)
-        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositive} ...
+        Covariance(2,2) double {mustBeReal, mustBeFinite} ...
             = eye(2,2)
     end
     
@@ -167,12 +167,12 @@ classdef Normal
             t = sprintf('+');
             b = sprintf('+');
             
-            f = '     %s  %-20s=%8.4f\n';
+            f = '     %s  %-20s= %8.4f \t %8.4f \n';
             F = '     %s  %-20s= %8.4f \t %8.4f \n \t\t\t%8.4f\t%8.4f';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
-            fprintf(f, t, 'Mean'              , obj.Mean              );
+            fprintf(f, t, 'Mean'              , obj.Mean   );
             fprintf(F, b, 'Covariance', obj.Covariance );
             
             fprintf('\n');
@@ -224,7 +224,6 @@ classdef Normal
         function val = get.Correlation(obj)
             val=obj.Correlation;
         end
-        
         
         % Computation functions
         
