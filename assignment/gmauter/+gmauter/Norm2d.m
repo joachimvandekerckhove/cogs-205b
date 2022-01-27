@@ -168,11 +168,12 @@ classdef Normal
             b = sprintf('+');
             
             f = '     %s  %-20s=%8.4f\n';
+            F = '     %s  %-20s= %8.4f \t %8.4f \n \t\t\t%8.4f\t%8.4f';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
             fprintf(f, t, 'Mean'              , obj.Mean              );
-            fprintf(f, b, 'Covariance', obj.Covariance );
+            fprintf(F, b, 'Covariance', obj.Covariance );
             
             fprintf('\n');
             
