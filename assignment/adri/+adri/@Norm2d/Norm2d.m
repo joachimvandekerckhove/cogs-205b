@@ -94,8 +94,9 @@ classdef Norm2d
             sigma2 = sqrt(obj.Covariance(2,2))
             rho = obj.Correlation;
             x1 = sigma1 * randn(1,dims) + mu1
-            x2 = sigma2 * randn(1,dims) + mu2
-            rndm = vertcat(x1,x2)
+            x2 = (sigma2^2*sqrt(1-rho)) * randn(1,dims) + ...
+                (mu2+sigma2*rho*((x1-mu1)./sigma1));
+            rndm = horcat(x1,x2)
         end
 
         % Standardize a variate %
