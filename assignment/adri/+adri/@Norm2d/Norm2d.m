@@ -96,7 +96,7 @@ classdef Norm2d
             x1 = sigma1 * randn(1,dims) + mu1
             x2 = (sigma2^2*sqrt(1-rho)) * randn(1,dims) + ...
                 (mu2+sigma2*rho*((x1-mu1)./sigma1));
-            rndm = horcat(x1,x2)
+            rndm = horzcat(x1,x2)
         end
 
         % Standardize a variate %
