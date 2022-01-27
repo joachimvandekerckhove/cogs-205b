@@ -198,6 +198,33 @@ classdef Normal
             obj.StandardDeviation=sqrt(diag(obj.Covariance));
         end
         
+        %setter for Mean
+        function obj = set.Mean(obj, val)
+            obj.Mean = val
+        end
+        
+        %GETTERS
+        
+        %Getter for Covariance
+        function val = get.Covariance(obj)
+            val=obj.Covariance;
+        end 
+        
+        %Getter for Mean
+        function val = get.Mean(obj)
+            val=obj.Mean;
+        end
+        
+        %Getter for Precision
+        function val = get.Precision(obj)
+            val=obj.Precision;
+        end
+        
+        %Getter for Correlation
+        function val = get.Correlation(obj)
+            val=obj.Correlation;
+        end
+        
         
         % Computation functions
         
