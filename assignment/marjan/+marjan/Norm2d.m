@@ -44,28 +44,15 @@ classdef Norm2d
             obj.Correlation = obj.Covariance(1,2) / sqrt(obj.Covariance(1) * obj.Covariance(4));
         end
 
+        % helper function
+        out = standardize(obj, X);
 
 
-        function out = pdf(obj,X)
-             Ro=obj.c12/(obj.sigma1*obj.sigma2);
-             a1=sqrt(1-Ro^2)
-             a2=2*pi*obj.sigma1*obj.sigma2*a1
-             k=1/a2
-             n=size(X,2)
-             x1=X(1,:)
-             x2=X(2,:)
-             m1=obj.Mean(1,1)
-             m2=obj.Mean(2,1)
-             mu1=m1*ones(1,n)
-             mu2=m2*ones(1,n)
-             z=((x1-mu1)/obj.sigma1).^2-2*Ro*(((x1-mu1)/obj.sigma1).*(x2-mu2)/obj.sigma2)+((x2-mu2)/obj.sigma2).^2
-             out=k*exp((-1/2)*(z/(1-Ro.^2)))
-        end
-        function obj = set.Mean(obj,value)
+        %%% Computation functions %%% 
+        % All are defined in separate files in the +marjan package folder
 
-                obj.Mean = value;
-
-        end     
+        % Probability density function
+        out = pdf(obj, X)
 
         function out =logpdf(obj,X)
              Ro=obj.c12/(obj.sigma1*obj.sigma2)
