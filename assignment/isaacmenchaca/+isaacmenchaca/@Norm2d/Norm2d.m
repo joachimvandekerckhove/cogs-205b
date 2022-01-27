@@ -67,6 +67,7 @@ classdef Norm2d
         yax = cdf(obj, X)
         yax = logcdf(obj, X);
         x = rnd(obj, X);
+        yax = deviance(obj, Data);
       
         
     end
