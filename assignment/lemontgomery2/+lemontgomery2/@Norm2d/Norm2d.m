@@ -129,7 +129,8 @@ classdef Norm2d
         
         % Cumulative distribution function
         function yax = cdf(obj, xax)
-            yax = mvncdf(xax, obj.Mean, obj.Covariance);
+            tempY = mvncdf(xax', obj.Mean', obj.Covariance');
+            yax = tempY';
         end
         
         % Log Cumulative distribution function
