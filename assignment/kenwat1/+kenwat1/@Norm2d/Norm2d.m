@@ -3,7 +3,7 @@ classdef Norm2d
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
         Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance), mustBeSymmetric(Covariance)}...
-            = [1 1;1 1]
+            = eye(2)
     end
     
     properties (SetAccess = private)
@@ -13,7 +13,7 @@ classdef Norm2d
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
-        ScalingConstant = (2*pi).^(-0.5);
+        ScalingConstant = (2*pi).^(-1);
         Name = 'Norm2d';
     end
     
@@ -43,11 +43,12 @@ classdef Norm2d
             obj = updateCovariance(obj);
         end
         
-        % Updater for StandardDeviation
+        % Updater for Covariance
         function obj = updateCovariance(obj)
-            obj.Precision  = inv(obj.Covariance);
-            obj.Correlation  = obj.Covariance(1,2)...
-                /(sqrt(obj.Covariance(1,1))*sqrt(obj.Covariance(2,2)));
+            obj.Precision = inv(obj.Covariance);
+            obj.Correlation = obj.Covariance(1,2) ...
+                              / (sqrt(obj.Covariance(1,1)) ...
+                              * sqrt(obj.Covariance(2,2)));
         end
         
         %%% Computation functions %%%
