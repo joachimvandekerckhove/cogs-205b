@@ -4,7 +4,7 @@ classdef Norm2d
     % The main properties are the bivariate mean and covariance matrix
     properties
         Mean        (2,1) double {mustBeReal,mustBeFinite} = zeros(2,1)
-        Covariance  (2,2) double {mustBeReal,mustBeFinite,mustBePositiveDefinite} = eye(2)
+        Covariance  (2,2) double {mustBeReal,mustBeFinite,mustBePositiveDefinite,mustBeSymmetric} = eye(2)
     end
     
     % Derived properties that need to be set internally
