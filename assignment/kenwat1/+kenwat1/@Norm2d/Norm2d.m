@@ -116,7 +116,6 @@ classdef Norm2d
         testSuite()
         
     end
-    
 end
 
 %%% Property Validation Functions
