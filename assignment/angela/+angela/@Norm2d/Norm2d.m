@@ -13,8 +13,8 @@ classdef Norm2d
     % derived properties that are set internally
     properties (SetAccess = private)
         
-        Precision (2,2) double {mustBeFinite}
-        Correlation (1,1) double {mustBeFinite}
+        Precision 
+        Correlation 
         
     end
     
