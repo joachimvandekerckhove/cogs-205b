@@ -7,6 +7,12 @@ classdef Norm2d
             = zeros(2,1);
         Covariance (2,2) double {mustBeReal, mustBeFinite, mustBeSymm(Covariance)} ...
             = eye(2);
+        % （1）
+        % Here I think you don't need to include the variable into the
+        % mustBeSymm function, mustBeSymm() should be okay to work；
+        % （2）
+        % you also need to make sure the variance is larger than zero and
+        % covariance is larger/equal to zero.
     end
     
     % Derived properties that are not changeable by the user
@@ -63,11 +69,14 @@ classdef Norm2d
         % Probability density function
         function fx = pdf(obj, x)
             sigma1 = sqrt(obj.Covariance(1,1))
+            % please see comments in the rnd function below
             sigma2 = sqrt(obj.Covariance(2,2))
             rho = obj.Correlation
 
             fx= (1/(2*pi*sigma1*sigma2*sqrt(1-rho^2))) ...
                 * exp((-1/2)*(obj.standardize(x)/(1-(rho^2))));
+            % uninterpretable, you can try to break this equation into
+            % multiple ones for easier reading
         end
         
         % Log Probability density function
@@ -75,6 +84,9 @@ classdef Norm2d
             logf = -0.5 * (obj.standardize(x) / (1 - obj.Correlation ^ 2)) * ...
                 log( 1 / (2 * pi * obj.sigma1 * obj.sigma2 * ...
                 sqrt(1 - obj.Correlation ^ 2)));
+            % same comments as above:
+            % uninterpretable, you can try to break this equation into
+            % multiple ones for easier reading
         end
        
         % Deviance score function
@@ -91,6 +103,9 @@ classdef Norm2d
             mu1 = obj.Mean(1)
             mu2 = obj.Mean(2)
             sigma1 = sqrt(obj.Covariance(1,1))
+            % here sigma1 and sigma2 is redundancy as the pdf function,
+            % you can set them as a property so that all the functions can
+            % get access to it without recalculation
             sigma2 = sqrt(obj.Covariance(2,2))
             rho = obj.Correlation;
             x1 = sigma1 * randn(1,dims) + mu1
@@ -106,6 +121,7 @@ classdef Norm2d
             mu1 = obj.Mean(1)
             mu2 = obj.Mean(2)
             sigma1 = sqrt(obj.Covariance(1,1))
+            % same comments here as above: sigma1 and sigma2 are redundancy
             sigma2 = sqrt(obj.Covariance(2,2))
             rho = obj.Correlation;
             z = ((x1-mu1)/sigma1)^2 - (2*rho)*(((x1-mu1)/sigma1) * ...
