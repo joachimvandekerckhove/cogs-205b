@@ -3,8 +3,8 @@ classdef Norm2d
     
     % The main properties are the bivariate mean and covariance matrix
     properties
-        Mean(2,1) double {mustBeReal,mustBeFinite} = zeros(2,1)
-        Covariance(2,2) double {mustBeReal,mustBeFinite} = eye(2)
+        Mean        (2,1) double {mustBeReal,mustBeFinite} = zeros(2,1)
+        Covariance  (2,2) double {mustBeReal,mustBeFinite,mustBePositiveDefinite} = eye(2)
     end
     
     % Derived properties that need to be set internally
@@ -30,15 +30,11 @@ classdef Norm2d
             % This triggers the implicit setter for Mean
             if nargin > 0
                 obj.Mean = Mean;
-            else
-                obj.Mean = [0;0];
             end
             
             % This triggers the explicit setter for Covariance
             if nargin > 1
                 obj.Covariance = Covariance;
-            else
-                obj.Covariance = eye(2);
             end
         end
         
@@ -58,14 +54,11 @@ classdef Norm2d
         %%% Getters and setters %%%        
         
         % Setter for Covariance
-        function obj = set.Covariance(obj, val)
-            
-            obj.isValid2x2Covariance(val);
-            
+        function obj = set.Covariance(obj, val)            
             % Set the value
             obj.Covariance = val;
             % Update contingent properties
-            obj = updateCovariance(obj);
+            obj = updateCovarianceMatrix(obj);
         end
         
         
