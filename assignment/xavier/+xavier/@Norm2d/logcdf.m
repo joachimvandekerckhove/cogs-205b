@@ -1,5 +1,5 @@
-% Cumulative distribution function
+% Log cumulative distribution function
 
-function lp = logcdf(obj, xax)
-lp = log(obj.cdf(xax));
+function outputArg = logcdf(obj, xax)
+outputArg = log(obj.cdf(xax));
 end
