@@ -3,8 +3,9 @@
 function isValidSupport(~, xax)
 
 if size(xax,1)~=2 || ~all(isreal(xax))
-    error('Norm2d:invalidSupport', ...
-        'X should be a real-valued 2-by-N matrix.')
+    errorId  = 'Norm2d:invalidSupport';
+    errorMsg = 'Support should be a real-valued 2-by-N matrix.';
+    throwAsCaller(MException(errorId,errorMsg))
 end
 
 end
