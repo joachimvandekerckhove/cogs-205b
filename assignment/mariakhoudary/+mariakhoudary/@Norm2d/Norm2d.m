@@ -3,8 +3,8 @@ classdef Norm2d
 
     % The main properties are the means and covariance
     properties
-        Mean double {mustBeReal, mustBeFinite, mustBe2by1(Mean)} = [0; 0]
-        Covariance double {mustBeReal, mustBeFinite, mustBeSymmetric(Covariance)} = ...
+        Mean (2,1) double {mustBeReal, mustBeFinite, mustBe2by1(Mean)} = [0; 0]
+        Covariance (2,2) double {mustBeReal, mustBeFinite, mustBeSymmetric(Covariance)} = ...
             [1 0.5; 0.5 1]
     end
 
@@ -59,7 +59,7 @@ classdef Norm2d
 
       % Update properties contingent on Covariance
       function obj = updateCovariance(obj)
-          obj.Precision = inv(obj.Covariance);
+          obj.Precision = inv(obj.Covariance); 
           obj.Correlation = obj.Covariance(1,2) / sqrt(obj.Covariance(1,1)*obj.Covariance(2,2));
       end
 
