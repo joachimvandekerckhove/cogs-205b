@@ -15,7 +15,7 @@ if ~nargin
 end
 
 % Is the reference directory also there?
-referenceDir = 'xavier';
+referenceDir = 'oracle';
 if exist(referenceDir, 'dir')
     addpath(referenceDir)
 else
