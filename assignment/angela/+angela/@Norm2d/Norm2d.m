@@ -94,7 +94,13 @@ classdef Norm2d
         % gaussian exponent term
         a = expTerm(obj, z)
         
-    end  
+    end
+    
+    methods (Static)
+        
+        obj = estimate(data)
+        
+    end
     
 end
 
