@@ -3,16 +3,14 @@ function output = test()
 % test() runs a test suite of the functions in the package:
 % getData.m
 % readData.m
-% main.m
 % report.m
 % this test suite is heavily borrowed from testSuiteForNorm2d.m
-% lol idk what to put in this package ahh
+% lol idk what to put in this test suite ahh
 
 %% Let's begin!
 
 % ask user for pseudonym
-pseudonym = input('Enter your pseudonym here: ','s');
-
+% pseudonym = input('Enter your pseudonym here: ','s');
 
 %% Report 
 % Start printing a lil report to the screen
@@ -27,7 +25,7 @@ fprintf('#%s#\n', dashline);
 fprintf('# %80s  #\n', datestr(now));
 
 % print report title
-fprintf('#%-83s#\n', sprintf(' Test suite for +%s package',pseudonym));
+fprintf('#%-83s#\n', sprintf(' Test suite for +angela package'));
 
 % print another long line
 fprintf('#%s#\n', dashline);
@@ -84,15 +82,31 @@ try
 catch
     errorThrown = true;
 end
-assertErrorThrown(errorThrown, 'report. correct size data.')
+assertErrorThrown(errorThrown, 'report. correct size input.')
 
-% check for output
-% ?????????
-
+% check if it makes a .md output
+% ?? i don't know how to do this ahhhhhhhhhhhhhh
 
 %% tests for main.m
 
-% check if there is a .md output
+% does main work?
+try
+    angela.main()
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'main. works (no error).')
+
+%% tests for Contents.m
+
+% does help function work
+if exist('Contents','file') == 2
+    errorThrown = true;
+else
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'Contents. exists.')
 
 
 %% it's a wrap!
