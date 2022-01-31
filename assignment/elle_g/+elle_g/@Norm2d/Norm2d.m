@@ -6,10 +6,8 @@ classdef Norm2d
     properties
         Mean (2, 1) double {mustBeReal, mustBeFinite} ...
             = eye(2,1)
-        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance)} ...
-            = eye(2)
-%         Covariance (2, 2) double {mustBeReal, mustBeFinite} ...
-%             = eye(2)
+        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance), posDefCheck} ...
+            = 1.+eye(2)
     end
     
     % Derived properties that need to be set internally
@@ -202,3 +200,15 @@ end
                 throwAsCaller(MException(eidType,msgType))
             end
         end
+        
+        
+      %validator for positive definite check
+        function posDefCheck(Covariance)
+        [OK, flag]=chol(Covariance')
+            if flag
+                eidType = 'positiveDefiniteCheckforCovarianceMatrix:ERROR';
+                msgType = 'The matrix is NOT positive definite. Must be positive definite.';
+                throwAsCaller(MException(eidType,msgType))
+            end
+        end
+
