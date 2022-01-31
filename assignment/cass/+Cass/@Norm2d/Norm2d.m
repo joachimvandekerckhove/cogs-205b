@@ -1,20 +1,29 @@
-classdef Norm2d
-    % Norm2d  A class for the normal distribution
+% Assignment: Make a +package called /+<your-pseudonym> with just a class @norm2d
+% @norm2d % implements the bivariate normal likelihood equivalence class
+% has at least the properties mean (2x1 vector) and covariance (2x2 vector)
+% Include getters/setters and these six methods: 
+% pdf, (log)pdf, cdf, (log)cdf, rand, deviance
+% make sure everything works on matrix input
+% Avoid duplicating code
+% pass the test suite
+
+b = Cass.Norm2d
+
+classdef Norm2d 
+    % NORMAL  A class for the normal distribution
     
-    % The main properties are the mean and standard deviation ~~how to make
-    % sure covariance(1, 2) matches (2, 1)
+    % The main properties are the mean and standard deviation
     properties
-        Mean (2, 1) double {mustBeReal, mustBeFinite} ...
-            = eye(2,1)
-        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance), posDefCheck} ...
-            = 1.+eye(2)
+        Mean double {mustBeReal, mustBeFinite} ...
+            = 0;0
+        Covariance double {mustBeReal, mustBeFinite, mustBePositive} ...
+            = 1,1:1,1
     end
     
     % Derived properties that need to be set internally
     properties (SetAccess = private)
         Precision
-        Correlation
-        StandardDeviation
+        Variance
     end
     
     % The Gaussian scaling constant is sometimes useful
@@ -29,12 +38,13 @@ classdef Norm2d
         
         %%% Constructor function %%%
         
-        % A main constructor, for a new Norm2d
+        % A main constructor, for a new Normal
         function obj = Norm2d(Mean, Covariance)
             if nargin > 0
                 % This triggers the implicit setter for Mean
                 obj.Mean = Mean;
                 if nargin > 1
+                    % This triggers the explicit setter for StandardDeviation
                     obj.Covariance = Covariance;
                 end
             end
@@ -50,85 +60,82 @@ classdef Norm2d
             t = sprintf('+');
             b = sprintf('+');
             
-            f = '     %s  %-20s= %8.4f \t %8.4f \n';
-            F = '     %s  %-20s= %8.4f \t %8.4f \n \t\t\t%8.4f\t%8.4f';
+            f = '     %s  %-20s=%8.4f\n';
             
             fprintf('  %s distribution with parameters:\n', obj.Name);
 
-            fprintf(f, t, 'Mean'              , obj.Mean           );
-            fprintf(F, b, 'Covariance', obj.Covariance );
+            fprintf(f, t, 'Mean'              , obj.Mean              );
+            fprintf(f, b, 'Covariance', obj.Covariance );
             
             fprintf('\n');
             
         end
         
-       
+        
+        % Print the distribution to screen
+        function str = print(obj)
+        
+            t = sprintf('+');
+            b = sprintf('+');
+            
+            f = '     %s  %-20s=%8.4f\n';
+            
+            str = sprintf('%s%s%s', ...
+                sprintf('  %s distribution with parameters:\n', obj.Name), ...
+                sprintf(f, t, 'Mean'              , obj.Mean              ), ...
+                sprintf(f, b, 'Covariance', obj.Covariance ));
+            
+        end
         
         
         %%% Getters and setters %%%
         
         % Setter for Covariance
         function obj = set.Covariance(obj, val)
-            obj.Covariance=val;
-            %update contingent properties
-            obj= updateCovariance(obj);
-           
-        end 
+            % Set the value
+            obj.Covariance = val;
+            % Update contingent properties
+            obj = updateCovariance(obj);
+        end
         
-        % Updater for covariance
-       
-        function obj = updateCovariance(obj)
-            obj.Correlation=obj.Covariance(1,2)./(sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2)));
-            obj.Precision=inv(obj.Covariance);
-            obj.StandardDeviation=sqrt(diag(obj.Covariance));
-        end 
-  
-        
-        
-        % Setter for Mean
-        function obj = set.Mean(obj, val)
+         % Setter for Mean
+         function obj = set.Mean(obj, val)
             % Set the value
             obj.Mean = val;
         end
-        
-        %Getter for Covariance
-        function val = get.Covariance(obj)
-            val=obj.Covariance;
-        end 
-        
-        %Getter for Mean
-        function val = get.Mean(obj)
-            val=obj.Mean;
+
+        % Updater for Covariance
+        function obj = updateCovariance(obj)
+            obj.Precision = inv(obj.Covariance);
+            c12 = obj.Covariance(2);
+            sigma1 = sqrt(obj.Covariance(1));
+            sigma2 = sqrt(obj.Covariance(4));
+            obj.Correlation = c12./(sigma1*sigma2)
         end
         
-        %Getter for Precision
-        function val = get.Precision(obj)
-            val=obj.Precision;
-        end
-        
-        %Getter for Correlation
-        function val = get.Correlation(obj)
-            val=obj.Correlation;
-        end
         
         % Computation functions
         
         % Cumulative distribution function
         function yax = cdf(obj, xax)
-            zax = obj.standardize(xax);
-            yax = 0.5 * (1 + erf(zax ./ sqrt(2)));
+            yax = mvncdf(xax, obj.Mean, obj.Covariance)
+        end
+
+         % Log-Cumulative distribution function
+        function yax = logcdf(obj, xax)
+            yax = log(mvncdf(xax, obj.Mean, obj.Covariance))
         end
         
-        % Log Cumulative density function
-        function yax = logCdf(obj, xax)
-            yax=log(obj.cdf(xax));          % changed n to xax here
-        end
-       
         % Probability density function
         function yax = pdf(obj, xax)
-            yax = obj.ScalingConstant ...
-                * obj.Precision ...
-                * pdfKernel(obj, xax);
+            
+            z =
+            obj.Correlation = c12./(sigma1*sigma2)
+            sigma1 = sqrt(obj.Covariance(1));
+            sigma2 = sqrt(obj.Covariance(4));
+            obj.Correlation = c12./(sigma1*sigma2)
+            yax =
+            yax = pdf(xax, obj.Mean, obj.Covariance)
         end
         
         % Log Probability density function
@@ -157,7 +164,7 @@ classdef Norm2d
         % Random number generator
         function x = rnd(obj, dims)            
             if nargin < 2, dims = 1; end            
-            x = obj.unstandardize(randn(dims));            
+            x = rng(obj.Mean, obj.Covariance,size);            
         end
         
         % Standardize a variate
@@ -166,9 +173,8 @@ classdef Norm2d
         end
         
         % Unstandardize a variate
-        function [x1, x2] = unstandardize(obj, z)
-            x1 = obj.Mean(1,1) + z .* obj.StandardDeviation(1,1);
-            x2=obj.Mean(2,1) + z .* obj.StandardDeviation(2,1);
+        function x = unstandardize(obj, z)
+            x = obj.Mean + z * obj.StandardDeviation;
         end
         
         % Integrate a function over this distribution
@@ -190,28 +196,12 @@ classdef Norm2d
         
     end
     
+    
+    % Static methods don't need the object as input
+    methods (Static)
+        
+        testSuite()
+        
+    end
+    
 end
-
-      %validator for covariance values
-        function covarianceValueCheck(Covariance)
-            [~,bool] = chol(Covariance);
-            if bool == 1 || ~(Covariance(1,2) == Covariance(2,1))
-                % cholesky factorization checks for positive definite and symmetry
-                eidType = 'covarianceValueCheck:notcovarianceValueCheck';
-                msgType = 'The covariance values row 1 col 2 and row 2 col 1 of the covariance matrix must be equal.';
-                throwAsCaller(MException(eidType,msgType))
-            end
-        end
-        
-        
-      %validator for positive definite check
-        function posDefCheck(Covariance)
-        [OK, flag]=chol(Covariance')
-            if flag
-                eidType = 'positiveDefiniteCheckforCovarianceMatrix:ERROR';
-                msgType = 'The matrix is NOT positive definite. Must be positive definite.';
-                throwAsCaller(MException(eidType,msgType))
-            end
-        end
-
-
