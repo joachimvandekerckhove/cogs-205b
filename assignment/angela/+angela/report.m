@@ -1,15 +1,10 @@
 function report(data)
-
+% -------------------------------------------------------------------------
 % report(data) takes a variable containing a 2xN bivariate (X and Y) data
 % and produces a file, formatted in Markdown, that presents the mean and
 % covariance of the data for hooman-consumption. 
+% -------------------------------------------------------------------------
 
-% for troubleshooting
-% if nargin < 1
-%     data = angela.readData('cogs205b.csv');
-% end
-
-% check if data is a 2xN and make an object
 try
     this = angela.Norm2d.estimate(data);
 catch

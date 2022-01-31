@@ -1,17 +1,13 @@
 function output = test()
-
+% -------------------------------------------------------------------------
 % test() runs a test suite of the functions in the package:
 % getData.m
 % readData.m
 % report.m
+% main.m
 % this test suite is heavily borrowed from testSuiteForNorm2d.m
 % lol idk what to put in this test suite ahh
-
-%% Let's begin!
-
-% ask user for pseudonym
-% pseudonym = input('Enter your pseudonym here: ','s');
-
+% -------------------------------------------------------------------------
 %% Report 
 % Start printing a lil report to the screen
 
