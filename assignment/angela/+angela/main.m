@@ -7,5 +7,4 @@ data = angela.readData(fileName);
 % make a report
 angela.report(data);
 
-
 end

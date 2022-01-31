@@ -9,17 +9,16 @@ function report(data)
 %     data = angela.readData('cogs205b.csv');
 % end
 
-% check if data is a 2xN
-if size(data,1) ~= 2
-    data = data';
+% check if data is a 2xN and make an object
+try
+    this = angela.Norm2d.estimate(data);
+catch
+    this = angela.Norm2d.estimate(data');
 end
 
-% make an object
-this = angela.Norm2d.estimate(data);
-
 % make a cell?
-myCell = {'Data parameters', ...
-          sprintf('date: %s',datestr(now)),...
+myCell = {'Summary of Data', ...
+          sprintf('Date and time: %s',datestr(now)),...
           sprintf('The means are %f and %f',this.Mean(1),this.Mean(2)),...
           sprintf('The covariance matrix is:\n %f\t %f\n %f\t %f', ...
                 this.Covariance(1),this.Covariance(2),this.Covariance(3), ...
@@ -32,5 +31,6 @@ fid = fopen(mdfileName,'w');
 for ii = 1:size(myCell)
     fprintf(fid, '%s\n',myCell{ii,:}) ;
 end
+fclose(fid);
 
 end
