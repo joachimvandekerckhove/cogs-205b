@@ -85,7 +85,6 @@ classdef Norm2d
             obj.StandardDeviation=sqrt(diag(obj.Covariance));
             obj.ScaleFactor = obj.ScalingConstant/ ((sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2))) *  ...
                 sqrt(1-obj.Correlation^2));
-%             obj.logScaleFactor=
         end 
   
         
@@ -115,95 +114,11 @@ classdef Norm2d
         function val = get.Correlation(obj)
             val=obj.Correlation;
         end
-        
-        % Computation functions
-        
-        % Cumulative distribution function
-        function yax = cdf(obj, xax) %credit: xavier
-            yax =  mvncdf(xax', obj.Mean', obj.Covariance)';
-        end
-        
-        % Log Cumulative density function
-        function yax = logCdf(obj, xax)
-            yax=log(obj.cdf(xax));          % changed n to xax here
-        end
-       
-        % Probability density function
-        function yax = pdf(obj, xax)
-            yax = obj.ScaleFactor * exp(logkernel(obj, xax)); %credit:xavier
-        end
-        
-        % Log Probability density function
-        function yax = logPdf(obj, xax)
-            yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel(xax); 
-        end
-        
-        % Deviance score function
-        function yax = deviance(obj, data, parameters)
-            obj.Mean              = parameters(1);
-            obj.StandardDeviation = parameters(2);
-            yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel(data);
-        end 
-        
-        %log kernel
-        function k = logkernel(obj, xax) %credit: xavier
 
-            % Standardize the x values
-            st = (xax - obj.Mean) ./ sqrt(diag(obj.Covariance));
-
-            % Get the z score
-            z = sum(st.^2, 1) - 2 * obj.Correlation * prod(st, 1);
-
-            % Scale the kernel
-            k = -0.5 ./ (1 - obj.Correlation^2) * z;
-
-        end
-
-        % Random number generator
-        function x = rnd(obj, sz)            
-            if nargin < 2, sz = 1; end            
-            % Sample from two normals
-            z = randn(2,sz); %credit: xavier
-
-            % Transform to new mean and covariance
-            %credit: xavier
-            x(1,:) = obj.Mean(1) + sqrt(obj.Covariance(1)) * z(1,:);
-            x(2,:) = obj.Mean(2) + sqrt(obj.Covariance(4)) * obj.Correlation * z(1,:) ...
-                + sqrt(obj.Covariance(4) * ( 1 - obj.Correlation^2)) * z(2,:);      
-            end
-        
-        
-        % Integrate a function over this distribution
-        function A = integrateOver(obj, fcn)
-            
-            w = [ 2.22939E-13  4.39934E-10  1.08607E-7  7.80256E-6  2.28339E-4 ...
-                0.00324377   0.0248105    0.109017    0.286676    0.462244   ...
-                0.462244     0.286676     0.109017    0.0248105   0.00324377 ...
-                2.28339E-4   7.80256E-6   1.08607E-7  4.39934E-10 2.22939E-13];
-            
-            x = [ -5.38748  -4.60368  -3.94476  -3.34785  -2.78881  ...
-                -2.25497  -1.73854  -1.23408  -0.73747  -0.24534  ...
-                0.24534   0.73747   1.23408   1.73854   2.25497  ....
-                2.78881   3.34785   3.94476   4.60368   5.38748];
-            
-            A = sum(fcn(x * sqrt(2) * obj.StandardDeviation + obj.Mean) ./ sqrt(pi) .* w);
-            
-        end
-        
     end
     
 end
 
-      %validator for covariance values
-        function covarianceValueCheck(Covariance)
-            [~,bool] = chol(Covariance);
-            if bool == 1 || ~(Covariance(1,2) == Covariance(2,1))
-                % cholesky factorization checks for positive definite and symmetry
-                eidType = 'covarianceValueCheck:notcovarianceValueCheck';
-                msgType = 'The covariance values row 1 col 2 and row 2 col 1 of the covariance matrix must be equal.';
-                throwAsCaller(MException(eidType,msgType))
-            end
-        end
-        
+
         
 
