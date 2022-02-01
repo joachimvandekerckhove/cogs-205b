@@ -6,7 +6,7 @@ classdef Norm2d
     properties
         Mean (2, 1) double {mustBeReal, mustBeFinite} ...
             = eye(2,1)
-        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance), posDefCheck} ...
+        Covariance (2, 2) double {mustBeReal, mustBeFinite, covarianceValueCheck(Covariance)} ...
             = 1.+eye(2)
     end
     
@@ -15,11 +15,13 @@ classdef Norm2d
         Precision
         Correlation
         StandardDeviation
+        ScaleFactor
+        logScaleFactor
     end
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
-        ScalingConstant = (2*pi).^(-0.5);
+        ScalingConstant = 0.159154943091895; %credit xavier
         Name = 'Norm2d';
     end
     
@@ -81,6 +83,9 @@ classdef Norm2d
             obj.Correlation=obj.Covariance(1,2)./(sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2)));
             obj.Precision=inv(obj.Covariance);
             obj.StandardDeviation=sqrt(diag(obj.Covariance));
+            obj.ScaleFactor = obj.ScalingConstant/ ((sqrt(obj.Covariance(1, 1)).*sqrt(obj.Covariance(2, 2))) *  ...
+                sqrt(1-obj.Correlation^2));
+%             obj.logScaleFactor=
         end 
   
         
@@ -114,9 +119,8 @@ classdef Norm2d
         % Computation functions
         
         % Cumulative distribution function
-        function yax = cdf(obj, xax)
-            zax = obj.standardize(xax);
-            yax = 0.5 * (1 + erf(zax ./ sqrt(2)));
+        function yax = cdf(obj, xax) %credit: xavier
+            yax =  mvncdf(xax', obj.Mean', obj.Covariance)';
         end
         
         % Log Cumulative density function
@@ -126,14 +130,12 @@ classdef Norm2d
        
         % Probability density function
         function yax = pdf(obj, xax)
-            yax = obj.ScalingConstant ...
-                * obj.Precision ...
-                * pdfKernel(obj, xax);
+            yax = obj.ScaleFactor * exp(logkernel(obj, xax)); %credit:xavier
         end
         
         % Log Probability density function
         function yax = logPdf(obj, xax)
-            yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel(xax);
+            yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel(xax); 
         end
         
         % Deviance score function
@@ -141,35 +143,35 @@ classdef Norm2d
             obj.Mean              = parameters(1);
             obj.StandardDeviation = parameters(2);
             yax = log(obj.ScalingConstant) + log(obj.Precision) + obj.logPdfKernel(data);
+        end 
+        
+        %log kernel
+        function k = logkernel(obj, xax) %credit: xavier
+
+            % Standardize the x values
+            st = (xax - obj.Mean) ./ sqrt(diag(obj.Covariance));
+
+            % Get the z score
+            z = sum(st.^2, 1) - 2 * obj.Correlation * prod(st, 1);
+
+            % Scale the kernel
+            k = -0.5 ./ (1 - obj.Correlation^2) * z;
+
         end
-        
-        % Probability density kernel
-        function knl = pdfKernel(obj, xax)     
-            knl = exp(logPdfKernel(obj, xax));
-        end
-        
-        % Probability density log kernel
-        function knl = logPdfKernel(obj, xax) 
-            zax = obj.standardize(xax);
-            knl =  -0.5 * zax.^2;
-        end        
-        
+
         % Random number generator
-        function x = rnd(obj, dims)            
-            if nargin < 2, dims = 1; end            
-            x = obj.unstandardize(randn(dims));            
-        end
+        function x = rnd(obj, sz)            
+            if nargin < 2, sz = 1; end            
+            % Sample from two normals
+            z = randn(2,sz); %credit: xavier
+
+            % Transform to new mean and covariance
+            %credit: xavier
+            x(1,:) = obj.Mean(1) + sqrt(obj.Covariance(1)) * z(1,:);
+            x(2,:) = obj.Mean(2) + sqrt(obj.Covariance(4)) * obj.Correlation * z(1,:) ...
+                + sqrt(obj.Covariance(4) * ( 1 - obj.Correlation^2)) * z(2,:);      
+            end
         
-        % Standardize a variate
-        function z = standardize(obj, x)
-            z = (x - obj.Mean) ./ obj.StandardDeviation;
-        end
-        
-        % Unstandardize a variate
-        function [x1, x2] = unstandardize(obj, z)
-            x1 = obj.Mean(1,1) + z .* obj.StandardDeviation(1,1);
-            x2=obj.Mean(2,1) + z .* obj.StandardDeviation(2,1);
-        end
         
         % Integrate a function over this distribution
         function A = integrateOver(obj, fcn)
@@ -204,14 +206,4 @@ end
         end
         
         
-      %validator for positive definite check
-        function posDefCheck(Covariance)
-        [OK, flag]=chol(Covariance')
-            if flag
-                eidType = 'positiveDefiniteCheckforCovarianceMatrix:ERROR';
-                msgType = 'The matrix is NOT positive definite. Must be positive definite.';
-                throwAsCaller(MException(eidType,msgType))
-            end
-        end
-
 
