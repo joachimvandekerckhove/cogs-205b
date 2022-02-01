@@ -25,10 +25,23 @@ classdef Norm2d
         Name = 'Norm2d';
     end
     
+    methods (Static)
+        function obj = estimate(X)
+            obj=elle_g.Norm2d(Mean, Covariance);
+            % VALIDATE X FOR MEAN
+            
+            % VALIDATE X FOR COVARIANCE
+            
+           
+            obj.Mean(1,1)=mean(X(:,1));
+            obj.Mean(2,1)=mean(X(:,2));
+            obj.Covariance=cov(X);
+            obj=updateCovariance(obj);
+            
+        end
+    end
     
-    % Methods are functions that belong to the class
-    methods
-        
+    methods    
         %%% Constructor function %%%
         
         % A main constructor, for a new Norm2d
@@ -120,5 +133,20 @@ classdef Norm2d
 end
 
 
+
+%validator for covariance values
+function covarianceValueCheck(Covariance)
+    [~,bool] = chol(Covariance);
+         if bool == 1 || ~(Covariance(1,2) == Covariance(2,1))
+            % cholesky factorization checks for positive definite and symmetry
+             eidType = 'covarianceValueCheck:notcovarianceValueCheck';
+             msgType = 'The covariance values row 1 col 2 and row 2 col 1 of the covariance matrix must be equal.';
+             throwAsCaller(MException(eidType,msgType))
+            end
+        end
+    
+
+
         
 
+        

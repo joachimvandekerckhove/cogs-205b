@@ -1,5 +1,5 @@
         % Random number generator
-        function x = rng(obj, sz)            
+        function x = rnd(obj, sz)            
             if nargin < 2, sz = 1; end            
             % Sample from two normals
             z = randn(2,sz); %credit: xavier
