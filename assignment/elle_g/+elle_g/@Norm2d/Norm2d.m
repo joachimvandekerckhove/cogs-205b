@@ -1,6 +1,5 @@
-classdef Norm2d
     % Norm2d  A class for the normal distribution
-    
+classdef Norm2d
     % The main properties are the mean and standard deviation ~~how to make
     % sure covariance(1, 2) matches (2, 1)
     properties
@@ -28,17 +27,36 @@ classdef Norm2d
     methods (Static)
         function obj = estimate(X)
             obj=elle_g.Norm2d(Mean, Covariance);
-            % VALIDATE X FOR MEAN
-            
-            % VALIDATE X FOR COVARIANCE
-            
-           
             obj.Mean(1,1)=mean(X(:,1));
             obj.Mean(2,1)=mean(X(:,2));
             obj.Covariance=cov(X);
             obj=updateCovariance(obj);
             
         end
+    end
+    
+    methods (Static)
+        out = getData(url);
+    end
+    
+    methods (Static)
+        out = readData(file);
+    end
+    
+    methods (Static)
+        markdownOutput = report(variable);
+    end
+    
+    methods (Static)
+        printTestReport = test();
+    end
+    
+    methods (Static)
+        reportFile = main();
+    end
+    
+    methods (Static)
+        helpText = Contents();
     end
     
     methods    

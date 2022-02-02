@@ -1,5 +1,6 @@
-function fileName = getData(url)
-fileName="elle_g-1";
-table2array(webread(str(url)));
+%download data from url into a table
+function out = getData(url)
+    options=weboptions("ContentType", "table");
+    out=webread(url, options);
 end
 
