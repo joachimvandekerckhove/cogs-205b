@@ -97,4 +97,9 @@ classdef Norm2d
         out = deviance(obj, data)
 
     end
+
+    methods (Static)
+        out = estimate (X)
+        
+    end
 end
