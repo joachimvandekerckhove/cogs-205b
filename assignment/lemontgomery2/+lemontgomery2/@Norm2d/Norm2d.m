@@ -7,7 +7,7 @@ classdef Norm2d
             = [ 0; 0 ]
         Covariance (2,2) double {mustBeReal, mustBeFinite, ...
                                  mustBePositiveDefinite(Covariance)} ...
-            = [ 1 0; 0 1 ]
+            = eye(2)
     end
     
     % Derived properties that need to be set internally
@@ -129,7 +129,8 @@ classdef Norm2d
         
         % Cumulative distribution function
         function yax = cdf(obj, xax)
-            yax = mvncdf(xax, obj.Mean, obj.Covariance);
+            tempyax = mvncdf(xax', obj.Mean', obj.Covariance');
+            yax = tempyax';
         end
         
         % Log Cumulative distribution function
@@ -138,7 +139,7 @@ classdef Norm2d
         end
         
         % Random number generator
-        function x = rng(obj, size)
+        function x = rnd(obj, size)
             xval1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), [1, size]);
             xval2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
                         .* ((xval1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
