@@ -26,9 +26,9 @@ classdef Norm2d
         
         function obj = Norm2d(mu, sigma)
             if nargin > 0
-                obj.Mean = mu;
+                obj.Mean = mu
                 if nargin > 1
-                    obj.Covariance = sigma;
+                    obj.Covariance = sigma
                 end
             end
             
@@ -89,12 +89,12 @@ classdef Norm2d
         
         function obj = estimate(X)
             
-            Mean = mean(X, 2)
+            Mean = mean(X, 1)
             Cov = cov(X(1, :), X(2, :))
             obj = gmauter.Norm2d(Mean, Cov)
         end
         
-        obj = getData(url)
+
         
         
         
