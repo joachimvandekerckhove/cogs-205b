@@ -2,12 +2,12 @@ function report(data)
 
 % creates markdown file which displays mean and covariance
 
-fid = fopen('gmauter.md', 'w')
+fid = fopen('gmauter-1.md', 'w')
 fprintf(fid, 'Data from cogs205b.csv\n')
 fprintf(fid, '%s\n\n', datetime('now'))
 
-Mean = gmauter.Norm2d().estimate(X).Mean
-Covariance = gmauter.Norm2d().estimate(X).Mean
+Mean = gmauter.Norm2d().estimate(data).Mean
+Covariance = gmauter.Norm2d().estimate(data).Mean
 
 
 fprintf(fid, '- Mean: ')
