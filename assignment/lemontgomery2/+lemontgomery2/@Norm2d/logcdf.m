@@ -1,6 +1,6 @@
 function yax = logcdf(obj, xax)
 
-    % LOGCDF    log cumulative distribution function
+    % LOGCDF    Log cumulative distribution function
     yax = log(obj.cdf(xax));
        
 end

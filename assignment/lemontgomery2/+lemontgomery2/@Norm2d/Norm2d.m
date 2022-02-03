@@ -30,6 +30,8 @@ classdef Norm2d
     
         % A main constructor, for a new Bivariate Normal
         function obj = Normal(Mean, Covariance)
+            
+            % NORMAL    A main constructor for the new bivariate normal
             if nargin > 0
                 % This triggers the implicit setter for Mean
                 obj.Mean = Mean;
@@ -43,9 +45,10 @@ classdef Norm2d
         
         %%% Display function %%%
         
-        % Print the distrubtion to screen
+        % Print the distribution to screen
         function disp(obj)
         
+            % DISP    Prints the distribution to screen
             t = sprintf('+');
             b = sprintf('+');
             k = sprintf('[');
@@ -66,7 +69,8 @@ classdef Norm2d
         
         % Print the distribution to screen
         function str = print(obj)
-        
+            
+            % PRINT    Prints the distribution to screen
             t = sprintf('+');
             b = sprintf('+');
             k = sprintf('[');
@@ -94,6 +98,8 @@ classdef Norm2d
 
         % Updater for Covariance
         function obj = updateCovariance(obj)
+            
+            % UPDATECOVARIANCE    Corresponding updated for covariance
             obj.Precision = inv(obj.Covariance);
             obj.Correlation = obj.Covariance(1,2) ...
                               / (sqrt(obj.Covariance(1,1)) ...
@@ -125,7 +131,11 @@ classdef Norm2d
     
     % Static Method
     methods (Static)
+        
         function value = estimate(xax)
+            
+            % ESTIMATE    Creates a static method with updated properties
+            % based on input
             value = lemontgomery2.Norm2d;
             value.Mean = mean(xax)';
             value.Covariance = cov(xax);

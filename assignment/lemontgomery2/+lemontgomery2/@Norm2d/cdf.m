@@ -1,6 +1,6 @@
 function yax = cdf(obj, xax)
 
-    % CDF    cumulative distribution function
+    % CDF    Cumulative distribution function
     tempyax = mvncdf(xax', obj.Mean', obj.Covariance');
     yax = tempyax';
 
