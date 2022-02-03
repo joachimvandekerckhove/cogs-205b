@@ -1,6 +1,6 @@
 function main()
 
-% runs through package, creates markdown file
+% Expects: Nothing. Promises: Report file gmauter-1.md.
 
 url = 'http://cidlab.com/files/cogs205b.csv'
 

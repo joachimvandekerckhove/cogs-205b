@@ -1,6 +1,7 @@
 function test()
 
-% runs basic test suite of functions in package
+% Expects: Nothing. Promises: Test suite of package functions.
+
 % command window displays test results
 
 url = 'http://cidlab.com/files/cogs205b.csv'

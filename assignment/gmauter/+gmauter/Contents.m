@@ -1,9 +1,9 @@
 % +GMAUTER
 %
-% getData - gets data from http://cidlab.com/files/cogs205b.csv
-% readData - reads in content from url
-% report - creates markdown file which displays mean and covariance
-% test - runs basic test suite of functions in package
-% main - runs through package, creates markdown file
+% getData - Expects: URL to data file. Promises: Downloads file to the computer.
+% readData - Expects: Name of local file. Promises: variable containing file content.
+% report - Expects: Data variable. Promises: Markdown file which presents data.
+% test - Expects: Nothing. Promises: Test suite of package functions.
+% main - Expects: Nothing. Promises: Report file gmauter-1.md.
 
 

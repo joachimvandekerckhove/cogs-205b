@@ -1,6 +1,6 @@
 function report(data)
 
-% creates markdown file which displays mean and covariance
+% Expects: Data variable. Promises: Markdown file which presents data.
 
 fid = fopen('gmauter-1.md', 'w')
 fprintf(fid, 'Data from cogs205b.csv\n')
