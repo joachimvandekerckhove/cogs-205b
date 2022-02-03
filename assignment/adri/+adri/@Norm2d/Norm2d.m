@@ -68,10 +68,11 @@ classdef Norm2d
         end
 
         function getMean = estMean(matrix)            
-            getMean = mean(matrix,2);
+            getMean = mean(matrix,1);
         end
 
         function getCov = estCovariance(matrix)
+            matrix = matrix'
             n = size(matrix,2);            
             z = zeros(2,n);            
             barx = mean(matrix,2);
