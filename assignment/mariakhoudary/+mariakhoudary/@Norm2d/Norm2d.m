@@ -91,6 +91,7 @@ classdef Norm2d
   % Static methods don't need the object as input
     methods (Static)
         testSuite()
+        [Mean, Covariance] = estimate(X)
     end
 end
 
