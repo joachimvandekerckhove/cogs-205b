@@ -1,3 +1,5 @@
+% downloads some data from 'http://cidlab.com/files/cogs205b.csv' and
+% creates a report file for it.
 url = 'http://cidlab.com/files/cogs205b.csv';
 
 file_name = hojjatazimi.getData(url);
