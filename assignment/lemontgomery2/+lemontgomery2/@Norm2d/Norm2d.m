@@ -122,6 +122,16 @@ classdef Norm2d
         dev = deviance(obj, data)
         
     end
+    
+    % Static Method
+    methods (Static)
+        function value = estimate(xax)
+            value = lemontgomery2.Norm2d;
+            value.Mean = mean(xax)';
+            value.Covariance = cov(xax);
+        end
+    end
+    
 end
 
 % Custom validation function
