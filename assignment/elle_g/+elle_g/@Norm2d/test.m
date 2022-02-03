@@ -1,8 +1,21 @@
 %test suite of the functions in the package
 % making sure they all work without errors as intended and give the expected output.
 function printTestReport = test()
-%reference testSuiteForNorm2d.m
-%q1: do we need to make a test for the test?
+
+% define line variable
+dashline = repmat('-', 1, 88);
+
+%  line
+fprintf('%s\n', dashline);
+
+%  time and date
+fprintf('~ %83s  ~\n', datestr(now))
+
+%   title
+fprintf('~%-84s~\n', sprintf('  Test suite for elle_g/+elle_g/@Norm2d'))
+
+%  line
+fprintf('%s\n', dashline);
 
 % test for: estimate
 try
@@ -54,7 +67,7 @@ try
 catch
     errorThrown = false;
 end
-assertErrorThrown(errorThrown, 'successfully downloads file')
+assertErrorThrown(errorThrown, 'readData. successfully downloads file')
 
 
 % test for: report
@@ -75,7 +88,7 @@ try
 catch
     errorThrown = false;
 end
-assertErrorThrown(errorThrown, 'class data downloaded with all methods functional')
+assertErrorThrown(errorThrown, 'main. class data downloaded with all methods functional')
 
 %test for: Contents
 try
@@ -84,4 +97,33 @@ try
 catch
     errorThrown = false;
 end
-assertErrorThrown(errorThrown, 'help docs displayed')
+assertErrorThrown(errorThrown, 'Contents. help docs displayed')
+
+% Assert that an error was thrown on a call
+    function assertErrorThrown(a,condition)
+        if a
+            success(condition)
+        else
+            fprintf('%s\n', dashline);
+            fprintf('!  Test failed: %s\n', condition)
+            disp('!  I expected an error to be thrown')
+            throwAsCaller(failure(condition))
+        end
+    end
+
+% Success message
+    function success(condition)
+        fprintf(' %-78s ', sprintf(' %s', condition));
+        fprintf('PASSSSSSSED!!  ~\n');
+    end
+
+% failure message
+    function me = failure(condition)
+        fprintf('~ %-78s failed  ~\n', sprintf(' %s', condition));
+        fprintf('~%s~\n', dashline);
+        me = ...
+            MException('badnewsbears:testSuite', ...
+            sprintf('the test failed for condition "%s"',condition));
+    end
+
+end 

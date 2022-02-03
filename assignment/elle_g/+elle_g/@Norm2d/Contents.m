@@ -1,8 +1,7 @@
-function helpText = Contents()
-% Contains help text for all functions in the package, 
-end
-
-%   Norm2d        - Norm2d  A class for the normal distribution
+% +ELLE_G
+%
+% Files
+%   Norm2d        - Norm2d  A class for the normal distribution.
 %   cdf           - Cumulative distribution function
 %   deviance      - Deviance score function
 %   getData       - download data from url into a table
@@ -16,3 +15,4 @@ end
 %   report        - print report of the date, size of matrix, mean, and covariance
 %   rnd           - Random number generator
 %   test          - test suite of the functions in the package
+
