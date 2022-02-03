@@ -14,7 +14,7 @@ function test() % the test suite.
     fprintf('# %74s  #\n', datestr(now))
     
 
-%% Test static method.
+%% Test Norm2d().estimate() static method.
 
 
     % passing known working dataset
@@ -29,8 +29,20 @@ function test() % the test suite.
     catch
         errorThrown = true; % it fails
     end
-    assertErrorThrown(errorThrown, 'X contains size of 2xN (dimensions) and is positive-definite')
+    assertErrorThrown(errorThrown, 'X contains size of 2xN (dimensions) and is positive-definite');
 
+ %% Test getData() function.
+    url = "http://cidlab.com/files/cogs205b.csv"; % a known url that works
+    
+%     url = "asbjfivubweirf.com/files/data.csv"; % a url that shouldnt work.
+ 
+    try
+        downloadedFilePath = getData(url);
+        errorThrown = false;
+    catch
+        errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'URL exists/ appropriate for data retrieval.');
     
 %% Subfunctions
 
