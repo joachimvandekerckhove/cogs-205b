@@ -1,0 +1,113 @@
+%Test.
+%tests the validitiy of functions main, report, readData, getData and contents
+function test(pseudonym)
+pseudonym = input('Enter your pseudonym here: ','s');
+%% Report
+% Start printing a little report to screen
+
+% make a long line
+dashline = repmat('-', 1, 90);
+% print a line
+fprintf('#%s#\n', dashline);
+
+% print time and date
+fprintf('# %90s  #\n', datestr(now))
+
+% print report title
+fprintf('#%-90s#\n', sprintf('  Test suite for "%s"  ', pseudonym))
+
+% print a line
+fprintf('#%s#\n', dashline);
+%% Get Data
+try
+    out=getData('https://cidlab.com/files/cogs205b.csv','cogs205b.csv')
+    errorThrown = false;
+catch
+    errorThrown = true;
+end
+assertErrorThrown(errorThrown, 'wrong url or wrong filename')
+%% Read Data
+try
+    [outputArg1] = readData('cogs205b')
+    errorThrown = false;
+catch
+    errorThrown = true;
+end
+assertErrorThrown(errorThrown, 'wrong filename')
+
+try
+    [outputArg1] = readData('randomfile')
+    errorThrown = false;
+catch
+    errorThrown = true;
+end
+assertErrorThrown(errorThrown, 'filename does not exist')
+%% Estimate Data
+    try
+	    data = [1 2 ; 4 8; 10 12];
+		estimate(data);
+		errorThrown = false;
+	catch
+		errorThrown = true;
+	end
+
+	assertErrorThrown(errorThrown, 'data should be a 2*N matrix')
+%% main
+try
+    main()
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'main always works.')
+
+%% Contents
+FileName="Contents.m"
+FID = fopen(FileName, 'r');
+if FID == -1
+  errorThrown = false;
+  assertErrorThrown(errorThrown, 'contents file does not exist.')
+else
+  errorThrown = true;
+  fclose(FID);
+end
+assertErrorThrown(errorThrown, 'contents file works.')
+
+  %% Assert that an error was thrown on a call
+    function assertErrorThrown(a,condition)
+        if a
+            success(condition)
+        else
+            fprintf('#%s#\n', dashline);
+            fprintf('!  Test failed: %s\n', condition)
+            disp('!  I expected an error to be thrown')
+            throwAsCaller(failure(condition))
+        end
+    end
+     %% Success message
+    function success(condition)
+        fprintf('# %-90s ', sprintf(' %s', condition));
+        lookBusy(2)
+        fprintf('passed  #\n');
+    end
+     %% Failure message
+    function me = failure(condition)
+        fprintf('# %-90s FAILED  #\n', sprintf(' %s', condition));
+        fprintf('#%s#\n', dashline);
+        me = ...
+            MException( ....
+                'magneto:testSuite', ...
+                sprintf('TESTSUITE failed for condition "%s"', condition));
+    end
+     %% If reports generate too fast, people don't believe they did anything
+    function lookBusy(k)
+        for r = 1:k
+            for s = '\|/-'
+                fprintf('%s', s);
+                pause(.005)
+                fprintf('\b');
+            end
+        end
+    end
+end
+

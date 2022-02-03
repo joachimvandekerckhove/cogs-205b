@@ -28,7 +28,7 @@ classdef Norm2d
             obj = updateParameters(obj);
         end
         
-        % Update Function
+        % Update Functions
         
         function obj = updateParameters(obj)
             obj = updateSigmas(obj);
@@ -70,12 +70,18 @@ classdef Norm2d
         yax = deviance(obj, Data);
       
         
+    end % end of methods block
+    
+    
+    methods (Static) % static methods
+        obj = estimate(X);
     end
+    
 end
 
 function mustBeSymmetricPositiveDefinite(testCovariance)
     if ~chol(testCovariance)
-        ME = MException('Convariance: NotSymmetricPositiveDefinite', ...
+        ME = MException('Convariance:NotSymmetricPositiveDefinite', ...
             'Covariance matrix is not symmetric positive definite.');
         throw(ME)
     end
