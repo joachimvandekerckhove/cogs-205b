@@ -3,17 +3,19 @@ classdef Norm2d
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
         Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance), mustBeSymmetric(Covariance)}...
-            = [1 1;1 1]
+            = eye(2)
     end
     
     properties (SetAccess = private)
         Precision
         Correlation
+        sigma1
+        sigma2
     end
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
-        ScalingConstant = (2*pi).^(-0.5);
+        ScalingConstant = (2*pi).^(-1);
         Name = 'Norm2d';
     end
     
@@ -43,11 +45,12 @@ classdef Norm2d
             obj = updateCovariance(obj);
         end
         
-        % Updater for StandardDeviation
+        % Updater for covariance
         function obj = updateCovariance(obj)
             obj.Precision  = inv(obj.Covariance);
-            obj.Correlation  = obj.Covariance(1,2)...
-                /(sqrt(obj.Covariance(1,1))*sqrt(obj.Covariance(2,2)));
+            obj.Correlation  = obj.Covariance(2, 1)./(sqrt(obj.Covariance(1,1)*obj.Covariance(2,2)));
+            obj.sigma1 = sqrt(obj.Covariance(1, 1));
+            obj.sigma2 = sqrt(obj.Covariance(2, 2));
         end
         
         %%% Computation functions %%%
@@ -55,10 +58,12 @@ classdef Norm2d
         % Probability density function
         function y = pdf(obj,X) % X is a 2 x n matrix
             z = obj.standardize(X);
-            y = obj.ScalingConstant ...
-                *(sqrt(obj.Covariance(1,1))*(sqrt(obj.Covariance(2,2))))^(-1) ...
-                *(sqrt(1-obj.Correlation^2))^(-1) ...
-                .* exp(-0.5*(z./(1-obj.Correlation^2)));
+            
+            % ScalingConstant = (2*pi).^(-0.5);
+        
+            y =  1 / (2 * pi * obj.sigma1 * obj.sigma2 * sqrt(1 - obj.Correlation ^ 2)) ...
+            .* exp(-0.5 * (z ./ (1 - obj.Correlation ^ 2)));
+          
         end
         
         % Log Probability density function
@@ -102,9 +107,12 @@ classdef Norm2d
         
         % Standardize a variate
         function z = standardize(obj, X)
-            z1 = (X(1,:) - obj.Mean(1))./(sqrt(obj.Covariance(1,1)));
-            z2 = (X(2,:) - obj.Mean(2))./(sqrt(obj.Covariance(2,2)));
-            z =  z1.^2 - (2*obj.Correlation).*z1.*z2 + z2.^2;
+            x1 = (X(1,:));
+            x2 = (X(2,:));
+    
+          z = ((x1 - obj.Mean(1)) / obj.sigma1) .^ 2 ...
+         - 2 * obj.Correlation * ((x1 - obj.Mean(1)) / obj.sigma1) .* ((x2 - obj.Mean(2)) / obj.sigma2) ...
+            + ((x2 - obj.Mean(2)) / obj.sigma2) .^ 2;
         end
         
     end

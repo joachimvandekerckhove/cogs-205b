@@ -1,3 +1,5 @@
+% This is a bivariate normal likelihood equivalence class. It has the properties: Mean, Covariamce, Precision, Std, Correlation; It has getters and setters and 6 main methods: cdf, deviance, pdf, rnd, logcdf, logpdf; as well as 1 main static methods: estimate.
+
 classdef Norm2d
 	
 	properties
@@ -76,6 +78,15 @@ classdef Norm2d
         end
 
         testSuite()
+
+        function obj = estimate(xax)
+            if size(xax,1) ~= 2  %2-by-2?
+                xax = xax.'; 
+            end
+            Mean = mean(xax,2);
+            Covariance = cov(xax(1,:),xax(2,:));
+            obj = JieWanHW.Norm2d(Mean, Covariance);
+        end
         
     end
 

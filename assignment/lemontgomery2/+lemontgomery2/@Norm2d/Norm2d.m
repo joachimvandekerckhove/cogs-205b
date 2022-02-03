@@ -129,7 +129,8 @@ classdef Norm2d
         
         % Cumulative distribution function
         function yax = cdf(obj, xax)
-            yax = mvncdf(xax, obj.Mean, obj.Covariance);
+            tempY = mvncdf(xax', obj.Mean', obj.Covariance');
+            yax = tempY';
         end
         
         % Log Cumulative distribution function
@@ -138,7 +139,7 @@ classdef Norm2d
         end
         
         % Random number generator
-        function x = rng(obj, size)
+        function x = rnd(obj, size)
             xval1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), [1, size]);
             xval2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
                         .* ((xval1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
