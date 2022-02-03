@@ -1,4 +1,4 @@
-function report(strct)
+function report(strct, dir)
 check(strct)
 [matrix_mean, matrix_cov] = strct2statistics(strct);
 body = create_report_body(matrix_mean, matrix_cov);
@@ -58,7 +58,7 @@ body = [header p_1 p_2];
 end
 
 function write2file(body)
-fid = fopen('report.md','wt');
+fid = fopen(dir,'wt');
 fprintf(fid, body);
 fclose(fid);
 end
