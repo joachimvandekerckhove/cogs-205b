@@ -5,7 +5,7 @@ function data = checkData(input)
 % non-egregious inputs.
 
 % check variable type
-if string(class(input)) == 'table'
+if string(class(input)) == 'table' %#ok<BDSCA> 
     input = table2array(input);
 end
 
