@@ -3,7 +3,7 @@ classdef Norm2d
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
         Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance), mustBeSymmetric(Covariance)}...
-            = [1 0;0 1]
+            = eye(2)
     end
     
     properties (SetAccess = private)
@@ -15,7 +15,7 @@ classdef Norm2d
     
     % The Gaussian scaling constant is sometimes useful
     properties (Constant)
-        ScalingConstant = (1 / (2*pi)).^(-0.5);
+        ScalingConstant = (2*pi).^(-1);
         Name = 'Norm2d';
     end
     
