@@ -1,5 +1,5 @@
 %  Reading data from a csv file with header = True. Data must be Nx2
-function data = readData(path)
+function dat = readData(path)
     % Get file name
     [filepath,name,ext] = fileparts(path);
     filename = append(name,ext);

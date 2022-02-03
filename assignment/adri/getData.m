@@ -1,5 +1,5 @@
 %  Download a datafile from a given URL
-function path_file = getData(url)
+function datFile = getData(url)
     %Is the URL providedd valid?
     [str,status] = urlread(url);
     if status == 0
@@ -13,5 +13,5 @@ function path_file = getData(url)
     %Write a table
     writetable(dat,filename);
     %Return as output the path to the downloaded file
-    path_file = append(fileparts(which(filename)),append("/",filename));
+    datFile = append(fileparts(which(filename)),append("/",filename));
 end
