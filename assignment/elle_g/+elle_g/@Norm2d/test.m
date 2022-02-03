@@ -5,61 +5,83 @@ function printTestReport = test()
 %q1: do we need to make a test for the test?
 
 % test for: estimate
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+try
+    X=[2 2 2; 4 4 4];
+    elle_g.Norm2d.estimate(X)
+    X.Mean==[2;4];
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'estimate mean. mean is correct.')
+
+try
+    X=[2 2 2; 4 4 4];
+    length(X(1, :))==length(X(2, :));
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'estimate covariance. data sets are equal in length')
+
+try
+    X=[1 2 3; 10 20 30];
+    elle_g.Norm2d.estimate(X)
+    X.Covariance==[1 10;10 100];
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'estimate mean. covariance is correct.')
+
 
 % test for: getData
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+try
+    wontWork="http://mynewpuppyisnamedlady.com/";
+    elle_g.getData(wontWork)
+    errorThrown = false;
+catch
+    errorThrown = true;
+end
+assertErrorThrown(errorThrown, 'getData. url cannot be accessed')
 
-% test for: readData
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+
+%test for: readData
+try
+   data2read='http://cidlab.com/files/cogs205b.csv';
+   elle_g.readData(data2read);
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'successfully downloads file')
+
 
 % test for: report
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+try
+    X=[1 2 3; 10 20 30];
+    elle_g.report(X);
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'report. report successfully generated');
+
 
 % test for: main
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+try
+    elle_g.main();
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'class data downloaded with all methods functional')
 
-% test for: Contents
-% try
-%     myFunction(...)
-%     errorThrown = false;
-% catch
-%     errorThrown = true;
-% end
-% % ... (do something depending on whether an error should or shouldn't have been thrown)
-% end
+%test for: Contents
+try
+    elle_g.Contents();
+    errorThrown = true;
+catch
+    errorThrown = false;
+end
+assertErrorThrown(errorThrown, 'help docs displayed')
