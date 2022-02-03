@@ -1,6 +1,5 @@
 function test_report()
-%TEST_REPORT Summary of this function goes here
-%   Detailed explanation goes here
+%TEST_REPORT checks report
 invalid_input_1 = 5;
 invalid_input_2.X = 2;
 invalid_input_3.Y = 10;

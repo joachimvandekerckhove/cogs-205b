@@ -1,4 +1,9 @@
 function report(strct, dir)
+%report tells you the mean and the variance of your bivariate data
+%   input: strct which should be structure containing X and Y. X and Y must
+%   be 1D arrays of the same size. next input is dir which is the full path
+%   to the desired report file in Markdown format. In the generated report
+%   you can see time, date, and the statistics of your data.
 check(strct)
 [matrix_mean, matrix_cov] = strct2statistics(strct);
 body = create_report_body(matrix_mean, matrix_cov);

@@ -1,6 +1,5 @@
 function test_estimate()
-%TEST_ESTIMATE Summary of this function goes here
-%   Detailed explanation goes here
+%TEST_ESTIMATE checks estimate
     correct_input = randn(2, 10);
     correct_mean = mean(correct_input, 2);
     correct_cov = cov(correct_input');

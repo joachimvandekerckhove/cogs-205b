@@ -1,6 +1,5 @@
 function test()
-%TEST Summary of this function goes here
-%   Detailed explanation goes here
+%TEST use this function to check all of the functions in this package
 hojjatazimi.test_estimate()
 hojjatazimi.test_getData()
 hojjatazimi.test_readData()

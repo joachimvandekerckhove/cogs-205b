@@ -1,4 +1,7 @@
 function content = readData(file_name)
+%readData loads a local file in to memory as a Matlab variable
+%   input: path to the local file; output: contents of the file as a Matlab
+%   function.
     fid = fopen(file_name);
     content = '';
     while ~feof(fid)

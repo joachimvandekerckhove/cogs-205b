@@ -1,6 +1,5 @@
 function test_getData
-%TEST_GETDATA Summary of this function goes here
-%   Detailed explanation goes here
+%TEST_GETDATA checks getData
 good_url = 'http://cidlab.com/files/cogs205b.csv';
 try
     file = hojjatazimi.getData(good_url);

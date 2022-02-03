@@ -1,4 +1,9 @@
 function file_name = getData(URL)
+%getData This Functions gets an input URL and downloads the linked file in
+%to local storage. 
+%   input: URL; output: path to the downloaded file; the function runs
+%   sanity test to check if the URL is valid then tries to download it
+%   using websave method.
 check_url(URL)
 name = url2name(URL);
 
