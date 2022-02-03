@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = test_report(inputArg1,inputArg2)
+function test_report()
 %TEST_REPORT Summary of this function goes here
 %   Detailed explanation goes here
 invalid_input_1 = 5;
