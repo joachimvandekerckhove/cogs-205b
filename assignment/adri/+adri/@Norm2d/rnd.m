@@ -16,5 +16,5 @@ function rndm = rnd(obj, dims)
     x1 = sigma1 * randn(1,dims) + mu1
     x2 = (sigma2^2*sqrt(1-rho^2)) * randn(1,dims) + ...
             (mu2+(sigma2*rho)*((x1-mu1)/sigma1));
-    rndm = vercat(x1,x2)
+    rndm = vertcat(x1,x2)
 end
