@@ -4,11 +4,11 @@ function z = standardize(obj, X)
 
 % assign values to variables to enhance readability & flexibility
 
-x1 = X(1,:);
-x2= X(2, :);
+x1=X(1,:);
+x2=X(2,:);
 
-mu1= obj.Mean(1);
-mu2 = obj.Mean(2);
+mu1=obj.Mean(1);
+mu2=obj.Mean(2);
 
 sigma1=sqrt(obj.Covariance(1,1));
 sigma2=sqrt(obj.Covariance(2,2));

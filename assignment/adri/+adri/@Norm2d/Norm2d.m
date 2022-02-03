@@ -81,6 +81,7 @@ classdef Norm2d
             end            
             getCov = 1./(n-1) .* (z * z.');
         end
+
     end
     
 end
