@@ -1,9 +1,5 @@
 function report(bivarData)
-% Expects: A MATLAB variable containing bivariate (X and Y) data.
-% Promises: Produces a file, formatted in Markdown, that presents the mean 
-% and covariance of the data in a human-readable way and uses some basic
-% formatting.
-
+% Expects: A MATLAB variable containing bivariate (X, Y) data. Promises: Produces a .md file that presents the mean and covariance of the data.
     fileID = fopen('isaacmenchaca-1.md','w');
     
         fprintf(fileID,'## Automated Generated Report: %74s\n', datestr(now));
@@ -25,4 +21,5 @@ function report(bivarData)
     
     
 end
+
 

@@ -1,6 +1,5 @@
 function output = getData(url)
-% Expects: Input is a URL to a data file.
-% Promises: Downloads the file to the computer. Output is the name of the local file.
+% Expects: Input is a URL to a data file. Promises: Downloads the file to the computer. Output is the name of the local file.
 
     try
     urlSplit = strsplit(url , '/');

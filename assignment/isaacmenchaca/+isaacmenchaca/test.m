@@ -1,5 +1,5 @@
-function test() % the test suite.
-
+function test() 
+% Expects: No input. Promise: Runs a test suite that verifies the functionality of the functions in the package.
   %% Report
     % Start printing a little report to screen
    
