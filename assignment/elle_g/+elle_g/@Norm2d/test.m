@@ -1,6 +1,6 @@
 %test suite of the functions in the package
 % making sure they all work without errors as intended and give the expected output.
-function printTestReport = test()
+function test()
 
 % define line variable
 dashline = repmat('-', 1, 88);

@@ -46,15 +46,15 @@ classdef Norm2d
     end
     
     methods (Static)
-        printTestReport = test();
+        test();
     end
     
     methods (Static)
-        reportFile = main();
+        main();
     end
     
     methods (Static)
-        helpText = Contents();
+        Contents();
     end
     
     methods    
