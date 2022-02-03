@@ -1,4 +1,4 @@
-%  Reading data from a csv file with header = True. Data must be Nx2
+%  Reading data from a csv file with header = True.
 function dat = readData(path)
     % Get file name
     [filepath,name,ext] = fileparts(path);
