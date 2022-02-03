@@ -1,8 +1,6 @@
 % Produce a small report/summary of the Mean and Covariance computed 
 function report(data)
     thisReport = adri.Norm2d().estimate(data);
-
-    % Create md File with results
     fid = fopen('adriReport.md','w');
         fprintf(fid, '# Report: adri.Norm2d\n');
         fprintf(fid, '\n');
@@ -20,5 +18,4 @@ function report(data)
         fprintf(fid, '\n');
         fprintf(fid, '- Correlation( X<sub>1</sub> , X<sub>2</sub>) = %.3f \n', thisReport.Correlation);
     fclose(fid);
-
 end
