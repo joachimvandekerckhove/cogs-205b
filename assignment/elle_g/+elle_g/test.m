@@ -22,9 +22,9 @@ try
     X=[2 2 2; 4 4 4];
     elle_g.Norm2d.estimate(X)
     X.Mean==[2;4];
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'estimate mean. mean is correct.')
 
@@ -41,9 +41,9 @@ try
     X=[1 2 3; 10 20 30];
     elle_g.Norm2d.estimate(X)
     X.Covariance==[1 10;10 100];
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'estimate mean. covariance is correct.')
 
@@ -63,9 +63,9 @@ assertErrorThrown(errorThrown, 'getData. url cannot be accessed')
 try
    data2read='http://cidlab.com/files/cogs205b.csv';
    elle_g.readData(data2read);
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'readData. successfully downloads file')
 
@@ -74,9 +74,9 @@ assertErrorThrown(errorThrown, 'readData. successfully downloads file')
 try
     X=[1 2 3; 10 20 30];
     elle_g.report(X);
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'report. report successfully generated');
 
@@ -84,18 +84,18 @@ assertErrorThrown(errorThrown, 'report. report successfully generated');
 % test for: main
 try
     elle_g.main();
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'main. class data downloaded with all methods functional')
 
 %test for: Contents
 try
     elle_g.Contents();
-    errorThrown = true;
-catch
     errorThrown = false;
+catch
+    errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'Contents. help docs displayed')
 
