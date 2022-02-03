@@ -1,5 +1,5 @@
 % Update Precision based on CovarianceMatrix
-function obj = updateCovariance(obj)
+function obj = updateCovarianceMatrix(obj)
 
 sigsig = sqrt(obj.Covariance(1) * obj.Covariance(4));
 
