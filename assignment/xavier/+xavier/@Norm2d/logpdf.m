@@ -1,7 +1,5 @@
-% Probability density function
+% Log probability density function
 
-function ld = logpdf(obj, xax)
-% Get the logkernel and add logscale factor
-k = logkernel(obj, xax);
-ld = obj.logScaleFactor + k;
+function outputArg = logpdf(obj, xax)
+outputArg = obj.logScaleFactor + logkernel(obj, xax);
 end

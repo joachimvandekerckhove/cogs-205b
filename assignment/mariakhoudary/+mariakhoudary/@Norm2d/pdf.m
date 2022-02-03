@@ -1,5 +1,5 @@
 function yax = pdf(obj, X)
-% computes the probability density function for a bivariate normal
+% PDF computes the probability density function for a bivariate normal
 % distribution
 
 % assign values to variables to improve readability & enhance flexibility

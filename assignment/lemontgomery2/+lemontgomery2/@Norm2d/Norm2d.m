@@ -1,5 +1,5 @@
 classdef Norm2d
-    % NORMAL  A class for the bivariate normal distribution
+    % A class for the bivariate normal distribution
     
     % The main properties are the mean, covariance, precision, and correlation
     properties
@@ -7,7 +7,7 @@ classdef Norm2d
             = [ 0; 0 ]
         Covariance (2,2) double {mustBeReal, mustBeFinite, ...
                                  mustBePositiveDefinite(Covariance)} ...
-            = [ 1 0; 0 1 ]
+            = eye(2)
     end
     
     % Derived properties that need to be set internally
@@ -30,6 +30,8 @@ classdef Norm2d
     
         % A main constructor, for a new Bivariate Normal
         function obj = Normal(Mean, Covariance)
+            
+            % NORMAL    A main constructor for the new bivariate normal
             if nargin > 0
                 % This triggers the implicit setter for Mean
                 obj.Mean = Mean;
@@ -43,9 +45,10 @@ classdef Norm2d
         
         %%% Display function %%%
         
-        % Print the distrubtion to screen
+        % Print the distribution to screen
         function disp(obj)
         
+            % DISP    Prints the distribution to screen
             t = sprintf('+');
             b = sprintf('+');
             k = sprintf('[');
@@ -66,7 +69,8 @@ classdef Norm2d
         
         % Print the distribution to screen
         function str = print(obj)
-        
+            
+            % PRINT    Prints the distribution to screen
             t = sprintf('+');
             b = sprintf('+');
             k = sprintf('[');
@@ -94,6 +98,8 @@ classdef Norm2d
 
         % Updater for Covariance
         function obj = updateCovariance(obj)
+            
+            % UPDATECOVARIANCE    Corresponding updated for covariance
             obj.Precision = inv(obj.Covariance);
             obj.Correlation = obj.Covariance(1,2) ...
                               / (sqrt(obj.Covariance(1,1)) ...
@@ -104,54 +110,38 @@ classdef Norm2d
         % Computation functions
         
         % Probability density function
-        function yax = pdf(obj, xax)
-            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))).^2 ...
-                  + (((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
-                  .* ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
-                  .* (-2 * obj.Correlation)) ...
-                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))).^2;
-            yax = obj.ScalingConstant ...
-                * (sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)))^(-1) ...
-                * sqrt(1 - obj.Correlation^2)^(-1) ...
-                * exp(-0.5 * zax * (1 - obj.Correlation^2)^(-1));
-        end
+        yax = pdf(obj, xax)
         
         % Log Probability density function
-        function yax = logpdf(obj, xax)
-            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1)))^2 ...
-                  - 2 * obj.Correlation ...
-                  * ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
-                  * ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
-                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2)))^2;
-            yax = pi * sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)) ...
-                  * (1 - obj.Correlation^2)^(-0.5) * zax;
-        end
+        yax = logpdf(obj, xax)
         
         % Cumulative distribution function
-        function yax = cdf(obj, xax)
-            yax = mvncdf(xax, obj.Mean, obj.Covariance);
-        end
+        yax = cdf(obj, xax)
         
         % Log Cumulative distribution function
-        function yax = logcdf(obj, xax)
-            yax = log(obj.cdf(xax));
-        end
+        yax = logcdf(obj, xax)
         
         % Random number generator
-        function x = rng(obj, size)
-            xval1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), [1, size]);
-            xval2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
-                        .* ((xval1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
-                        obj.Covariance(2,2)^2 * sqrt(1 - obj.Correlation^2), ...
-                        [1, size]);
-            x = [xval1; xval2];
-        end
+        x = rnd(obj, size)
         
         % Deviance
-        function dev = deviance(obj, data)
-            dev = -2 * sum(obj.logpdf(obj, data));
+        dev = deviance(obj, data)
+        
+    end
+    
+    % Static Method
+    methods (Static)
+        
+        function value = estimate(xax)
+            
+            % ESTIMATE    Creates a static method with updated properties
+            % based on input
+            value = lemontgomery2.Norm2d;
+            value.Mean = mean(xax)';
+            value.Covariance = cov(xax);
         end
     end
+    
 end
 
 % Custom validation function

@@ -1,6 +1,4 @@
-% Good coding practice
-% Joachim Vandekerckhove
-
+# Good coding practice
 ---
 
 ## Agile development
@@ -113,19 +111,25 @@ Modern programming languages have essentially no performance penalty for functio
 
 Get a load of this:
 
-    [a, b, c, d] = mySadFun(e, f, g, h, e3, t, y, dd);
+```matlab
+[a, b, c, d] = mySadFun(e, f, g, h, e3, t, y, dd);
+```
 
 This is hard to use and understand.  Most likely the function is too complex to be easily read.
 
 If you really need to do this, collect your input in a single parameter object, which could be a structure:
 
-    out  =  myFunFun(parameters) ;
-    ...
+```matlab
+out  =  myFunFun(parameters) ;
+...
+```
 or a class:
 
-    par  =  Parameter()    ;
-    out  =  par.myFunFun() ;
-    ...
+```matlab
+par  =  Parameter()    ;
+out  =  par.myFunFun() ;
+...
+```
 
 
 ---
