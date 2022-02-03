@@ -53,10 +53,8 @@ classdef Norm2d
             obj.Covariance = val;
             % Update contingent properties
             obj = updateMatrix(obj);
-        end
-        
-    end
-    
+        end        
+    end    
     
     % Static methods don't need the object as input
     methods (Static)
