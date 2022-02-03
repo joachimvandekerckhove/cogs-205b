@@ -1,5 +1,5 @@
 classdef Norm2d
-    % NORMAL A class for a bivariate normal distribution
+    % NORM2D: A class for the bivariate normal distribution
 
     % The main properties are the means and covariance
     properties
@@ -91,6 +91,7 @@ classdef Norm2d
   % Static methods don't need the object as input
     methods (Static)
         testSuite()
+        [Mean, Covariance] = estimate(X)
     end
 end
 

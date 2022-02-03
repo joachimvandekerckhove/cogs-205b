@@ -2,8 +2,8 @@ classdef Norm2d
     
     properties
        
-        Mean {mustBeReal, mustBeFinite, size} = zeros(2, 1)
-        Covariance {mustBeReal, mustBeFinite} = eye(2)
+        Mean(2, 1) double {mustBeReal, mustBeFinite, size} = zeros(2, 1)
+        Covariance(2, 2) double {mustBeReal, mustBeFinite} = eye(2)
         
     end
 
@@ -11,6 +11,8 @@ classdef Norm2d
        
         Correlation;
         Precision; 
+        ScaleFactor;
+        logScaleFactor;
 
     end
     
@@ -96,5 +98,10 @@ classdef Norm2d
 
         out = deviance(obj, data)
 
+    end
+
+    methods (Static)
+        out = estimate (X)
+        
     end
 end

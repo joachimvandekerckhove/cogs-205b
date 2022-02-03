@@ -5,7 +5,7 @@ classdef Norm2d
         Mean (2,1) double {mustBeReal, mustBeFinite} ...
             = [0;0]
         Covariance (2,2) double {mustBeReal, mustBeFinite, ...
-            mustBeNonnegative, mustBeSymmetric(Covariance)} ...
+            mustBePosDef(Covariance), mustBeSymmetric(Covariance)} ...
             = [1 0;0 1]
         
     end
@@ -94,8 +94,24 @@ classdef Norm2d
         % gaussian exponent term
         a = expTerm(obj, z)
         
-    end  
+    end
     
+    methods (Static)
+        
+        obj = estimate(data)
+        
+    end
+    
+end
+
+% check for positive definite
+function mustBePosDef(a)
+    [~,bool] = chol(a);
+    if bool == 1
+        eidType = 'mustBePosDef:notPosDef';
+        msgType = 'Input must be positive definite.';
+        throwAsCaller(MException(eidType,msgType))
+    end
 end
 
 % check for symmetry
