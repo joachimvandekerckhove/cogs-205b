@@ -104,54 +104,23 @@ classdef Norm2d
         % Computation functions
         
         % Probability density function
-        function yax = pdf(obj, xax)
-            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))).^2 ...
-                  + (((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
-                  .* ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
-                  .* (-2 * obj.Correlation)) ...
-                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))).^2;
-            yax = obj.ScalingConstant ...
-                * (sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)))^(-1) ...
-                * sqrt(1 - obj.Correlation^2)^(-1) ...
-                * exp(-0.5 * zax * (1 - obj.Correlation^2)^(-1));
-        end
+        yax = pdf(obj, xax)
         
         % Log Probability density function
-        function yax = logpdf(obj, xax)
-            zax = ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1)))^2 ...
-                  - 2 * obj.Correlation ...
-                  * ((xax(1,:) - obj.Mean(1)) / sqrt(obj.Covariance(1,1))) ...
-                  * ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2))) ...
-                  + ((xax(2,:) - obj.Mean(2)) / sqrt(obj.Covariance(2,2)))^2;
-            yax = pi * sqrt(obj.Covariance(1,1)) * sqrt(obj.Covariance(2,2)) ...
-                  * (1 - obj.Correlation^2)^(-0.5) * zax;
-        end
+        yax = logpdf(obj, xax)
         
         % Cumulative distribution function
-        function yax = cdf(obj, xax)
-            tempyax = mvncdf(xax', obj.Mean', obj.Covariance');
-            yax = tempyax';
-        end
+        yax = cdf(obj, xax)
         
         % Log Cumulative distribution function
-        function yax = logcdf(obj, xax)
-            yax = log(obj.cdf(xax));
-        end
+        yax = logcdf(obj, xax)
         
         % Random number generator
-        function x = rnd(obj, size)
-            xval1 = normrnd(obj.Mean(1), sqrt(obj.Covariance(1,1)), [1, size]);
-            xval2 = normrnd(obj.Mean(2) + sqrt(obj.Covariance(2,2)) * obj.Correlation ...
-                        .* ((xval1 - obj.Mean(1)) ./ sqrt(obj.Covariance(1,1))), ...
-                        obj.Covariance(2,2)^2 * sqrt(1 - obj.Correlation^2), ...
-                        [1, size]);
-            x = [xval1; xval2];
-        end
+        x = rnd(obj, size)
         
         % Deviance
-        function dev = deviance(obj, data)
-            dev = -2 * sum(obj.logpdf(obj, data));
-        end
+        dev = deviance(obj, data)
+        
     end
 end
 
