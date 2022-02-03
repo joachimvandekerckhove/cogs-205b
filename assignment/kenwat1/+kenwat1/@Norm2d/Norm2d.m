@@ -2,7 +2,8 @@ classdef Norm2d
     properties
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
-        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance), mustBeSymmetric(Covariance)}...
+        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance),...
+            mustBeSymmetric(Covariance)}...
             = eye(2)
     end
     
@@ -23,7 +24,7 @@ classdef Norm2d
     methods
         %%% Constructor function %%%
         
-        % A main constructor, for a new Normal
+        % A main constructor, for a new Norm2d
         function obj = Norm2d(Mean,Covariance)
             if nargin > 0
                 obj.Mean = Mean;
@@ -123,6 +124,14 @@ classdef Norm2d
         testSuite()
         
     end
+    
+    methods (Static)
+        function obj = estimate(X)
+            obj = kenwat1.Norm2d;
+            obj.Mean = mean(X,2);
+            obj.Covariance = cov(X(1,:),X(2,:));
+        end
+    end 
     
 end
 
