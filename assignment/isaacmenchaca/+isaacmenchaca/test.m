@@ -37,12 +37,29 @@ function test() % the test suite.
 %     url = "asbjfivubweirf.com/files/data.csv"; % a url that shouldnt work.
  
     try
-        downloadedFilePath = getData(url);
+        downloadedFilePath = isaacmenchaca.getData(url);
         errorThrown = false;
     catch
         errorThrown = true;
     end
     assertErrorThrown(errorThrown, 'URL exists/ appropriate for data retrieval.');
+    
+ %% Test readData() function.
+     fileName = "cogs205b.csv"; % a known file that works
+%      fileName = "cogs205b2.csv"; % a file with only one variable of interest.
+%      fileName = "cogs205b3.csv"; % a filename that doesnt exist
+
+
+    try
+        X = isaacmenchaca.readData(fileName);
+        Norm2dObj = isaacmenchaca.Norm2d().estimate(X);
+        errorThrown = false;
+    catch
+        errorThrown = true;
+    end
+    assertErrorThrown(errorThrown, 'The file exists/ is not appropriate for data retrieval.');
+    
+
     
 %% Subfunctions
 
