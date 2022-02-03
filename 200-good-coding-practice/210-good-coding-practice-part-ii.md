@@ -75,13 +75,13 @@ They can also
 
 Hyperlinks are added like `[this](https://cidlab.com)`, and figures almost identically with an exclamation mark and an empty text field: `![](/path/to/image)`
 
-![](/home/joachim/Dropbox/GitHub/cogs-205b/000-introduction/p/linux-penguin-small.png)
+![](p/linux-penguin-small.png)
 
 ### HTML
 
 A powerful feature of markdown is that it can be extended by other markup languages if you need more complexity.  For example, you can just write html code if you want to, say, scale up an image:
 
-<img src="/home/joachim/Dropbox/GitHub/cogs-205b/000-introduction/p/linux-penguin-small.png" alt="linux-penguin-small" style="zoom:150%;" />
+<img src="p/linux-penguin-small.png" alt="linux-penguin-small" style="zoom:150%;" />
 
 ### LaTeX
 
