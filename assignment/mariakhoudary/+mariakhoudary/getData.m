@@ -1,6 +1,6 @@
-function getData(URL)
+function filename = getData(URL)
 
-% Downloads a CSV from the internet & returns the name of the local
+% downloads a CSV from the internet & returns the name of the local
 % file. Takes one input: the URL of the file to be downloaded (must be a
 % string).
 
@@ -13,9 +13,9 @@ function getData(URL)
 data = webread(URL);
 
 if string(class(data)) == 'table'
-    writetable(data, 'downloaded_data.csv');
+    writetable(data, 'cogs205b.csv');
 else
-    writematrix(data, 'downloaded_data.csv');
+    writematrix(data, 'cogs205b.csv');
 end
 
-disp(['Download successful! The file can be found at: ', pwd filesep 'downloaded_data.csv']);
+filename = [pwd filesep 'cogs205b.csv'];

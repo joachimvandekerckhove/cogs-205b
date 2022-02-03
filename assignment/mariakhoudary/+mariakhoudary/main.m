@@ -5,6 +5,6 @@ function main()
 % http://cidlab.com/files/cogs205b.csv at the time it was run
 
 mariakhoudary.getData('http://cidlab.com/files/cogs205b.csv');
-data = mariakhoudary.readData('downloaded_data.csv');
+data = mariakhoudary.readData('cogs205b.csv');
 data = mariakhoudary.checkData(data);
 mariakhoudary.report(data);
