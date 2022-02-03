@@ -1,15 +1,15 @@
 classdef Norm2d
-    % Assignment 2: Creating a Norm2d class
-        
-    % Mean is now a vector and we replace the S.D with a Covariance Matrix
+    % Norm2d: A class for the bivariate Normal distribution.
+    
+    % Main properties
     properties
-        Mean (2,1) double {mustBeReal, mustBeFinite} ...
+        Mean       (2,1) double {mustBeReal, mustBeFinite} ...
             = zeros(2,1);
         Covariance (2,2) double {mustBeReal, mustBeFinite, mustBePosDef(Covariance), mustBeSymm(Covariance)} ...
             = eye(2);
     end
     
-    % Derived properties that are not changeable by the user
+    % Derived properties that are not accessible to the user
     properties (SetAccess = private)
         Precision;
         Correlation;
@@ -17,13 +17,14 @@ classdef Norm2d
         logScaleFactor;
     end
     
-    % We keep the Gaussian scaling constant
+    % Gaussian scaling constant
     properties (Constant)
         ScalingConstant = (2*pi).^(-0.5);
         Name = '2D-Normal';
     end
         
-    methods        
+    methods
+
         %%% Constructor function %%%        
         % A main constructor, for a new 2D-Normal
         function obj = Norm2d(Mean, Covariance)
@@ -33,6 +34,16 @@ classdef Norm2d
             if nargin > 1                    
                 obj.Covariance = Covariance;
             end            
+        end
+
+        %%% Display function %%%
+        % Print the distribution to screen
+        function disp(obj)
+            fprintf('adri.Norm2d object\n\n')
+            fprintf('         /  | %7g |   | %7g  %7g |  \\\n', obj.Mean(1), obj.Covariance(1,:))
+            fprintf('  Normal |  |         | , |                  |  |\n')
+            fprintf('         \\  | %7g |   | %7g  %7g |  /\n\n', ...
+                obj.Mean(2), obj.Covariance(2,:))
         end
               
         %%% Getters and setters %%%        
