@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = test_readData(inputArg1,inputArg2)
+function  test_readData()
 %TEST_READDATA Summary of this function goes here
 %   Detailed explanation goes here
 bad_file = "sdfsdfsdfsgfndkfgnerltberwhtbmfgb"
