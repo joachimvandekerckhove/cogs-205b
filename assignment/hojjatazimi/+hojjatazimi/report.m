@@ -46,8 +46,10 @@ y = strct.Y;
 
 matrix = [x;y];
 
-matrix_mean = mean(matrix, 2);
-matrix_cov = cov(matrix');
+norm2d = hojjatazimi.Norm2d.estimate(matrix);
+
+matrix_mean = norm2d.Mean;
+matrix_cov = norm2d.Covariance;
 end
 
 function body = create_report_body(matrix_mean, matrix_cov)

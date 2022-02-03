@@ -1,5 +1,5 @@
 # Your Variable Details
-We analyzed your data on 02/03/2022 at 10:35:36. We calculated the **Mean** and the **Covariance Matrix** of your data and they are:
+We analyzed your data on 02/03/2022 at 13:29:34. We calculated the **Mean** and the **Covariance Matrix** of your data and they are:
 * Mean: 
 	1.0194
 	0.96017
