@@ -2,7 +2,7 @@ function report(strct, dir)
 check(strct)
 [matrix_mean, matrix_cov] = strct2statistics(strct);
 body = create_report_body(matrix_mean, matrix_cov);
-write2file(body);
+write2file(body, dir);
 end
 
 function check(strct)
@@ -57,7 +57,7 @@ p_2 = ['* Mean: ' newline sprintf('\t') num2str(matrix_mean(1)) newline sprintf(
 body = [header p_1 p_2];
 end
 
-function write2file(body)
+function write2file(body, dir)
 fid = fopen(dir,'wt');
 fprintf(fid, body);
 fclose(fid);
