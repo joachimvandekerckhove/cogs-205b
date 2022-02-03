@@ -1,5 +1,5 @@
 classdef Norm2d
-    % a class for the bivariate normal distribution
+    % A class for the bivariate normal distribution
     
     % The main properties are the mean, covariance, precision, and correlation
     properties
