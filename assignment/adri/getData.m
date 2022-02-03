@@ -8,8 +8,8 @@ function datFile = getData(url)
     %If so, read content
     dat = webread(url);    
     %Get the name of the file
-    [filepath,name,ext] = fileparts(url)
-    filename = append(name,ext)
+    [filepath,name,ext] = fileparts(url);
+    filename = append(name,ext);
     %Write a table
     writetable(dat,filename);
     %Return as output the path to the downloaded file
