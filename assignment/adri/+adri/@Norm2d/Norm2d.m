@@ -59,7 +59,7 @@ classdef Norm2d
     % Static methods don't need the object as input
     methods (Static)
         % Estimating the mean and covariance of some data
-        function theseData = estimates(matrix)
+        function theseData = estimate(matrix)
             theseData = adri.Norm2d();
             theseMeans = theseData.estMean(matrix);
             theseData.Mean = theseMeans; 
