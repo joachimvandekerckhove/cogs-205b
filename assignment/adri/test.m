@@ -1,8 +1,7 @@
 % Testing some of the functions included in Norm2d
-function test(pseudonym)
+function test()
     % Output on screen
     line = repmat('-', 1, 77);
-
     fprintf('#%s#\n', line);
     fprintf('# %74s  #\n', datestr(now))
     fprintf('#%-77s#\n', sprintf('  My very own test suite for "%s"  ', class(this)))
@@ -25,12 +24,18 @@ function test(pseudonym)
     Compare(testPres, myEstimates.Precision, 'Testing Presicion matrix')
     Compare(testCorr, myEstimates.Correlation, 'Testing Correlation')
 
+    fprintf('#%s#\n', line);
+    fprintf('# %74s  #\n', datestr(now))
+    fprintf('#%-77s#\n', sprintf('Yayyy! Estimates are correct "%s"  ', class(this)))
+    fprintf('#%s#\n', line);
+
+
 % Define comparison function
     function Compare(a, b, condition)
         if all(abs(a-b) < 1e-10)
             success(condition)
         else
-            fprintf('#%s#\n', dashline);
+            fprintf('#%s#\n', line);
             fprintf('!  Test failed: %s\n', condition)            
             throwAsCaller(failure(condition))
         end
