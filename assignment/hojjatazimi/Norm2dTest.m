@@ -6,7 +6,7 @@ function testPdf(testCase)
     Mean = zeros(2, 1);    StandardDeviation = [1 0;0 1];    Value = zeros(2, 1);
     expected = mvnpdf(Value,Mean,StandardDeviation);
     actual   = hojjatazimi.Norm2d(Mean, StandardDeviation).pdf(Value);
-    verifyEqual(testCase, expected, actual)
+    verifyLessThan(testCase, abs(expected-actual), eps(1))
 end
 
 function testBadCov(testCase)
@@ -19,5 +19,5 @@ function testEstimateMean(testCase)
     input = randn(2, 100);
     expected = mean(input, 2);
     actual = hojjatazimi.Norm2d.estimate(input).Mean;
-    verifyEqual(testCase, expected, actual)
+    verifyLessThan(testCase, abs(expected-actual), eps(1))
 end
