@@ -22,9 +22,9 @@ function test_estimate()
     end
 
 
-    false_input = randn(3, 10)
+    false_input = randn(3, 10);
     try
-        out = hojjatazimi.Norm2d.estimate(false_input);
+        hojjatazimi.Norm2d.estimate(false_input);
         wrong_analysis(false_input)
     catch
         disp('error in input was detected succesfuly!')
