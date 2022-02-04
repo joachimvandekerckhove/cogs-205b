@@ -1,6 +1,6 @@
 # Report: adri.Norm2d
 
-Date:                                                       03-Feb-2022 12:14:37  
+Date:                                                       03-Feb-2022 15:34:37  
 
 - Mean( X<sub>1</sub> ) = 1.019
 - Variance( X<sub>1</sub> ) = 18.216 
