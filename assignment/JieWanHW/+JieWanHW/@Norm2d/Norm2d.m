@@ -81,11 +81,14 @@ classdef Norm2d
 
         function obj = estimate(xax)
             if size(xax,1) ~= 2  %2-by-2?
-                xax = xax.'; 
+                xax = xax.';
+                if size(xax,1) ~= 2
+                    error('estimate:Over2Variables','Inside data, there are more than 2 variables.') 
+                end
+                Mean = mean(xax,2);
+                Covariance = cov(xax(1,:),xax(2,:));
+                obj = JieWanHW.Norm2d(Mean, Covariance);
             end
-            Mean = mean(xax,2);
-            Covariance = cov(xax(1,:),xax(2,:));
-            obj = JieWanHW.Norm2d(Mean, Covariance);
         end
         
     end
