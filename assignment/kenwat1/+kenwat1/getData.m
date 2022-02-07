@@ -3,7 +3,7 @@ function filename = getData(url)
 
 [~,name,ext] = fileparts(url);
 filename = [name ext];
-urlwrite(url,filename);
+websave(filename,url);
 
 end
 
