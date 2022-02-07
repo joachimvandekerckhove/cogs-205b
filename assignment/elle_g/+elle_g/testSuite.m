@@ -9,7 +9,7 @@ function testPdf(testCase)
 
     Mean              = 1;
     StandardDeviation = 2;
-    Value             = 0;
+    Value             = 0;0
 
     expectedValue = normpdf(Value, Mean, StandardDeviation);
     actualValue   = Normal(Mean, StandardDeviation).pdf(Value);
