@@ -1,5 +1,8 @@
 %print report of the date, size of matrix, mean, and covariance
 function markdownOutput = report(variable)
+    if ~isa(variable,"double")
+        error("report:InputtedVariableMustBeDouble","Inputted variable must be double. Cannot run a report on a variable of strings")
+    end
     fileID=fopen('elle_g-1.md', 'w');
     markdownOutput='elle_g-1.md';
     elle_g.Norm2d.estimate(variable);
