@@ -27,14 +27,27 @@ end
 function testGetData(testCase)
    data2get='http://cidlab.com/files/cogs205b.csv';
    actVal=elle_g.getData(data2get);
-   verifyClass(testCase,actVal,"table","Value must be a table.")
+   verifyNotEmpty(testCase,actVal, "inputted URL downloaded blank data. check url.")
 end
 
 
+function testReadData(testCase)
+   data2get='http://cidlab.com/files/cogs205b.csv';
+   d=elle_g.getData(data2get);
+   actVal=elle_g.readData(d);
+   verifyNotEmpty(testCase,actVal, "local file outputted blank variable. check local file.")
+end
 
 function testReport(testCase)
     willFail="1 2 3, 1 2 3";
     badCall= @() elle_g.report(willFail);
     verifyError(testCase, badCall, 'report:InputtedVariableMustBeDouble')
+end
+
+function testMain(testCase)
+    
+end
+
+function testContents(testCase)
 end
 
