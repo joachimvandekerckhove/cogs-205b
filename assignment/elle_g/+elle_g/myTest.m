@@ -3,39 +3,38 @@ function tests = myTest
     tests = functiontests(localfunctions);
 end
 
-% The suite should contain at least three tests, at least one of which users verifyError().
-
 function testMean(testCase)
-    sample=[2 2 2; 4 4 4];
+    sample=[4 25 1999; 2 4 2022];
     
-    elle_g.Norm2d.estimate(sample);
-    actVal=sample.Mean;
+    s=elle_g.Norm2d.estimate(sample);
+    actVal=s.Mean;
     expVal=mean(sample,2);
     
     verifyEqual(testCase, actVal, expVal)
 end
 
 function testCovariance(testCase)
-    sample=[2 2 2; 4 4 4];
+    sample=[4 25 1999; 2 4 2022];
    
-    elle_g.Norm2d.estimate(sample);
-    actVal=sample.Covariance;
+    s=elle_g.Norm2d.estimate(sample);
+    actVal=s.Covariance;
     expVal=cov(sample(1, :),sample(2,:));
     
     verifyEqual(testCase, actVal, expVal)
 end
 
 
-function testReadData(testCase)
+function testGetData(testCase)
    data2get='http://cidlab.com/files/cogs205b.csv';
-   data2read=elle_g.getData(data2get);
-   actVal=elle_g.ReadData(data2read);
+   actVal=elle_g.getData(data2get);
    verifyClass(testCase,actVal,"table","Value must be a table.")
 end
 
+
+
 function testReport(testCase)
     willFail="1 2 3, 1 2 3";
-    badCall=elle_g.report(willFail);
+    badCall= @() elle_g.report(willFail);
     verifyError(testCase, badCall, 'report:InputtedVariableMustBeDouble')
 end
 

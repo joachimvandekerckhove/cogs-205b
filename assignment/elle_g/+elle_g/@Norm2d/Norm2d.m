@@ -26,8 +26,8 @@ classdef Norm2d
     
     methods (Static)
         function obj = estimate(X)
-            Mean(1,1)=mean(X(:,1));
-            Mean(2,1)=mean(X(:,2));
+            Mean(1,1)=mean(X(1,:));
+            Mean(2,1)=mean(X(2,:));
             Covariance=cov(X(1, :),X(2,:));
             obj=elle_g.Norm2d(Mean, Covariance);
         end
