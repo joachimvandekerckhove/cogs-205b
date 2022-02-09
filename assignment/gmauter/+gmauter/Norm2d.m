@@ -17,18 +17,18 @@ classdef Norm2d
     methods
         
         function obj = set.Mean(obj, val)
-            obj.Mean = val
+            obj.Mean = val;
         end
         
         function obj = set.Covariance(obj, val)
-            obj.Covariance = val
+            obj.Covariance = val;
         end
         
         function obj = Norm2d(mu, sigma)
             if nargin > 0
-                obj.Mean = mu
+                obj.Mean = mu;
                 if nargin > 1
-                    obj.Covariance = sigma
+                    obj.Covariance = sigma;
                 end
             end
             
@@ -36,32 +36,32 @@ classdef Norm2d
         
         function out_pdf = pdf(obj, x)
       
-            x1 = x(1,1) 
-            x2 = x(2,1)
-            m1 = obj.Mean(1)
-            m2 = obj.Mean(2)
-            sig1 = sqrt(obj.Covariance(1, 1))
-            sig2 = sqrt(obj.Covariance(2, 2))
-            p = obj.Correlation
-            z = (x1-m1/sig1)^2-2*p*((x1-m1)/sig1).*((x2-m2)/sig2)+((x2-m2)/sig2).^2
-            out_pdf = 1/2*pi*sig1*sig2*sqrt(1-p^2)*exp((-1/2).*(z/(1-p^2))) 
+            x1 = x(1,1);
+            x2 = x(2,1);
+            m1 = obj.Mean(1);
+            m2 = obj.Mean(2);
+            sig1 = sqrt(obj.Covariance(1, 1));
+            sig2 = sqrt(obj.Covariance(2, 2));
+            p = obj.Correlation;
+            z = (x1-m1/sig1)^2-2*p*((x1-m1)/sig1).*((x2-m2)/sig2)+((x2-m2)/sig2).^2;
+            out_pdf = 1/2*pi*sig1*sig2*sqrt(1-p^2)*exp((-1/2).*(z/(1-p^2)));
         end
           
         
         function obj = log_pdf(x, mu, sigma, out_pdf)
-           obj = log(out_pdf)
+           obj = log(out_pdf);
         end
         
         function out_cdf = cdf(x, mu, sigma)
-            out_cdf = mvncdf(x, mu, sigma)
+            out_cdf = mvncdf(x, mu, sigma);
         end
         
         function obj = log_cdf(x, mu, sigma)
-           obj = log(out_cdf)
+           obj = log(out_cdf);
         end
         
         function obj = rnd(obj, size)
-            size = 1
+            size = 1;
            
 
             m1=obj.Mean(1);
@@ -80,7 +80,7 @@ classdef Norm2d
         
         function obj = deviance(data, mu, sigma)
   
-            obj = -2*(log_pdf(data, mu, sigma))
+            obj = -2*(log_pdf(data, mu, sigma));
            
         end
     end
@@ -89,9 +89,9 @@ classdef Norm2d
         
         function obj = estimate(X)
             
-            Mean = mean(X, 1)
-            Cov = cov(X(:, 1), X(:, 2))
-            obj = gmauter.Norm2d(Mean, Cov)
+            Mean = mean(X, 1);
+            Cov = cov(X(:, 1), X(:, 2));
+            obj = gmauter.Norm2d(Mean, Cov);
         end
         
 
