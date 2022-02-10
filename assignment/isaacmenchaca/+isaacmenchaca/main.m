@@ -5,6 +5,8 @@ function main()
     downloadedFilePath = isaacmenchaca.getData(url);
     
     bivarData = isaacmenchaca.readData(downloadedFilePath);
+    
+    
     isaacmenchaca.report(bivarData);
     
     

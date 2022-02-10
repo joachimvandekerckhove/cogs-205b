@@ -15,6 +15,9 @@ function report(bivarData)
         fprintf(fileID,'%6.2f %12.8f\n', norm2dObj.Mean);
         fprintf(fileID, '# * Covariance of variables (2x2):\n');
         fprintf(fileID,'%6.2f %12.8f\n', norm2dObj.Covariance);
+        
+        
+        num2cell(num2cell(bivarData), {'outfile', 'isaacmenchaca-1.md'});
     
 
     fclose(fileID);
