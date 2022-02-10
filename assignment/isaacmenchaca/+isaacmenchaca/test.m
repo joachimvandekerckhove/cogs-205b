@@ -21,7 +21,6 @@ function test()
     z = [5.4694, -3.3563, 1.1302, 3.2101, 5.4024, 7.1768, 1.3437, -4.9664, -1.9692, -3.2463;
         10.4018, -1.4624, 3.9923, 0.2303, 4.5544, -2.0594, -4.6091, -4.6895, 2.9528, 0.2905];
 
-%     z = [1 1 1 1; 2 2 2 2]; % fails for positive-definite
 %     z = [1 1 1 1; 2 2 2 2; 1 1 1 1]; % fails for not having N x 2 Dims
     try 
         Norm2dObj = isaacmenchaca.Norm2d().estimate(z);
