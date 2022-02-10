@@ -5,16 +5,11 @@ function obj = estimate(X)
 %             set to the mean and covariance matrix of the input matrix X 
 %             (and all contingent properties updated).
 
-    try 
+
+% took out try and catch statement since class detects for error anyway.
         Mu = mean(X, 2);
         Sigma = cov(X(1,:), X(2, :));
         obj = isaacmenchaca.Norm2d(Mu, Sigma);
-    catch 
-        ME = MException('Input:IncorrectDimensionsNorPositiveDefinite', ...
-            'X is not of size 2xN (dimensions) or is not positive-definite covariance');
-         throw(ME)
-    end
-    
     
     
 end
