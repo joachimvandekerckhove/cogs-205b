@@ -8,7 +8,8 @@ function data = readData(file)
     
     % check for errors
     if (size(data, 2) ~= 2)
-        disp 'data is of incorrect dimensions, it should be Nx2'
+        error('readData:InputIncorrectDimensions', ...
+              'data is of incorrect dimensions, it should be Nx2')
     end
     return;
     
