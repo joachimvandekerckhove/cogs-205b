@@ -19,6 +19,16 @@ function test(pseudonym)
     end
     throwAsCaller = @(x)warning(x.message);
     
+    %Test the defensive coding in getData
+    try
+        badURL = "www.adriland.com"
+        pseudonym.getData(badURL)
+        errorDetect = false;
+    catch me
+        errorDetect = true;
+    end
+    ErrorWasFound(errorDetect,'getData requires a valid URL')
+
     % Testing out adri.Norm2d.estimate %%%%%%%%%%%%%%%%%%%%%
     % Some random data
     testData = [4,3;2,7;4,1;5,5;9,6];
@@ -63,6 +73,18 @@ function test(pseudonym)
         me = ...
             MException( ....
                 'adri:testSuite', ...
-                sprintf('TESTSUITE failed when testing for "%s"', testing));
+                sprintf('TestSuite failed when testing for "%s"', testing));
+    end
+
+% Function for whenever an error is found
+    function ErrorWasFound(x,testing)
+        if x
+            success(testing)
+        else
+            fprint('------> ERROR')
+            fprint('Failure to reject faulty input')
+            fprint('Following condition violated: %s\n',testing)
+            throwAsCaller(failure(testing))
+        end
     end
 end

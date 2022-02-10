@@ -3,7 +3,7 @@ function test
 
 % testing getData.m
 try  
-    filename = kenwat1.getData(); % no input
+    kenwat1.getData(); % no input
     errorThrown = 0;
 catch
     errorThrown = 1;
@@ -12,7 +12,7 @@ end
 assertErrorThrown(errorThrown, 'getData. no input')
 
 try 
-    filename = kenwat1.getData('http://www.cidlabcom/files/cogs205b.csv'); % missing a dot
+    kenwat1.getData('http://www.cidlabcom/files/cogs205b.csv'); % missing a dot
     errorThrown = 0;
 catch
     errorThrown = 1;
@@ -23,7 +23,7 @@ assertErrorThrown(errorThrown, 'getData. non-exisitng URL')
 % testing readData.m 
 try 
     cogs205b = 205; % non-string filename
-    data = kenwat1.readData(cogs205b) 
+    kenwat1.readData(cogs205b)
     errorThrown = 0;
 catch
     errorThrown = 1;
