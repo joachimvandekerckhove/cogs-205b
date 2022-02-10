@@ -7,7 +7,8 @@ end
 
 %% Test that estimate() returns a Norm2d object
 function testEstimateOutput(testCase)
-    actualObj = mariakhoudary.Norm2d.estimate();
+    % FIXED: .estimate needs an input
+    actualObj = mariakhoudary.Norm2d().estimate(randn(2,4));
     expectedObj = 'mariakhoudary.Norm2d';
 
     verifyClass(testCase, actualObj, expectedObj)
