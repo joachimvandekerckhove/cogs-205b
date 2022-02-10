@@ -12,7 +12,7 @@ function filename = getData(URL)
 
 data = webread(URL);
 
-if string(class(data)) == 'table'
+if string(class(data)) == 'table' %#ok<BDSCA> 
     writetable(data, 'cogs205b.csv');
 else
     writematrix(data, 'cogs205b.csv');
