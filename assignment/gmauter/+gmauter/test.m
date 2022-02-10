@@ -4,10 +4,10 @@ function test()
 
 % command window displays test results
 
-url = 'http://cidlab.com/files/cogs205b.csv'
+url = 'http://cidlab.com/files/cogs205b.csv';
 
 try
-    file_name = gmauter.getData(url)
+    file_name = gmauter.getData(url);
     errorThrown = false;
 catch
     errorThrown = true;
@@ -16,7 +16,7 @@ end
 assertErrorThrown(errorThrown, 'getData . failed to get data from URL: check URL')
 
 try
-    X = gmauter.readData(file_name)
+    X = gmauter.readData(file_name);
     errorThrown = false;
 catch
     errorThrown = true;
