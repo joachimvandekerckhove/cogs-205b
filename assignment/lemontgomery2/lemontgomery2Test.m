@@ -10,28 +10,27 @@ function testGetData(testCase)
     % TESTGETDATA    Tests getData function with empty url
     url = '';
 
-    expectedValue = webread(url);
-    actualValue   = lemontgomery2.getData(url);
+    badcall   = @() lemontgomery2.getData(url);
     
-    verifyError(testCase, actualValue, expectedValue)
+    verifyError(testCase, badcall, 'MATLAB:urlencode:expectedNonempty')
     
 end
 
-function testReadData(testCase)
+function testReport1(testCase)
 
-    % TESTREADDATA    Tests readData function with incorrect dimensions
-    data = 'tempValues.csv';
+    % TESTREPORT1    Tests report function with incorrect dimensions
+    data = [5.4694 -3.3563 1.1302 3.2101 5.4024 7.1768 1.3437 -4.9664 -1.9692 -3.2463; ...
+            10.4018 -1.4624 3.9923 0.2303 4.5544 -2.0594 -4.6091 -4.6895 2.9528 0.2905];
     
-    expectedValue = 'data is of incorrect dimensions, it should be Nx2';
-    actualValue   = lemontgomery2.readData(data);
+    badcall   = @() lemontgomery2.report(data);
     
-    verifyError(testCase, actualValue, expectedValue)
+    verifyError(testCase, badcall, 'MATLAB:validation:IncompatibleSize')
 
 end
 
-function testReport(testCase)
+function testReport2(testCase)
 
-    % TESTREPORT    Tests report function with valid input
+    % TESTREPORT2    Tests report function with valid input
     data = [5.4694 -3.3563 1.1302 3.2101 5.4024 7.1768 1.3437 -4.9664 -1.9692 -3.2463; ...
             10.4018 -1.4624 3.9923 0.2303 4.5544 -2.0594 -4.6091 -4.6895 2.9528 0.2905]';
 
