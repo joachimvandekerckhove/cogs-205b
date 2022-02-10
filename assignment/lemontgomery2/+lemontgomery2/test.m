@@ -157,11 +157,11 @@ end
     end
 
     % Skip message
-    function skipCheck(condition)
-        fprintf('# %-63s ', sprintf(' %s', condition));
-        lookBusy(2)
-        fprintf('not tested  #\n');
-    end
+    % function skipCheck(condition)
+    %    fprintf('# %-63s ', sprintf(' %s', condition));
+    %    lookBusy(2)
+    %    fprintf('not tested  #\n');
+    % end
 
     % If reports generate too fast, people don't believe they did anything
     function lookBusy(k)
