@@ -34,7 +34,8 @@ function testEstimateError(testCase)
 
     badCall = @() mariakhoudary.Norm2d.estimate(Mean);
 
-    verifyError(testCase, badCall, 'Input must be 2xN')
+    % FIXED: verifyError tests the errorId, not the errorMsg
+    verifyError(testCase, badCall, 'Norm2d:estimate:badInputX')
 end
 
 
