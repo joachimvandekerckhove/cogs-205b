@@ -17,7 +17,8 @@ end
 
 %% Test estimate()'s mean function
 function testEstimateMean(testCase)
-    X = [1:4; 5:8];
+    % FIXED: Give a positive definite input
+    X = [1 1 0 0; 1 0 1 0];
     obj = mariakhoudary.Norm2d.estimate(X);
     correctMean1 = mean(X(1,:));
     correctMean2 = mean(X(2,:));
