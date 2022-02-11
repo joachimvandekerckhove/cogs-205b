@@ -1,4 +1,4 @@
-function output = test()
+function test()
 % -------------------------------------------------------------------------
 % test() runs a test suite of the functions in the package:
 % getData.m
@@ -39,7 +39,7 @@ end
 assertErrorThrown(errorThrown, 'getData. good URL.')
 
 % output is a string
-if ischar(angela.getData('http://cidlab.com/files/cogs205b.csv'));
+if ischar(angela.getData('http://cidlab.com/files/cogs205b.csv'))
     errorThrown = true;
 else
     errorThrown = false;

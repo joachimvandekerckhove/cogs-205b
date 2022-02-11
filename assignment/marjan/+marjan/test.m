@@ -1,6 +1,6 @@
 %Test.
 %tests the validitiy of functions main, report, readData, getData and contents
-function test(pseudonym)
+function out=test(pseudonym)
 pseudonym = input('Enter your pseudonym here: ','s');
 %% Report
 % Start printing a little report to screen
@@ -20,15 +20,17 @@ fprintf('#%-90s#\n', sprintf('  Test suite for "%s"  ', pseudonym))
 fprintf('#%s#\n', dashline);
 %% Get Data
 try
-    out=getData('https://cidlab.com/files/cogs205b.csv','cogs205b.csv')
+    out=marjan.getData('https://cidlab.com/files/cogs205b.csv','cogs205b.csv')
     errorThrown = false;
 catch
     errorThrown = true;
 end
 assertErrorThrown(errorThrown, 'wrong url or wrong filename')
+
+
 %% Read Data
 try
-    [outputArg1] = readData('cogs205b')
+    [outputArg1] = marjan.readData('cogs205b')
     errorThrown = false;
 catch
     errorThrown = true;
@@ -45,7 +47,7 @@ assertErrorThrown(errorThrown, 'filename does not exist')
 %% Estimate Data
     try
 	    data = [1 2 ; 4 8; 10 12];
-		estimate(data);
+		marjan.estimate(data);
 		errorThrown = false;
 	catch
 		errorThrown = true;

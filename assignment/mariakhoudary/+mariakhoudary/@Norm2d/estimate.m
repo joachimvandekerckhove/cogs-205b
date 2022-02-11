@@ -6,7 +6,8 @@ function output = estimate(X)
 
 % first make sure input is correct dimensions
 if size(X, 1) ~= 2
-    error('Input must be 2xN');
+    % FIXED: Errors should have an errorId in addition to an errorMsg
+    error('Norm2d:estimate:badInputX', 'Input must be 2xN');
 end
 
 % compute mean

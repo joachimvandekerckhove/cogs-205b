@@ -24,7 +24,6 @@ classdef Norm2d
                     obj.Covariance = Sigma;
                 end
             end 
-            
             obj = updateParameters(obj);
         end
         
@@ -80,9 +79,16 @@ classdef Norm2d
 end
 
 function mustBeSymmetricPositiveDefinite(testCovariance)
-    if ~chol(testCovariance)
+    try 
+        chol(testCovariance);
+        errorThrown = false; % it passes
+    catch
+        errorThrown = true; % it fails
+    end
+    
+    if errorThrown == true
         ME = MException('Convariance:NotSymmetricPositiveDefinite', ...
             'Covariance matrix is not symmetric positive definite.');
-        throw(ME)
+        throwAsCaller(ME)
     end
 end

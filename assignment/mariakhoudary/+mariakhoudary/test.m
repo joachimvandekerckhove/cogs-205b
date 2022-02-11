@@ -15,7 +15,7 @@ end
 
 % make sure it returns a Norm2d object
 obj = mariakhoudary.Norm2d.estimate(correctDims);
-if string(class(obj)) ~= 'mariakhoudary.Norm2d'
+if string(class(obj)) ~= 'mariakhoudary.Norm2d' %#ok<BDSCA> 
     disp('Test failed: Norm2d.estimate does not return Norm2d object')
 else
     disp('Test passed: Norm2d.estimate returns Norm2d object')
@@ -65,7 +65,7 @@ end
 
 % make sure it takes numeric string & creates a MATLAB variable
 data = mariakhoudary.readData('cogs205b.csv');
-if exist('data') == 1
+if exist('data') == 1 %#ok<EXIST> 
     disp('Test passed: readData takes numeric string & creates a MATLAB variable')
 else
     disp('Test failed: readData did not create a MATLAB variable based on numeric string input')

@@ -58,7 +58,8 @@ classdef Norm2d
                         error ('Must be Positive Infinite')
                     end
                 else
-                    error('Must Be Symmetric!')
+                    % FIXED: Add errorId to error() call
+                    error('Norm2d:setCovariance:mustBeSymmetric', 'Must Be Symmetric!')
                 end
             else
                 error ('wrong size')

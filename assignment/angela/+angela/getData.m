@@ -10,6 +10,7 @@ str = split(url,'/');
 
 filename = str{end};
 
-urlwrite(url,filename);
+% urlwrite(url,filename);
+websave(filename,url);
 
 end

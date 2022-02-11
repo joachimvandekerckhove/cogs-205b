@@ -2,7 +2,7 @@ classdef Norm2d
     properties
         Mean(2,1) double {mustBeReal, mustBeFinite}...
             = [0;0]
-        Covariance(2,2) double {mustBeReal, mustBeFinite, mustBePositiveOrEye(Covariance),...
+        Covariance(2,2) double {mustBeReal, mustBeFinite,...
             mustBeSymmetric(Covariance)}...
             = eye(2)
     end
@@ -144,10 +144,10 @@ function mustBeSymmetric(a)
     end
 end
 
-function mustBePositiveOrEye(a)    
-    if (a(1,1)<=0) || (a(2,2)<=0) || (a(1,2)<0) || (a(2,1)<0)
-        eidType = 'Covariance:notPostiveOrEye';
-        msgType = 'Input is not positive or eye';
-        throwAsCaller(MException(eidType,msgType))
-    end
-end
+% function mustBePositiveOrEye(a)    
+%     if (a(1,1)<=0) || (a(2,2)<=0) || (a(1,2)<0) || (a(2,1)<0)
+%         eidType = 'Covariance:notPostiveOrEye';
+%         msgType = 'Input is not positive or eye';
+%         throwAsCaller(MException(eidType,msgType))
+%     end
+% end
