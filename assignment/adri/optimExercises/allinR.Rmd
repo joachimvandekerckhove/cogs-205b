@@ -1,0 +1,44 @@
+---
+title: "Optimizers in R"
+author: "Adriana F. Chávez De la Peña"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+geometry: "left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise 1
+
+Using a hill-climbing optimization algorithm, find the maximum of $\log(f(x))$ where $f(x) = e^{-x^2}$. Compare to the maximum of $f(x)$.
+
+```{r}
+#Define function
+f = function(x){exp(-x^2)}
+x <- seq(-10,10,0.01)
+plot(x,f(x), type="l", lwd=2)
+```
+
+```{r}
+step_size <- 0.05
+current_x  = 1
+current_y = f(current_x)
+n_steps = 200;
+
+  for(i in 1:n_steps){
+        new_x  = current_x + step_size
+        new_y = f(new_x)   
+        if(new_y >= current_y){
+            current_x = new_x
+            current_y = new_y}
+        else
+            {step_size = -step_size * 2/3}}
+print(current_x)
+
+plot(x,f(x), type="l", lwd=2)
+abline(v=current_x, col="red")
+```
+## Exercise 2
+Using a hill-climbing optimization algorithm, find the maximum of $f(x,y) = e^{-x^2-y^2}$.
