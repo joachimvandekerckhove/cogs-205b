@@ -2,12 +2,11 @@
 % log(f(x)) where f(x) = e^{-x^2}.  Compare to the maximum of f(x).
 
 objective      = @(x) exp(-x.^2);   
-support = [linspace(1,50,20)];
-
-
 step_size      = 0.05;
 current_x  = 1;
 current_y = objective(current_x);
+
+
 % Climb that hill!
 n_steps = 200;
     for i = 1:n_steps
@@ -21,5 +20,3 @@ n_steps = 200;
         end
     end
 disp(current_x)
-
-

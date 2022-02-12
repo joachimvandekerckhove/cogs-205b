@@ -163,7 +163,4 @@ for(i in 1:nIter){
 
 print(c(current_x,current_y,current_z))
 ```
-      
-      
-      
-
+   
