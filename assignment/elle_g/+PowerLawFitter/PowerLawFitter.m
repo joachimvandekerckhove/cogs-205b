@@ -39,6 +39,7 @@ classdef PowerLawFitter < handle
     
     methods (Static)
         function fit() %no input, no output
+            %define obj?
             obj.Count=length(obj.ObservedRT);
             obj.EstimatedAsymptote %NEED TO USE NELDER-MEAD?
             obj.EstimatedRange=range(obj.ObservedRT);
@@ -47,7 +48,9 @@ classdef PowerLawFitter < handle
         end
         
         function disp() %no input, no putput
-            
+            % number of trials, 
+            % and also parameter estimates if they are available.
+            formatSpec
         end
     end
 end
