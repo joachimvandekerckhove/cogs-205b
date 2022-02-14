@@ -1,40 +1,54 @@
 classdef PowerLawFitter < handle
-    %POWERLAWFITTER 
-    
+    %POWERLAWFITTER: The power law of practice says that expected (mean) reaction time ERT
+    % decreases according to a power law as a function of number of trials N.
+    % ERT = A + B (N + E)^{-beta}
+    % PARAMETERS: Asymptote A-Asymptote, B-Range, E-Exposure, Rate-beta
     % Implement at least one test for each property.
     properties
-        ObservedRT %need to make sure it is a vector
+        ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}%need to make sure it is a vector
     end
     
     properties (SetAccess=private)
-        Count %dependent on observed RT
-        EstimatedAsymptote 
+        Count
+        EstimatedAsymptote
         EstimatedRange
         EstimatedExposure
         EstimatedRate
     end
     
     methods
-        function obj = %MAKE A CONSTRUCTOR
-
-            obj.Property1 = inputArg1 + inputArg2;
+        function obj = PowerLawFitter(ObservedRT)
+            obj.ObservedRT=ObservedRT;
+            obj=fit();
         end
         
+        
         function ERT = Expectation(A, B, E, beta)
-            
-            outputArg = obj.Property1 + inputArg;
+            N=obj.Count;
+            ERT= A + B.*(N+E).^beta;
         end
         
         function SSE = SumOfSquaredError(A, B, E, beta)
-        end
-        
-        function fit() %no input, no output
+            ERT=obj.Expectation(A, B, E, beta);
+            error=obj.ObservedRT-ERT;
+            squaredError=error.^2;
+            SSE=sum(squaredError);
             
+        end
+    end
+    
+    methods (Static)
+        function fit() %no input, no output
+            obj.Count=length(obj.ObservedRT);
+            obj.EstimatedAsymptote %NEED TO USE NELDER-MEAD?
+            obj.EstimatedRange=range(obj.ObservedRT);
+            obj.EstimatedExposure %what is exposure? watch recording
+            obj.EstimatedRate %is rate just mean? watch recording
         end
         
         function disp() %no input, no putput
             
         end
-    end 
+    end
 end
 
