@@ -50,7 +50,19 @@ classdef PowerLawFitter < handle
         function disp() %no input, no putput
             % number of trials, 
             % and also parameter estimates if they are available.
-            formatSpec
+            fprintf('Generating a report about the current data ...') 
+            pause(1)
+            formSpecN='The current data set has %i sets of trials';
+            formSpecA='The asymptote of the current data set is ';
+            formSpecB='The current data set has a range of ';
+            formSpecE='The estimated exposure of this data set is ';
+            formSpecBeta='The rate of the current data set is ';
+            fprintf(formSpecN, obj.Count)
+            fprintf(formSpecA, obj.EstimatedAsymptote)
+            fprintf(formSpecB, obj.EstimatedRange)
+            fprintf(formSpecE, obj.EstimatedExposure)
+            fprintf(formSpecBeta, obj.EstimatedRate)
+            
         end
     end
 end
