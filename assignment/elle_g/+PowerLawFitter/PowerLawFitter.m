@@ -3,7 +3,6 @@ classdef PowerLawFitter < handle
     % decreases according to a power law as a function of number of trials N.
     % ERT = A + B (N + E)^{-beta}
     % PARAMETERS: Asymptote A-Asymptote, B-Range, E-Exposure, Rate-beta
-    % Implement at least one test for each property.
     properties
         ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}%need to make sure it is a vector
     end
