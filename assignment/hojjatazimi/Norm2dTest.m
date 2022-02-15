@@ -11,8 +11,10 @@ end
 
 function testBadCov(testCase)
     Mean = zeros(2, 1);    StandardDeviation = [1 2;3 4];
-    actual   = hojjatazimi.Norm2d(Mean, StandardDeviation);
-    verifyError(testCase, actual, 'Must Be Symmetric!')    
+    % FIXED: The way to verify an error is to pass a function call that
+    % generates it:
+    actual   = @()hojjatazimi.Norm2d(Mean, StandardDeviation);
+    verifyError(testCase, actual, 'Norm2d:setCovariance:mustBeSymmetric')    
 end
 
 function testEstimateMean(testCase)

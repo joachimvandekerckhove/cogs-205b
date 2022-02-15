@@ -7,7 +7,8 @@ end
 
 %% Test that estimate() returns a Norm2d object
 function testEstimateOutput(testCase)
-    actualObj = mariakhoudary.Norm2d.estimate();
+    % FIXED: .estimate needs an input
+    actualObj = mariakhoudary.Norm2d().estimate(randn(2,4));
     expectedObj = 'mariakhoudary.Norm2d';
 
     verifyClass(testCase, actualObj, expectedObj)
@@ -16,7 +17,8 @@ end
 
 %% Test estimate()'s mean function
 function testEstimateMean(testCase)
-    X = [1:4; 5:8];
+    % FIXED: Give a positive definite input
+    X = [1 1 0 0; 1 0 1 0];
     obj = mariakhoudary.Norm2d.estimate(X);
     correctMean1 = mean(X(1,:));
     correctMean2 = mean(X(2,:));
@@ -32,7 +34,8 @@ function testEstimateError(testCase)
 
     badCall = @() mariakhoudary.Norm2d.estimate(Mean);
 
-    verifyError(testCase, badCall, 'Input must be 2xN')
+    % FIXED: verifyError tests the errorId, not the errorMsg
+    verifyError(testCase, badCall, 'Norm2d:estimate:badInputX')
 end
 
 
