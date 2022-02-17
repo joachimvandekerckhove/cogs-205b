@@ -5,8 +5,11 @@ classdef PowerLawFitter < handle
     properties
         ObservedRT (2,1) double {mustBeReal, mustBeFinite, mustBeVector} ...
             = [ 0; 0 ]
-        Count (2,2) double {mustBeReal, mustBeFinite} ...
-            = eye(2)
+    end
+    
+    % Dependent properties
+    properties (Dependent)
+        Count
     end
     
     % Derived properties that need to be set internally
@@ -23,8 +26,15 @@ classdef PowerLawFitter < handle
         
         %%% Constructor function %%%
     
-        % A main constructor, for a new Bivariate Normal
- 
+        % A main constructor for the power law fitter
+         function obj = PowerLaw(ObservedRT)
+            
+            % POWERLAW    A main constructor for the power law fitter
+                
+            % This triggers the implicit setter for Mean
+            obj.ObservedRT = ObservedRT;
+         end
+        
         %%% Display function %%%
         
         % Print the distribution to screen
@@ -35,13 +45,20 @@ classdef PowerLawFitter < handle
         
         %%% Getters and setters %%%
 
-        % Setter for Covariance
-
-
-        % Updater for Covariance
+        % Updater for Dependent Properties
+        function value = get.Count(obj)
+            value = size(obj.ObservedRT, 1);
+        end        
         
-        
-        
+        % Updater for Derived Properties
+        function obj = updateCovariance(obj)
+            
+            % UPDATECOVARIANCE    Corresponding updated for covariance
+            obj.Precision = inv(obj.Covariance);
+            obj.Correlation = obj.Covariance(1,2) ...
+                              / (sqrt(obj.Covariance(1,1)) ...
+                              * sqrt(obj.Covariance(2,2)));
+        end        
         % Computation functions
         
         % Expectation
