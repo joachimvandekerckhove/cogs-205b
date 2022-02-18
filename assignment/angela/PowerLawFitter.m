@@ -20,7 +20,7 @@ classdef PowerLawFitter < handle
     % x make constructor 
     % x setter for ObservedRT
     % BONUS:
-    % - implement some way to keep track of the data (ObservedRT) and the
+    % x implement some way to keep track of the data (ObservedRT) and the
     %   parameter estimates
     % - implement 2 tests for this ^
     
@@ -29,7 +29,7 @@ classdef PowerLawFitter < handle
     end
     
     properties (Dependent)
-        Count
+        Count (1,1)
     end
     
     properties (SetAccess = private)
@@ -109,12 +109,12 @@ classdef PowerLawFitter < handle
         end
         
         function obj = clearParams(obj)
-            obj.EstimatedAsymptote = [];
-            obj.EstimatedRange = [];
-            obj.EstimatedExposure = [];
-            obj.EstimatedRate = [];
-            obj.Loss = [];
-            obj.fittedData = [];
+            obj.EstimatedAsymptote  = [];
+            obj.EstimatedRange      = [];
+            obj.EstimatedExposure   = [];
+            obj.EstimatedRate       = [];
+            obj.Loss                = [];
+            obj.fittedData          = [];
         end
         
         
@@ -130,6 +130,11 @@ classdef PowerLawFitter < handle
         
         % calculate sse
         function sse = SumOfSquaredError(obj,params)
+            
+            if nargin < 2
+                params = [min(obj.ObservedRT),max(obj.ObservedRT)-min(obj.ObservedRT),1,1];
+            end
+                
             A       = params(1);
             B       = params(2);
             E       = params(3);
