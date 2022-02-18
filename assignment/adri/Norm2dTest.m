@@ -20,11 +20,11 @@ end
 
 % test cdf function
 function testFx(testCase)
-    Means            = [1;7];
+    Means            = [1 7];
     Covariance       = [5 1;1 5];
     values           = [linspace(1,50,5);linspace(50,1,5)];
     
     expectedValue   = mvncdf(values',Means,Covariance)';
-    actualValue     = adri.Norm2d(Means, Covariance).cdf(values');    
+    actualValue     = adri.Norm2d(Means, Covariance).cdf(values);    
     verifyEqual(testCase, expectedValue, actualValue, "AbsTol", eps(1))
 end
