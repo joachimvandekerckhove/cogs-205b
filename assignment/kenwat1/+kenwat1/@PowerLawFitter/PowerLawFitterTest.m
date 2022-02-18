@@ -1,5 +1,5 @@
 function tests = PowerLawFitterTest
-% NORM2DTEST  Create test suite for Norm2d class
+% PowerLawFitterTest, Test Suite for PowerLawFitter
     tests = functiontests(localfunctions);
 end
 
