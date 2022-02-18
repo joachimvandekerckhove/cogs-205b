@@ -37,7 +37,7 @@ file_name = 'cogs205b.csv';
 expected = [10 2];
 actual = gmauter.readData('cogs205b.csv');
 
-verifySize(testCase, expected, actual, "readData:InputFileSizeInvalid")
+verifySize(testCase, actual, expected, "readData:InputFileSizeInvalid")
 
 
 end
