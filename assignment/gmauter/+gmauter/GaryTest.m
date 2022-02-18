@@ -24,7 +24,7 @@ function testGetData(testCase)
 
 
 url = 'http://cidlab.com/files/cogs205b.csv';
-expected = 'cogs205b.csv';
+expected = fullfile(pwd, 'cogs205b.csv');
 actual = gmauter.getData(url);
 verifyEqual(testCase, expected, actual, "getData:incorrectInputURL")
 
