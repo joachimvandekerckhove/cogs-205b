@@ -8,4 +8,4 @@ marjan.getData(url,filename);
 Data=marjan.readData(filename);
 %%reports data
 marjan.report(Data);
-marjan.Contents();  
+%marjan.Contents();  
