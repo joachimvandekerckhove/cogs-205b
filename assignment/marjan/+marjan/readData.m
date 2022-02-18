@@ -11,8 +11,8 @@ function [outputArg1] = readData(filename)
     for i =1:n
         A=sscanf(S(i),formatSpec);
         if ~isempty(A)
-             out(1,count)=A(1,1);
-             out(2,count)=A(2,1);
+             out(1,count)=A(1,1); %#ok<AGROW> 
+             out(2,count)=A(2,1); %#ok<AGROW> 
              count=count+1;
         end
     end
