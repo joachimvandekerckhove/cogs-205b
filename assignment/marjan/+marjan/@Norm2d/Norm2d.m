@@ -85,17 +85,7 @@ classdef Norm2d
    output = standardize(obj, X)
     end
     methods(Static)
-        %obj=estimate(data)
-        function out=estimate(X)
-            if size(X,1)~=2
-                X=X'
-            end
-
-            
-    Mean=mean(X,2);
-    Covariance=cov(X(1,:),X(2,:))
-    out=Norm2d(Mean,Covariance)
-end
+        obj=estimate(data)
     end
     
 end
