@@ -1,9 +1,5 @@
-function ERT = expectedRT(a,b,e,beta)            
-    if nargin < 1                
-        a = 1;
-        b = 1;
-        e = 1;
-        beta = 1;                
-    end
-        ERT = A + (B*(N+E)^(-beta));
+% Computed the expected mean RT
+function ERT = expectedRT(obj,A,B,E,beta)            
+    N = 1:size(obj.ObservedRT,2);
+    ERT = A + (B*(N+E).^(-beta));
 end
