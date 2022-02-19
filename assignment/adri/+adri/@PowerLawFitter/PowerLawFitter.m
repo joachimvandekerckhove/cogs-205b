@@ -10,29 +10,26 @@ classdef PowerLawFitter < handle
     % Derived properties that are not accessible to the user
     properties (SetAccess = private)
         Count;
-        EstimatedAsymptote;
-        EstimatedRange;
-        EstimatedExposure;
-        EstimatedRate;
+        EstimatedAsymptote;  %Hundreds
+        EstimatedRange;      %Hundreds
+        EstimatedExposure;   %Small number of sesions
+        EstimatedRate;       %Not much bigger than 1
+        CurrentlyInMemory;
     end
         
     % Methods
     methods
-
         %%% Constructor function %%%        
         % A main constructor
         function obj = PowerLawFitter(data)
             if nargin < 1                
-                obj.ObservedRT = [250 586 257 615 201];            
-                obj.Count = size(obj.ObservedRT,2);
-                cond = "not";
-                use = "default data";
+               error('ERROR: No data has been provided');
             end    
             if nargin > 0                
                 obj.ObservedRT = data;            
                 obj.Count = size(data,2);
-                cond = "";
-                use = "data provided";
+                obj.EstimatedAsymptote = [];
+                obj.CurrentlyInMemory = obj.EstimatedAsymptote;
             end            
         end
 
@@ -40,76 +37,23 @@ classdef PowerLawFitter < handle
         % Print a little message to screen
         function disp(obj)
             line = repmat('-', 1, 73);
-            fprintf('adri.PowerLawFitter object\n\n')
-            fprintf('#%s#\n', line);
-            fprintf("%7g uuu \n", obj.Count)
-            %fprintf("You have specified %7g arguments", cond)
-            %fprintf('  Normal |  |         | , |                  |  |\n')
-            %fprintf('         \\  | %7g |   | %7g  %7g |  /\n\n', ...
-            %    obj.Mean(2), obj.Covariance(2,:))
-        end
-              
-        %%% Getters and setters %%%        
-        % Setter for the Covariance Matrix
-        %function set.Count(obj, val)
-            % Set the value
-         %   obj.Count = val;
-            % Update contingent properties
-            %obj = updateMatrix(obj);
-        %end        
-    end    
-    
-    % Static methods don't need the object as input
-    methods (Static)
-       % Estimating the mean and covariance of some data
-        function ERT = expectedRT(a,b,e,beta)            
-            if nargin < 1                
-                a = 1;
-                b = 1;
-                e = 1;
-                beta = 1;                
+            fprintf('adri.PowerLawFitter class\n\n')
+            fprintf('*%s*\n', line);            
+            fprintf("Input:\n")            
+            fprintf("A vector with %1g observations (mean RTs)\n", obj.Count)
+            fprintf("Maximum mean RT observed: %3g\n", max(obj.ObservedRT))
+            fprintf("Minimum mean RT observed: %3g\n", min(obj.ObservedRT))
+            fprintf('*%s*\n', line);
+            fprintf("Output:\n")
+            if isempty(obj.EstimatedAsymptote)
+                fprintf("Run the myFit function to get parameter estimates\n")
+            else
+                fprintf("Parameter values estimated from these data:\n")
+                fprintf("Asymptote: %6.3f ms\n", obj.EstimatedAsymptote)
+                fprintf("Range: %6.3f ms\n", obj.EstimatedRange)
+                fprintf("Exposure: %4.3f\n", obj.EstimatedExposure)
+                fprintf("Rate: %4.3f\n", obj.EstimatedRate)
             end
-            ERT = A + (B*(N+E)^(-beta));
-        end
-
-       % function getCov = estCovariance(matrix)
-       %     matrix = matrix'
-       %     n = size(matrix,2);            
-       %     z = zeros(2,n);            
-       %     barx = mean(matrix,2);
-       %     for i = 1:n
-       %         z(:,i) = matrix(:,i) - barx;
-       %     end            
-       %     getCov = 1./(n-1) .* (z * z.');
-       % end
-
-
-
-
-
-       % Estimating the mean and covariance of some data
-       % function theseData = estimate(matrix)
-       %     theseData = adri.Norm2d();
-       %     theseMeans = theseData.estMean(matrix);
-       %     theseData.Mean = theseMeans; 
-       %     thisCov = theseData.estCovariance(matrix);
-       %     theseData.Covariance = thisCov;
-       % end
-
-       % function getMean = estMean(matrix)            
-       %     getMean = mean(matrix,1);
-       % end
-
-       % function getCov = estCovariance(matrix)
-       %     matrix = matrix'
-       %     n = size(matrix,2);            
-       %     z = zeros(2,n);            
-       %     barx = mean(matrix,2);
-       %     for i = 1:n
-       %         z(:,i) = matrix(:,i) - barx;
-       %     end            
-       %     getCov = 1./(n-1) .* (z * z.');
-       % end
-    end
-    
+        end              
+    end    
 end
