@@ -28,7 +28,6 @@ classdef PowerLawFitter < handle
             if nargin > 0                
                 obj.ObservedRT = data;            
                 obj.Count = size(data,2);
-                %obj.EstimatedAsymptote = [];
                 obj.CurrentlyInMemory = obj.EstimatedAsymptote;
             end            
         end
