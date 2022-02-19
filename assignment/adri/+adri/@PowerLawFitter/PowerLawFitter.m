@@ -14,7 +14,6 @@ classdef PowerLawFitter < handle
         EstimatedRange;      %Hundreds
         EstimatedExposure;   %Small number of sesions
         EstimatedRate;       %Not much bigger than 1
-        CurrentlyInMemory;
     end
         
     % Methods
@@ -28,7 +27,6 @@ classdef PowerLawFitter < handle
             if nargin > 0                
                 obj.ObservedRT = data;            
                 obj.Count = size(data,2);
-                obj.CurrentlyInMemory = obj.EstimatedAsymptote;
             end            
         end
 
