@@ -6,7 +6,7 @@ The power law of practice says that expected (mean) reaction time ERT decreases 
 
 ### The law
 
-$ERT_N = A + B (N + E)^{-\beta}$
+$\forall (t \in (1, ..., N)): ERT_t = A + B (t + E)^{-\beta}$
 
 ### Parameters
 
@@ -65,4 +65,4 @@ Implement two tests for this.
 
 ## Data
 
-​    ObservedRT = [  313   306   300   293   287   288   285   281   279   275   274   273   271   272   275   268   269   265   269   264   266   264   265   264   263 ]
+ObservedRT = [  313   306   300   293   287   288   285   281   279   275   274   273   271   272   275   268   269   265   269   264   266   264   265   264   263 ]
