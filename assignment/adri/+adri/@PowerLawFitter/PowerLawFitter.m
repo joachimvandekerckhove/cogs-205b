@@ -28,7 +28,7 @@ classdef PowerLawFitter < handle
             if nargin > 0                
                 obj.ObservedRT = data;            
                 obj.Count = size(data,2);
-                obj.EstimatedAsymptote = [];
+                %obj.EstimatedAsymptote = [];
                 obj.CurrentlyInMemory = obj.EstimatedAsymptote;
             end            
         end
@@ -53,7 +53,17 @@ classdef PowerLawFitter < handle
                 fprintf("Range: %6.3f ms\n", obj.EstimatedRange)
                 fprintf("Exposure: %4.3f\n", obj.EstimatedExposure)
                 fprintf("Rate: %4.3f\n", obj.EstimatedRate)
-            end
-        end              
+            end            
+        end
+
+
+        %%% Getters and setters %%%        
+        % Setter for the Covariance Matrix
+        function set.ObservedRT(obj, val)
+            % Set the value
+            obj.ObservedRT = val;
+            % Update contingent properties
+            clearParameters(obj);
+        end   
     end    
 end
