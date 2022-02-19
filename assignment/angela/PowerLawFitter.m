@@ -1,5 +1,5 @@
 classdef PowerLawFitter < handle
-    % Assignment 5
+    % Assignment 5, Angela Shen
     % The power law of practice says that expected (mean) reaction time ERT
     % decreases according to a power law as a function of number of trials
     % N
@@ -9,20 +9,6 @@ classdef PowerLawFitter < handle
     %   B       = range
     %   E       = exposure
     %   beta    = rate
-    
-    % TO-DO:
-    % - implement at least 1 test for each property
-    % - implement at least 1 test for each method
-    % x make sse method
-    % x make expectation method
-    % x make fit method
-    % x make disp method
-    % x make constructor 
-    % x setter for ObservedRT
-    % BONUS:
-    % x implement some way to keep track of the data (ObservedRT) and the
-    %   parameter estimates
-    % - implement 2 tests for this ^
     
     properties
         ObservedRT (1,:)
@@ -203,11 +189,7 @@ classdef PowerLawFitter < handle
                 redundancy = 0;
             end
         end
-        
-        
-    end
-
-    
-    
+          
+    end   
     
 end
