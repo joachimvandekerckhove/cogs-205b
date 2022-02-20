@@ -60,7 +60,7 @@ classdef PowerLawFitter < handle
             % Set the value
             obj.ObservedRT = val;
             % Update contingent properties
-            clearParameters(obj);
+            resetProperties(obj);
         end   
     end    
 end
