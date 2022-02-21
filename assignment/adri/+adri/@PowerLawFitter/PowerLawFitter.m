@@ -4,7 +4,7 @@ classdef PowerLawFitter < handle
     
     % Main property
     properties
-        ObservedRT double %{mustBeReal, mustBePositive, mustBeVector}
+        ObservedRT double {mustBeReal, mustBePositive, mustBeVector}
     end
     
     % Derived properties that are not accessible to the user
