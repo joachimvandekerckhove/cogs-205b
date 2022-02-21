@@ -12,11 +12,12 @@ classdef PowerLawFitter < handle
 
     % Derived 
     properties (SetAccess = private)
-        Count double {mustBeReal, mustBePositive, mustBeFinite, mustBeNonzero, mustBeInteger}
-        EstimatedAsymptote double {mustBeReal}
-        EstimatedRange double {mustBeReal}
-        EstimatedExposure double {mustBeReal}
-        EstimatedRate double {mustBeReal}
+        Count double {mustBeReal, mustBePositive, mustBeFinite, mustBeNonzero, mustBeInteger} = ...
+            size(ObservedRT, 2)
+        EstimatedAsymptote double {mustBeReal} = 1
+        EstimatedRange double {mustBeReal} = 0.5
+        EstimatedExposure double {mustBeReal} = 0.75
+        EstimatedRate double {mustBeReal} = 1
     end
 
     % Constant 
@@ -31,8 +32,8 @@ methods
     function obj = PowerLawFitter(ObservedRT)
         if nargin > 0
             obj.ObservedRT = ObservedRT;
+            updateCount;
         end
-        obj = Fit();
     end
 
     %%% Display %%%
@@ -56,7 +57,7 @@ methods
     SSE = SumOfSquaredError(obj, A, B, E, beta)
 
     % Fitter
-    fit(obj)
+    Fit(obj)
 
 end
 
@@ -64,5 +65,7 @@ methods (Access = private)
     function updateCount(obj)
         obj.Count = size(obj.ObservedRT, 2);
     end
+
 end
+
 end
