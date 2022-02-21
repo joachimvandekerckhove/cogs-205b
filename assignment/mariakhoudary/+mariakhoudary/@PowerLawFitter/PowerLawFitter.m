@@ -40,6 +40,12 @@ methods
         %%% displays Count & parameter estimates
     end
 
+    %%% Setter %%%
+    function set.ObservedRT(obj, v)
+        obj.ObservedRT = v;
+        obj.updateCount;
+    end
+
 
     %%% Computation functions %%%
 
@@ -54,5 +60,9 @@ methods
 
 end
 
-
+methods (Access = private)
+    function updateCount(obj)
+        obj.Count = size(obj.ObservedRT, 2);
+    end
+end
 end
