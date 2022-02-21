@@ -9,11 +9,11 @@ classdef PowerLawFitter < handle
     
     % Derived properties that are not accessible to the user
     properties (SetAccess = private)
-        Count;
-        EstimatedAsymptote;  %Hundreds
-        EstimatedRange;      %Hundreds
-        EstimatedExposure;   %Small number of sesions
-        EstimatedRate;       %Not much bigger than 1
+        Count;               %No. of sessions
+        EstimatedAsymptote;  % A
+        EstimatedRange;      % B
+        EstimatedExposure;   % E
+        EstimatedRate;       % Beta
     end
         
     % Methods
@@ -53,9 +53,8 @@ classdef PowerLawFitter < handle
             end            
         end
 
-
         %%% Getters and setters %%%        
-        % Setter for the Covariance Matrix
+        % Setter for the ObservedRT data
         function set.ObservedRT(obj, val)
             % Set the value
             obj.ObservedRT = val;
