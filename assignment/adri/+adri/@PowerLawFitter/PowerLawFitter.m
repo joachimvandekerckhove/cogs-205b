@@ -4,7 +4,7 @@ classdef PowerLawFitter < handle
     
     % Main property
     properties
-        ObservedRT double {mustBeReal, mustBePositive, mustBeVector}
+        ObservedRT double {mustBeReal, mustBePositive}
     end
     
     % Derived properties that are not accessible to the user
@@ -47,7 +47,7 @@ classdef PowerLawFitter < handle
             else
                 fprintf("Parameter values estimated from these data:\n")
                 fprintf("Asymptote: %6.3f ms\n", obj.EstimatedAsymptote)
-                fprintf("Range: %6.3f ms\n", obj.EstimatedRange)
+                fprintf("Range: %6.3f\n", obj.EstimatedRange)
                 fprintf("Exposure: %4.3f\n", obj.EstimatedExposure)
                 fprintf("Rate: %4.3f\n", obj.EstimatedRate)
             end            
