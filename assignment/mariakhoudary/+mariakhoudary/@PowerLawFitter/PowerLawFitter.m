@@ -12,11 +12,10 @@ classdef PowerLawFitter < handle
 
     % Derived 
     properties (SetAccess = private)
-        Count double {mustBeReal, mustBePositive, mustBeFinite, mustBeNonzero, mustBeInteger} = ...
-            size(ObservedRT, 2)
-        EstimatedAsymptote double {mustBeReal} = 1
-        EstimatedRange double {mustBeReal} = 0.5
-        EstimatedExposure double {mustBeReal} = 0.75
+        Count double {mustBeReal, mustBePositive, mustBeFinite, mustBeNonzero, mustBeInteger}
+        EstimatedAsymptote double {mustBeReal} = 300
+        EstimatedRange double {mustBeReal} = 100
+        EstimatedExposure double {mustBeReal} = 5
         EstimatedRate double {mustBeReal} = 1
     end
 
@@ -32,14 +31,14 @@ methods
     function obj = PowerLawFitter(ObservedRT)
         if nargin > 0
             obj.ObservedRT = ObservedRT;
-            updateCount;
+            obj.updateCount;
         end
     end
 
     %%% Display %%%
-    function disp(obj)
-        %%% displays Count & parameter estimates
-    end
+%     function disp(obj)
+%         %%% displays Count & parameter estimates
+%     end
 
     %%% Setter %%%
     function set.ObservedRT(obj, v)
@@ -51,10 +50,10 @@ methods
     %%% Computation functions %%%
 
     % Expected reaction time
-    ERT = Expectation(obj, A, B, E, beta)
+    ERT = Expectation(obj, parameters)
 
     % Sum of squared errors
-    SSE = SumOfSquaredError(obj, A, B, E, beta)
+    SSE = SumOfSquaredError(obj, parameters)
 
     % Fitter
     Fit(obj)
