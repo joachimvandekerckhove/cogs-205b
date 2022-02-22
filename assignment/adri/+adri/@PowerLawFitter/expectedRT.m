@@ -5,7 +5,8 @@ function ERT = expectedRT(obj,A,B,E,beta)
     
     % If parameter values aren't specified, we can't compute expectations
     if nargin < 2
-        error(['ERROR MESSAGE: Parameter values for the Power Law model need to be ' ...
+        error('MATLAB:ExpRTrequiresParameterValues',['ERROR MESSAGE: ' ...
+            'Parameter values for the Power Law model need to be ' ...
             'specified to compute the expected mean RTs'])
     end
     
