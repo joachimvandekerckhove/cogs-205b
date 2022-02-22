@@ -33,11 +33,11 @@ classdef PowerLawFitter < handle
             value = v;
         end
         
-        % Setter for ObservedRT
-        function obj = set.ObservedRT(obj, val)
-            % Set the value
-            obj.ObservedRT = val;
-        end
+%         % Setter for ObservedRT
+%         function obj = set.ObservedRT(obj, val)
+%             % Set the value
+%             obj.ObservedRT = val;
+%         end
         
 %         % Updater for parameters
 %         function obj = updateParameters(obj)
@@ -49,7 +49,8 @@ classdef PowerLawFitter < handle
             obsRT = obj.ObservedRT;
             t = 1:obj.Count;
             f=@(x) sum((x(1)+x(2).*(t + x(3)).^(-1)*x(4))-obsRT)^2;
-            x = fminsearch(f,[mean(obsRT),600,1 1]);
+            x0 = [250,600,7,1];
+            x = fminsearch(f,x0);
             
             obj.EstimatedAsymptote = x(1);
             obj.EstimatedRange = x(2);
@@ -64,13 +65,22 @@ classdef PowerLawFitter < handle
         end
         
         function SSE = SumOfSquaredError(obj)
-            SSE = sum((obj.ERT-obj.ObservedRT).^2);
+            ERT = Expectation(obj);
+            SSE = sum((ERT-obj.ObservedRT).^2);
         end
         
         function disp(obj)
-            fprintf('The number of trials is: %d\n',obj.Count); 
+            SSE = SumOfSquaredError(obj);
+            fprintf('The number of observations: %d\n',obj.Count);
+            fprintf('\tMax RT: %d\n',max(obj.ObservedRT));
+            fprintf('\tMin RT: %d\n\n',min(obj.ObservedRT));
+            fprintf('Parameter estimates:\n');
+            fprintf('\tAsymptote: %1.2f\n',obj.EstimatedAsymptote);
+            fprintf('\tRange: %1.2f\n',obj.EstimatedRange);
+            fprintf('\tExposure: %1.2f\n',obj.EstimatedExposure);
+            fprintf('\tRate: %1.2f\n\n',obj.EstimatedRate);
+            fprintf('Loss:\n');
+            fprintf('\tSSE: %1.2f\n\n',SSE);
         end
-        
     end
-    
 end
