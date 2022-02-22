@@ -1,7 +1,7 @@
 classdef PowerLawFitter < handle
     properties
-        ObservedRT double {mustBeReal, mustBeFinite}...
-            = [0 0]
+        ObservedRT double {mustBeReal, mustBeFinite, mustBePositive}...
+            = [1 1]
     end
     
     properties(Dependent)
@@ -9,10 +9,10 @@ classdef PowerLawFitter < handle
     end
     
     properties (SetAccess = private)
-        EstimatedAsymptote
-        EstimatedRange
-        EstimatedExposure
-        EstimatedRate
+        EstimatedAsymptote {mustBeReal,mustBePositive}
+        EstimatedRange {mustBeReal,mustBePositive}
+        EstimatedExposure {mustBeReal,mustBePositive}
+        EstimatedRate {mustBeReal,mustBePositive}
     end
     
     % Methods
@@ -34,23 +34,28 @@ classdef PowerLawFitter < handle
         end
         
 %         % Setter for ObservedRT
-%         function obj = set.ObservedRT(obj, val)
-%             % Set the value
-%             obj.ObservedRT = val;
+%         function obj = set.ObservedRT(obj,val)
+%             % obj: object whose property is being assigned a value
+%             % val: the new value that is assigned
+%             % Then when obj.ObservedRT = val, Fit should not recompute
+%             % unless the data changes
+%             if isequal(obj.ObservedRT,val)
+%                 disp('The parameters estimates are already set for this data.')
+%                 disp('No need to recompute')
+%             elseif any(val<=0)
+%                 error('Reaction times have to be positive!')
+%             else
+%                 obj.ObservedRT = val;
+%             end
 %         end
         
-%         % Updater for parameters
-%         function obj = updateParameters(obj)
-%             obj.EstimatedAsymptote  = EstimatedAsymptote;
-%             obj.EstimatedRange  = ;
-%         end
-        
-        function obj = Fit(obj)
+        function Fit(obj)
             obsRT = obj.ObservedRT;
             t = 1:obj.Count;
-            f=@(x) sum((x(1)+x(2).*(t + x(3)).^(-1)*x(4))-obsRT)^2;
+            f=@(x) x(1) + x(2).*((t + x(3)).^(-x(4)));
+            g=@(x) sum((f(x)-obsRT).^2);
             x0 = [250,600,7,1];
-            x = fminsearch(f,x0);
+            x = fminsearch(g,x0);
             
             obj.EstimatedAsymptote = x(1);
             obj.EstimatedRange = x(2);
@@ -58,10 +63,10 @@ classdef PowerLawFitter < handle
             obj.EstimatedRate = x(4);
         end
         
-        function ERT = Expectation(obj)
+        function ERT = Expectation(obj) 
             t = 1:obj.Count;
-            ERT = obj.EstimatedAsymptote + obj.EstimatedRange.*(t ...
-                + obj.EstimatedExposure).^((-1)*obj.EstimatedRate);
+            ERT = obj.EstimatedAsymptote + obj.EstimatedRange ...
+                .*((t + obj.EstimatedExposure).^(-obj.EstimatedRate));
         end
         
         function SSE = SumOfSquaredError(obj)
