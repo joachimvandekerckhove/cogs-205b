@@ -3,7 +3,7 @@ function datFile = getData(url)
     %Is the URL providedd valid?
     [str,status] = urlread(url);
     if status == 0
-         error('The URL provided is not valid.');
+         error('MATLAB:requireValidURL','The URL provided is not valid.');
     end
     %If so, read content
     dat = webread(url);    

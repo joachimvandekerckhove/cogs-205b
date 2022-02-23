@@ -8,8 +8,6 @@ file_name = gmauter.getData(url);
 
 X = gmauter.readData(file_name);
 
-gmauter.Norm2d().estimate(X)
-
 gmauter.report(X)
 
 
