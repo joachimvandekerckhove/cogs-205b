@@ -8,11 +8,14 @@ function Fit(obj)
 % create anonymous function to be minimized
 objective = @(parameters) obj.SumOfSquaredError(parameters);
 
+% define initial values for parameters
+A0 = 300;
+B0 = 100;
+E0 = 5;
+Beta0 = 1;
+
 % minimize it
-estimates = fminsearch(objective, [obj.EstimatedAsymptote, ...
-                                                  obj.EstimatedRange, ...
-                                                  obj.EstimatedExposure, ...
-                                                  obj.EstimatedRate], ...
+estimates = fminsearch(objective, [A0, B0, E0, Beta0], ...
                                                         optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6));
 
 % update object properties to fitted values

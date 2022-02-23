@@ -13,10 +13,10 @@ classdef PowerLawFitter < handle
     % Derived 
     properties (SetAccess = private)
         Count double {mustBeReal, mustBePositive, mustBeFinite, mustBeNonzero, mustBeInteger}
-        EstimatedAsymptote double {mustBeReal} = 300
-        EstimatedRange double {mustBeReal} = 100
-        EstimatedExposure double {mustBeReal} = 5
-        EstimatedRate double {mustBeReal} = 1
+        EstimatedAsymptote double {mustBeReal} 
+        EstimatedRange double {mustBeReal} 
+        EstimatedExposure double {mustBeReal} 
+        EstimatedRate double {mustBeReal} 
     end
 
     % Constant 
@@ -36,9 +36,12 @@ methods
     end
 
     %%% Display %%%
-%     function disp(obj)
-%         %%% displays Count & parameter estimates
-%     end
+    function disp(obj)
+%           fprintf('  %s distribution with parameters:\n', obj.Name);
+%           fprintf('         %s\n\t %f \n\t %f \n' , 'Mean:', obj.Mean);
+%           fprintf('         %s\n\t %f   %f\n\t %f   %f\n' , 'Covariance:', obj.Covariance');
+%           fprintf('\n');
+    end
 
     %%% Setter %%%
     function set.ObservedRT(obj, v)
