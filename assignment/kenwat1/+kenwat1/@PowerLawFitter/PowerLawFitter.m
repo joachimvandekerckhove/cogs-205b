@@ -9,10 +9,10 @@ classdef PowerLawFitter < handle
     end
     
     properties (SetAccess = private)
-        EstimatedAsymptote {mustBeReal,mustBePositive}
-        EstimatedRange {mustBeReal,mustBePositive}
-        EstimatedExposure {mustBeReal,mustBePositive}
-        EstimatedRate {mustBeReal,mustBePositive}
+        EstimatedAsymptote
+        EstimatedRange 
+        EstimatedExposure 
+        EstimatedRate
     end
     
     % Methods
@@ -32,48 +32,53 @@ classdef PowerLawFitter < handle
             v = length(obj.ObservedRT);
             value = v;
         end
-        
-%         % Setter for ObservedRT
-%         function obj = set.ObservedRT(obj,val)
-%             % obj: object whose property is being assigned a value
-%             % val: the new value that is assigned
-%             % Then when obj.ObservedRT = val, Fit should not recompute
-%             % unless the data changes
-%             if isequal(obj.ObservedRT,val)
-%                 disp('The parameters estimates are already set for this data.')
-%                 disp('No need to recompute')
-%             elseif any(val<=0)
+
+%         function obj = set.ObservedRT(obj,val) 
+%             if any(val<=0)
 %                 error('Reaction times have to be positive!')
 %             else
 %                 obj.ObservedRT = val;
 %             end
-%         end
-        
+%         end  
         function Fit(obj)
             obsRT = obj.ObservedRT;
             t = 1:obj.Count;
             f=@(x) x(1) + x(2).*((t + x(3)).^(-x(4)));
             g=@(x) sum((f(x)-obsRT).^2);
             x0 = [250,600,7,1];
-            x = fminsearch(g,x0);
-            
-            obj.EstimatedAsymptote = x(1);
-            obj.EstimatedRange = x(2);
-            obj.EstimatedExposure = x(3);
-            obj.EstimatedRate = x(4);
+            options = optimset('MaxFunEvals',1e6,'MaxIter',1e6);
+            x = fminsearch(g,x0,options);
+
+            params = [obj.EstimatedAsymptote,obj.EstimatedRange, ...
+                obj.EstimatedExposure,obj.EstimatedRate];
+
+            if isempty(obj.EstimatedAsymptote)
+                obj.EstimatedAsymptote = x(1);
+                obj.EstimatedRange = x(2);
+                obj.EstimatedExposure = x(3);
+                obj.EstimatedRate = x(4);
+            elseif all(params==x)
+                error('All parameters are already set for this dataset. Terminated Correctly');
+            else
+                obj.EstimatedAsymptote = x(1);
+                obj.EstimatedRange = x(2);
+                obj.EstimatedExposure = x(3);
+                obj.EstimatedRate = x(4);
+            end
+
         end
-        
-        function ERT = Expectation(obj) 
+
+        function ERT = Expectation(obj)
             t = 1:obj.Count;
             ERT = obj.EstimatedAsymptote + obj.EstimatedRange ...
                 .*((t + obj.EstimatedExposure).^(-obj.EstimatedRate));
         end
-        
+
         function SSE = SumOfSquaredError(obj)
             ERT = Expectation(obj);
             SSE = sum((ERT-obj.ObservedRT).^2);
         end
-        
+
         function disp(obj)
             SSE = SumOfSquaredError(obj);
             fprintf('The number of observations: %d\n',obj.Count);

@@ -65,35 +65,46 @@ function testExpectation(testCase)
     verifyEqual(testCase, expected, actual, "AbsTol", eps(1))
 end
 
-%  function testSSE(testCase)
-%     randgen = randi(100,1,30)+270; %randomly selecting a set of integers from 270 to 350
-%     testdata = sort(randgen,'descend');
-%     a = kenwat1.PowerLawFitter(testdata);
-%     a.Fit;
-%     actual = [a.EstimatedAsymptote, a.EstimatedRange,...
-%         a.EstimatedExposure, a.EstimatedRate];
-% 
-%     verifyGreaterThan(testCase,actual,[0 0 0 0]) 
-%  end
-%  
-%  function testFit(testCase)
-%     randgen = randi(100,1,30)+270; %randomly selecting a set of integers from 270 to 350
-%     testdata = sort(randgen,'descend');
-%     a = kenwat1.PowerLawFitter(testdata);
-%     a.Fit;
-%     actual = [a.EstimatedAsymptote, a.EstimatedRange,...
-%         a.EstimatedExposure, a.EstimatedRate];
-% 
-%     verifyGreaterThan(testCase,actual,[0 0 0 0]) 
-%  end
-%  
-%  function testdisp(testCase)
-%     randgen = randi(100,1,30)+270; %randomly selecting a set of integers from 270 to 350
-%     testdata = sort(randgen,'descend');
-%     a = kenwat1.PowerLawFitter(testdata);
-%     a.Fit;
-%     actual = [a.EstimatedAsymptote, a.EstimatedRange,...
-%         a.EstimatedExposure, a.EstimatedRate];
-% 
-%     verifyGreaterThan(testCase,actual,[0 0 0 0]) 
-%  end
+function testSSE(testCase)
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata);
+    a.Fit;
+    actual = a.SumOfSquaredError;
+
+    verifyGreaterThan(testCase, actual, 0)
+end
+
+function testFit(testCase)
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata);
+    actual = @() a.Fit;
+
+    verifyWarningFree(testCase,actual)
+end
+ 
+function testdisp(testCase)
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata);
+    a.Fit;
+    actual = @() a.disp;
+
+    verifyWarningFree(testCase,actual)
+end
+
+function testBonus1(testCase)
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata);
+    a.Fit;
+    actual = @() a.Fit;
+
+    verifyError(testCase,actual,'MATLAB:Same data used for fitting')
+end
+
+function testBonus2(testCase)
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata);
+    a.Fit;
+    actual = @() a.Fit;
+
+    verifyError(testCase,actual,'MATLAB:Same data used for fitting')
+end
