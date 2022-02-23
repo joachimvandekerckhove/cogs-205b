@@ -3,20 +3,29 @@ classdef PowerLawFitter
     %   Detailed explanation goes here
 
     properties
-        Property1
+        ObservedRT
+       
+    end
+
+    properties (Dependent)
+        Count
+    end
+
+    properties (Access = private)
+        EstimatedAsymptote
+        EstimatedRange
+        EstimatedExposure
+        EstimatedRate
     end
 
     methods
-        function obj = PowerLawFitter(inputArg1,inputArg2)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
+        function obj = PowerLawFitter(ObservedRT)
+            if nargin > 0
+                obj.ObservedRT = ObservedRT;
+                obj.Count = length(ObservedRT)
+            end
         end
 
-        function outputArg = method1(obj,inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
-        end
+        ERT = Expectation(obj, A, B, E, b)
     end
 end
