@@ -23,12 +23,15 @@ classdef PowerLawFitter < handle
         
         
         function ERT = Expectation(A, B, E, beta)
+            A=obj.EstimatedAsymptote;
+            B=obj.EstiamtedRange;
+            E=obj.EstimatedExposure;
+            beta=obj.EstimatedRate;
             N=obj.Count;
-            ERT= A + B.*(N+E).^beta;
-        end
+
         
         function SSE = SumOfSquaredError(A, B, E, beta)
-            ERT=obj.Expectation(A, B, E, beta);
+            ERT=obj.Expectation(A, B, E, beta); %should it be .fit?
             error=obj.ObservedRT-ERT;
             squaredError=error.^2;
             SSE=sum(squaredError);
@@ -38,18 +41,21 @@ classdef PowerLawFitter < handle
     
     methods (Static)
         function fit() %no input, no output
-            %define obj?
             obj.Count=length(obj.ObservedRT);
-            obj.EstimatedAsymptote %NEED TO USE NELDER-MEAD?
-            obj.EstimatedRange=range(obj.ObservedRT);
-            obj.EstimatedExposure %what is exposure? watch recording
-            obj.EstimatedRate %is rate just mean? watch recording
+            N=obj.Count;
+            for 1:N
+                fun=@(x) A + B.*(N+E).^-beta
+                x0=mean(obj.ObservedRT);
+                x=fminsearch(fun, x0)
+            end
+            
+            % the goal of fit is to make the SSE as small as possible
         end
         
         function disp() %no input, no putput
-            % number of trials, 
+            % number of trials,
             % and also parameter estimates if they are available.
-            fprintf('Generating a report about the current data ...') 
+            fprintf('Generating a report about the current data ...')
             pause(1)
             formSpecN='The current data set has %i sets of trials';
             formSpecA='The asymptote of the current data set is ';
