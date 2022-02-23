@@ -20,7 +20,7 @@ function testCount(testCase)
 end
  
 function testEstimatedAsymptote(testCase)
-    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263];
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
     a = kenwat1.PowerLawFitter(testdata);
     a.Fit;
     actual = a.EstimatedAsymptote;
@@ -29,7 +29,7 @@ function testEstimatedAsymptote(testCase)
 end
 
 function testEstimatedRange(testCase)
-    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263];
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
     a = kenwat1.PowerLawFitter(testdata);
     a.Fit;
     actual = a.EstimatedRange;
@@ -38,7 +38,7 @@ function testEstimatedRange(testCase)
 end
 
 function testEstimatedExposure(testCase)
-    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263];
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
     a = kenwat1.PowerLawFitter(testdata);
     a.Fit;
     actual = a.EstimatedExposure;
@@ -47,7 +47,7 @@ function testEstimatedExposure(testCase)
 end
 
 function testEstimatedRate(testCase)
-    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263];
+    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
     a = kenwat1.PowerLawFitter(testdata);
     a.Fit;
     actual = a.EstimatedRate;
@@ -91,20 +91,26 @@ function testdisp(testCase)
     verifyWarningFree(testCase,actual)
 end
 
-function testBonus1(testCase)
+% Tests for Bonus
+function testNoRecompute(testCase)
     testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
     a = kenwat1.PowerLawFitter(testdata);
     a.Fit;
     actual = @() a.Fit;
 
-    verifyError(testCase,actual,'MATLAB:Same data used for fitting')
+    verifyError(testCase,actual,"Fit:ParametersAlreadySet")
 end
 
-function testBonus2(testCase)
-    testdata = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
-    a = kenwat1.PowerLawFitter(testdata);
+function testChangeParameters(testCase)
+    testdata1 = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 100;
+    a = kenwat1.PowerLawFitter(testdata1);
     a.Fit;
-    actual = @() a.Fit;
+    actual = a.EstimatedAsymptote;
+    
+    testdata2 = [275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263] + 50;
+    b = kenwat1.PowerLawFitter(testdata2);
+    b.Fit;
+    prohibited = b.EstimatedAsymptote;
 
-    verifyError(testCase,actual,'MATLAB:Same data used for fitting')
+    verifyNotEqual(testCase,actual,prohibited)
 end
