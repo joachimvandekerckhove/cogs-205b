@@ -12,6 +12,7 @@ classdef PowerLawFitter
     end
 
     properties (Access = private)
+        Count_
         EstimatedAsymptote
         EstimatedRange
         EstimatedExposure
@@ -22,10 +23,22 @@ classdef PowerLawFitter
         function obj = PowerLawFitter(ObservedRT)
             if nargin > 0
                 obj.ObservedRT = ObservedRT;
-                obj.Count = length(ObservedRT)
+                obj.Count = length(ObservedRT);
             end
         end
-
+        function obj = set.Count(obj, value)
+             obj.Count_ = length(obj.ObservedRT);
+        end
+        function Precision = get.ObservedRT(obj)
+            Precision = obj.ObservedRT;
+        end
+        function Count = get.Count(obj)
+            Count = length(obj.ObservedRT);
+        end        
         ERT = Expectation(obj, A, B, E, b)
+        SSE = SumOfSquaredError (obj, A, B, E, b)
     end
+
+        
+    
 end
