@@ -33,13 +33,7 @@ classdef PowerLawFitter < handle
             value = v;
         end
 
-%         function obj = set.ObservedRT(obj,val) 
-%             if any(val<=0)
-%                 error('Reaction times have to be positive!')
-%             else
-%                 obj.ObservedRT = val;
-%             end
-%         end  
+        %%% Computation Functions %%%
         function Fit(obj)
             obsRT = obj.ObservedRT;
             t = 1:obj.Count;
@@ -58,7 +52,7 @@ classdef PowerLawFitter < handle
                 obj.EstimatedExposure = x(3);
                 obj.EstimatedRate = x(4);
             elseif all(params==x)
-                error('All parameters are already set for this dataset. Terminated Correctly');
+                error("Fit:ParametersAlreadySet",'Parameters already set for this dataset.')
             else
                 obj.EstimatedAsymptote = x(1);
                 obj.EstimatedRange = x(2);
