@@ -12,9 +12,9 @@ function testObservedRT(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
 
-    call   = @() lemontgomery2.PowerLawFitter(data);
-    
-    verifyClass(testCase, call.ObservedRT, ?double)
+    this = lemontgomery2.PowerLawFitter(data);
+        
+    verifyClass(testCase, this.ObservedRT, ?double)
     
 end
     
@@ -25,9 +25,9 @@ function testCount(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call   = @() lemontgomery2.PowerLawFitter(data);
+    this = lemontgomery2.PowerLawFitter(data);
     
-    verifyClass(testCase, call.Count, ?scalar)
+    verifyClass(testCase, this.Count, ?double)
     
 end
 
@@ -38,9 +38,10 @@ function testEstimatedAsymptote(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call    = @() lemontgomery2.PowerLawFitter(data); call.Fit;
-    
-    verifyNotEmpty(testCase, call.EstimatedAsymptote)
+    this = lemontgomery2.PowerLawFitter(data);
+    this.Fit;
+        
+    verifyNotEmpty(testCase, this.EstimatedAsymptote)
     
 end
 
@@ -51,9 +52,10 @@ function testEstimatedRange(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call    = @() lemontgomery2.PowerLawFitter(data); call.Fit;
+    this = lemontgomery2.PowerLawFitter(data);
+    this.Fit;
     
-    verifyNotEmpty(testCase, call.EstimatedRange)
+    verifyNotEmpty(testCase, this.EstimatedRange)
     
 end
 
@@ -64,9 +66,10 @@ function testEstimatedExposure(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call    = @() lemontgomery2.PowerLawFitter(data); call.Fit;
+    this = lemontgomery2.PowerLawFitter(data);
+    this.Fit;
     
-    verifyNotEmpty(testCase, call.EstimatedExposure)
+    verifyNotEmpty(testCase, this.EstimatedExposure)
     
 end
 
@@ -77,9 +80,10 @@ function testEstimatedRate(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call    = @() lemontgomery2.PowerLawFitter(data); call.Fit;
+    this = lemontgomery2.PowerLawFitter(data);
+    this.Fit;
     
-    verifyNotEmpty(testCase, call.EstimatedRate)
+    verifyNotEmpty(testCase, this.EstimatedRate)
     
 end
 
@@ -90,9 +94,9 @@ function testPreviousData(testCase)
             275   274   273   271   272   275   268   269   265   ...
             269   264   266   264   265   264   263];
         
-    call    = @() lemontgomery2.PowerLawFitter(data);
+    this = lemontgomery2.PowerLawFitter(data);
     
-    verifyEmpty(testCase, call.PreviousData)
+    verifyEmpty(testCase, this.PreviousData)
     
 end
 
@@ -112,9 +116,10 @@ end
 
 function testSSE(testCase)
 
-    % TESTSSE    Tests sse function to verify value always positive
-    data = [5.4694 -3.3563 1.1302 3.2101 5.4024 7.1768 1.3437 -4.9664 -1.9692 -3.2463; ...
-            10.4018 -1.4624 3.9923 0.2303 4.5544 -2.0594 -4.6091 -4.6895 2.9528 0.2905]';
+    % TESTSSE    Tests sse function to verify value is positive
+    data = [313   306   300   293   287   288   285   281   279   ...
+            275   274   273   271   272   275   268   269   265   ...
+            269   264   266   264   265   264   263];
 
     actualValue   = @() lemontgomery2.report(data);
     
