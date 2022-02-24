@@ -64,12 +64,17 @@ classdef PowerLawFitter < handle
             options = optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
             initVals = fminsearch(SSEFunction, [mean(obj.ObservedRT), range , 1, 1], options);
             
-            % set params
-            obj.EstimatedAsymptote = initVals(1);
-            obj.EstimatedRange = initVals(2);
-            obj.EstimatedExposure = initVals(3);
-            obj.EstimatedRate = initVals(4);
-            
+           
+            % check if parameter estimates are set
+            if obj.EstimatedAsymptote == initVals(1) && obj.EstimatedRange == initVals(2) ...
+                    && obj.EstimatedExposure == initVals(3) && obj.EstimatedRate == initVals(4)
+                sprintf('Parameter estimates set - will not recompute unless data is changed')
+            else % set parameter estimates
+                obj.EstimatedAsymptote = initVals(1);
+                obj.EstimatedRange = initVals(2);
+                obj.EstimatedExposure = initVals(3);
+                obj.EstimatedRate = initVals(4);
+            end
             
         end
         
