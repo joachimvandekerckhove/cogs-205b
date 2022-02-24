@@ -12,12 +12,17 @@ fun = @(x) SumOfSquaredError(obj, x(1), x(2), x(3), x(4));
 
 x = fminsearch(fun,x0);
 
-disp(x);
+obj.EstimatedAsymptote = x(1);
+obj.EstimatedRange = x(2);
+obj.EstimatedExposure = x(3);
+obj.EstimatedRate = x(4);
+
+obj.fit = true;
 
 plot(obj.ObservedRT, '*-');hold on;
 plot(obj.Expectation(x(1), x(2), x(3), x(4)), 's-');
 
 legend('Observed Data', 'Estimated Data')
-obj.fit = true;
+
 end
 end
