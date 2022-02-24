@@ -3,6 +3,7 @@ function SSE = SumOfSquaredError(obj, A, B, E, b)
 %   Detailed explanation goes here
 ERT = Expectation(obj, A, B, E, b);
 Err = ERT - obj.ObservedRT;
-SSE = power(Err, 2);
+Err_power = power(Err, 2)
+SSE = sum(Err_power);
 end
 
