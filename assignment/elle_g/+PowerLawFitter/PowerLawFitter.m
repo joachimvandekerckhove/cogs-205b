@@ -3,10 +3,15 @@ classdef PowerLawFitter < handle
     % decreases according to a power law as a function of number of trials N.
     % ERT = A + B (N + E)^{-beta}
     % PARAMETERS: Asymptote A-Asymptote, B-Range, E-Exposure, Rate-beta
+    % So you start with 4 parameters.
+    % With those you generate 25 expected data points.
+    % Then you calculate 25 "error" values by taking the difference
+    % between your 25 predicted points and your 25 observed points.
+    % Then you take the square of those 25 errors and add them together to get 1 SumOfSquaredError (SSE)
+    % Then fminsearch finds that set of 4 parameters for which the SSE is minimal.
     
-    %define properties
     properties
-        ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}%need to make sure it is a vector
+        ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}
     end
     
     properties (SetAccess=private)
@@ -48,55 +53,63 @@ classdef PowerLawFitter < handle
     %methods
     
     methods
+        % constructor
         function obj = PowerLawFitter(ObservedRT)
             obj.ObservedRT=ObservedRT;
-            obj=fit();
         end
         
         function ERT = Expectation(A, B, E, beta)
-            A=obj.EstimatedAsymptote;
-            B=obj.EstiamtedRange;
-            E=obj.EstimatedExposure;
-            beta=obj.EstimatedRate;
             N=obj.Count;
-            
+            ERT=ones(1, N);
+            for index=1:N
+                ERT(index)= A + B.*(index+E).^-beta;
+            end
         end
         
         function SSE = SumOfSquaredError(A, B, E, beta)
-            ERT=obj.Expectation(A, B, E, beta); %should it be .fit?
+            if nargin < 2
+                A = min(obj.ObservedRT);
+                B =max(obj.ObservedRT)-min(obj.ObservedRT);
+                E = 4;
+                beta = 1;
+            end
+            ERT=obj.Expectation(A, B, E, beta);
             error=obj.ObservedRT-ERT;
             squaredError=error.^2;
             SSE=sum(squaredError);
             
         end
         
-        function disp() %no input, no putput
-            % number of trials,
-            % and also parameter estimates if they are available.
-            fprintf('Generating a report about the current data ...')
-            pause(1)
-            formSpecN='The current data set has %i sets of trials';
-            formSpecA='The asymptote of the current data set is ';
-            formSpecB='The current data set has a range of ';
-            formSpecE='The estimated exposure of this data set is ';
-            formSpecBeta='The rate of the current data set is ';
-            fprintf(formSpecN, obj.Count)
-            fprintf(formSpecA, obj.EstimatedAsymptote)
-            fprintf(formSpecB, obj.EstimatedRange)
-            fprintf(formSpecE, obj.EstimatedExposure)
-            fprintf(formSpecBeta, obj.EstimatedRate)
-        end
+                function disp(obj) %no input, no putput
+                    % number of trials,
+                    % and also parameter estimates if they are available.
+                    fprintf('Generating a report about the current data ...\n')
+                    pause(1)
+                    formSpecN='The current data set has %i sets of trials';
+                    formSpecA='The estimated asymptote is %f4\n';
+                    formSpecB='The estimated range is %f4\n';
+                    formSpecE='The estimated exposure is %f4\n';
+                    formSpecBeta='The estimated rate is %f4\n';
+                    fprintf(formSpecN, obj.Count)
+                    fprintf(formSpecA, obj.EstimatedAsymptote)
+                    fprintf(formSpecB, obj.EstimatedRange)
+                    fprintf(formSpecE, obj.EstimatedExposure)
+                    fprintf(formSpecBeta, obj.EstimatedRate)
+                end
     end
     
     methods (Static)
-        function fit() %no input, no output
+        function fit(obj) %no input, no output
             obj.Count=length(obj.ObservedRT);
             N=obj.Count;
-            for 1:N
-                fun=@(x) A + B.*(N+E).^-beta
-                x0=mean(obj.ObservedRT);
-                x=fminsearch(fun, x0)
-            end
+            fun=@(A, B, E, beta) ((A + B.*(N+E).^-beta)-obj.ObservedRT).^2;
+            presetParameters=[min(obj.ObservedRT), (max(obj.ObservedRT)-min(obj.ObservedRT)), 4, 1];
+            x=fminsearch(fun, presetParameters);
+            obj.EstimatedAsymptote=x(1);
+            obj.EstimatedRange=x(2);
+            obj.EstimatedExposure=x(3);
+            obj.EstimatedRate=x(4);
         end
     end
-    
+end
+
