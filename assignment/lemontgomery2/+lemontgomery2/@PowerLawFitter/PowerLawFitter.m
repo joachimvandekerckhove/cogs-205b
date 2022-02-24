@@ -3,7 +3,7 @@ classdef PowerLawFitter < handle
     
     % The main properties are the observed RT and count
     properties
-        ObservedRT (1, 25) double {mustBeReal, mustBeFinite, mustBeVector};
+        ObservedRT (1,:) double {mustBeReal, mustBeFinite, mustBeVector};
     end
     
     % Dependent properties
@@ -18,6 +18,7 @@ classdef PowerLawFitter < handle
         EstimatedExposure
         EstimatedRate
         EstimatedSSE
+        PreviousData
     end
     
    
@@ -42,19 +43,14 @@ classdef PowerLawFitter < handle
         function disp(obj)
         
             % DISP    Prints the information to screen
-            d = 'Data:     %g observations \n';
-            dmin = '     Min(RT) = %g \n';
-            dmax = '     Max(RT) = %g \n';
-            
+            d = 'Data:      %g observations \n';
             p = 'Parameter Estimates:     \n';
+            se = 'Loss:     \n';
             s = '     %-10s = %g \n';
             
-            se = 'Loss:     \n';
-            v = '     %-10s = %g \n';
-            
             fprintf(d, length(obj.ObservedRT));
-            fprintf(dmin, min(obj.ObservedRT));
-            fprintf(dmax, max(obj.ObservedRT));
+            fprintf(s, 'Min(RT)', min(obj.ObservedRT));
+            fprintf(s, 'Max(RT)', max(obj.ObservedRT));
             
             fprintf('\n');
 
@@ -108,6 +104,15 @@ classdef PowerLawFitter < handle
         function Fit(obj)
             
             % FIT    Fit function that sets estimated parameters
+            
+            % stopping from recalculating if values set
+            if (isempty(obj.EstimatedAsymptote) == 0) && ...
+               all(obj.PreviousData == obj.ObservedRT)
+               disp('Parameter values have already been calculated for this data');
+               return
+            end        
+            
+            % setting initial values
             initial = [100, 100, 10, 1];
             objective = @(initial) (obj.sse(initial));
             options = optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
@@ -119,6 +124,7 @@ classdef PowerLawFitter < handle
             obj.EstimatedExposure = x(3);
             obj.EstimatedRate = x(4);
             obj.EstimatedSSE = fval;
+            obj.PreviousData = obj.ObservedRT;
         
         end
                 
