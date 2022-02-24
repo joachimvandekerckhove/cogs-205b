@@ -27,12 +27,13 @@ classdef PowerLawFitter < handle
         %%% Constructor function %%%
     
         % A main constructor for the power law fitter
-         function obj = PowerLawFitter(ObservedRT)
+         function obj = PowerLawFitter(ObservedRT, Initial)
             
             % POWERLAW    A main constructor for the power law fitter
                 
             % This triggers the implicit setter for ObservedRT
             obj.ObservedRT = ObservedRT;
+            
          end
         
         %%% Display function %%%
@@ -88,7 +89,7 @@ classdef PowerLawFitter < handle
             tempERT = 1:obj.Count;
             
             for i = 1:obj.Count
-                tempERT(i) = x(1) + (x(2) * (i + x(3)) ^ (x(4)));
+                tempERT(i) = x(1) + (x(2) * (i + x(3)) ^ (-x(4)));
             end
             
             ERT = tempERT;
@@ -107,9 +108,10 @@ classdef PowerLawFitter < handle
         function Fit(obj)
             
             % FIT    Fit function that sets estimated parameters
-            initial = [100, 100, 10, 10];
-            objective = @(x) (obj.sse(initial));
-            [x, fval] = fminsearch(objective, initial);
+            initial = [100, 100, 10, 1];
+            objective = @(initial) (obj.sse(initial));
+            options = optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
+            [x, fval] = fminsearch(objective, initial, options);
             
             % adding information to output
             obj.EstimatedAsymptote = x(1);
