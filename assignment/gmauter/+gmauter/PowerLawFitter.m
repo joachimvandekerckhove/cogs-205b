@@ -73,10 +73,17 @@ classdef PowerLawFitter < handle
             
         end
         
-        function disp()
+        function disp(obj)
            % prints to the screen information about the current data, such
            % as the number of trials and also parameter estimates if they
            % are available.
+           fprintf('- Power Law Fitter Info -\n');
+           fprintf('~ # trials: %d\n', obj.Count);
+           fprintf('~ Estimated Asymptote (A): %d\n', obj.EstimatedAsymptote);
+           fprintf('~ Estimated Range (B): %d\n', obj.EstimatedRange);
+           fprintf('~ Estimated Exposure (E): %d\n', obj.EstimatedExposure);
+           fprintf('~ Estimated Rate (beta): %d\n', obj.EstimatedRate);
+           
         end
     end
 end
