@@ -17,6 +17,7 @@ classdef PowerLawFitter < handle
         EstimatedRange
         EstimatedExposure
         EstimatedRate
+        fit = false
     end
 
     methods
@@ -37,6 +38,7 @@ classdef PowerLawFitter < handle
         end        
         ERT = Expectation(obj, A, B, E, b)
         SSE = SumOfSquaredError (obj, A, B, E, b)
+        void = Fit(obj)
     end
 
         
