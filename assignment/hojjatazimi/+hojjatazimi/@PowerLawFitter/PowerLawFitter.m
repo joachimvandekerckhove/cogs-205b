@@ -72,7 +72,9 @@ classdef PowerLawFitter < handle
         SSE = SumOfSquaredError (obj, A, B, E, b)
         void = Fit(obj)
         void = disp(obj)
-
+    end
+    methods(Static)
+        void = PowerLawFitterTest()
     end
 
         

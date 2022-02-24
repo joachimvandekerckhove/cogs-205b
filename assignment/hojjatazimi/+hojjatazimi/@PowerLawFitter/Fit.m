@@ -3,7 +3,7 @@ function Fit(obj)
 %   Detailed explanation goes here
 
 if obj.fit 
-disp('The model is already fit')
+error('PowerLawFitter:Fit:alreadyFit', 'The model is already fit')
 else
 x0 = [50, 200, 0, 0];
 
