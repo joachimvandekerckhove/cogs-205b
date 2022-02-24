@@ -37,11 +37,25 @@ methods
 
     %%% Display %%%
     function disp(obj)
-%           fprintf('  %s distribution with parameters:\n', obj.Name);
-%           fprintf('         %s\n\t %f \n\t %f \n' , 'Mean:', obj.Mean);
-%           fprintf('         %s\n\t %f   %f\n\t %f   %f\n' , 'Covariance:', obj.Covariance');
-%           fprintf('\n');
-    end
+        if size(obj.Count, 1) == 0
+            fprintf("PowerLawFitter object that hasn't been provided input yet! No parameter estimates to report. \n Please pass a 1xn vector to begin estimation. \n");
+        elseif size(obj.EstimatedAsymptote, 1) == 0 && size(obj.Count, 1) == 1
+            fprintf('Number of trials = %i\n', obj.Count);
+            fprintf('Mean RT = %.2f\n', mean(obj.ObservedRT));
+            fprintf('Standard deviation = %.2f\n', std(obj.ObservedRT));
+            fprintf('Range = %.2f\n', max(obj.ObservedRT)-min(obj.ObservedRT));
+            fprintf('Fit() has not yet been run. No other parameter estimates to report.\n')
+        else
+            fprintf('Number of trials = %i\n', obj.Count);
+            fprintf('Mean RT = %.2f\n', mean(obj.ObservedRT));
+            fprintf('Standard deviation = %.2f\n', std(obj.ObservedRT));
+            fprintf('Range = %.2f\n', max(obj.ObservedRT)-min(obj.ObservedRT));
+            fprintf('Estimated asymptote (A) = %.2f\n', obj.EstimatedAsymptote);
+            fprintf('Estimated range (B) = %.2f\n', obj.EstimatedRange);
+            fprintf('Estimated exposure (E) = %.2f\n', obj.EstimatedExposure);
+            fprintf('Estimated beta = %.2f\n', obj.EstimatedRate);
+        end
+     end
 
     %%% Setter %%%
     function set.ObservedRT(obj, v)
