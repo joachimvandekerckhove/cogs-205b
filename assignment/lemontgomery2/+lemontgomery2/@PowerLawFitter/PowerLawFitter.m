@@ -3,12 +3,11 @@ classdef PowerLawFitter < handle
     
     % The main properties are the observed RT and count
     properties
-        ObservedRT (2,1) double {mustBeReal, mustBeFinite, mustBeVector} ...
-            = [ 0; 0 ]
+        ObservedRT (1, 25) double {mustBeReal, mustBeFinite, mustBeVector};
     end
     
     % Dependent properties
-    properties (Dependent)
+    properties (Dependent = true)
         Count
     end
     
@@ -18,6 +17,7 @@ classdef PowerLawFitter < handle
         EstimatedRange
         EstimatedExposure
         EstimatedRate
+        EstimatedSSE
     end
     
    
@@ -27,48 +27,99 @@ classdef PowerLawFitter < handle
         %%% Constructor function %%%
     
         % A main constructor for the power law fitter
-         function obj = PowerLaw(ObservedRT)
+         function obj = PowerLawFitter(ObservedRT)
             
             % POWERLAW    A main constructor for the power law fitter
                 
-            % This triggers the implicit setter for Mean
+            % This triggers the implicit setter for ObservedRT
             obj.ObservedRT = ObservedRT;
          end
         
         %%% Display function %%%
         
-        % Print the distribution to screen
-
+        % Print the information to screen
+        function disp(obj)
         
-        % Print the distribution to screen
+            % DISP    Prints the information to screen
+            d = 'Data:     %g observations \n';
+            dmin = '     Min(RT) = %g \n';
+            dmax = '     Max(RT) = %g \n';
+            
+            p = 'Parameter Estimates:     \n';
+            s = '     %-10s = %g \n';
+            
+            se = 'Loss:     \n';
+            v = '     %-10s = %g \n';
+            
+            fprintf(d, length(obj.ObservedRT));
+            fprintf(dmin, min(obj.ObservedRT));
+            fprintf(dmax, max(obj.ObservedRT));
+            
+            fprintf('\n');
 
+            fprintf(p);
+            fprintf(s, 'Asymptote', obj.EstimatedAsymptote);
+            fprintf(s, 'Range', obj.EstimatedRange);
+            fprintf(s, 'Exposure', obj.EstimatedExposure);
+            fprintf(s, 'Rate', obj.EstimatedRate);
+
+            fprintf('\n');
+            
+            fprintf(se);
+            fprintf(s, 'SSE', obj.EstimatedSSE);
+            
+        end
+   
         
         %%% Getters and setters %%%
 
         % Updater for Dependent Properties
         function value = get.Count(obj)
-            value = size(obj.ObservedRT, 1);
+            value = size(obj.ObservedRT, 2);
         end        
         
-        % Updater for Derived Properties
-        function obj = updateCovariance(obj)
-            
-            % UPDATECOVARIANCE    Corresponding updated for covariance
-            obj.Precision = inv(obj.Covariance);
-            obj.Correlation = obj.Covariance(1,2) ...
-                              / (sqrt(obj.Covariance(1,1)) ...
-                              * sqrt(obj.Covariance(2,2)));
-        end        
+        
         % Computation functions
         
         % Expectation
+        function ERT = expectation(obj, x)
+            
+            % EXPECTATION    Expectation function
+            tempERT = 1:obj.Count;
+            
+            for i = 1:obj.Count
+                tempERT(i) = x(1) + (x(2) * (i + x(3)) ^ (x(4)));
+            end
+            
+            ERT = tempERT;
+            
+        end
         
         % SumOfSquaredError
+        function val = sse(obj, x)
+
+            % SSE    Sum of squared error function
+            val = sum((obj.expectation(x) - obj.ObservedRT).^2);
+       
+        end
         
         % Fit
+        function Fit(obj)
+            
+            % FIT    Fit function that sets estimated parameters
+            initial = [100, 100, 10, 10];
+            objective = @(x) (obj.sse(initial));
+            [x, fval] = fminsearch(objective, initial);
+            
+            % adding information to output
+            obj.EstimatedAsymptote = x(1);
+            obj.EstimatedRange = x(2);
+            obj.EstimatedExposure = x(3);
+            obj.EstimatedRate = x(4);
+            obj.EstimatedSSE = fval;
         
-        % Disp
-        
+        end
+                
     end
     
 end
