@@ -3,7 +3,7 @@ classdef PowerLawFitter < handle
     %   Detailed explanation goes here
 
     properties
-        ObservedRT
+        ObservedRT(1,:) double {mustBeNonNan, mustBeFinite} 
        
     end
 
