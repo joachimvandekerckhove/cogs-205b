@@ -54,8 +54,8 @@ classdef PowerLawFitter < handle
             obj.ObservedRT=ObservedRT;
         end
         
-        function ERT = Expectation(A, B, E, beta)
-            N=obj.Count;
+        function ERT = Expectation(obj, A, B, E, beta)
+            N=length(obj.ObservedRT);
             ERT=ones(1, N);
             for index=1:N
                 ERT(index)= A + B.*(index+E).^-beta;
@@ -104,7 +104,7 @@ classdef PowerLawFitter < handle
     methods
         function Fit(obj)
             N=length(obj.ObservedRT);
-            fun=@(x) sum(((x(1) + x(2).*(N+x(3)).^-x(4))-obj.ObservedRT).^2);
+            fun=@(x) sum(((x(1) + (x(2).*(N+x(3))).^-x(4))-obj.ObservedRT).^2);
             presetParameters=[min(obj.ObservedRT), (max(obj.ObservedRT)-min(obj.ObservedRT)), 4, 1];
             opt=optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
             x=zeros(1,4);
