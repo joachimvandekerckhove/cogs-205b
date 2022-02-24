@@ -14,7 +14,7 @@ B0 = 100;
 E0 = 5;
 Beta0 = 1;
 
-% minimize it
+% optimize them
 estimates = fminsearch(objective, [A0, B0, E0, Beta0], ...
                                                         optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6));
 
