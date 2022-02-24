@@ -71,6 +71,8 @@ classdef PowerLawFitter < handle
         ERT = Expectation(obj, A, B, E, b)
         SSE = SumOfSquaredError (obj, A, B, E, b)
         void = Fit(obj)
+        void = disp(obj)
+
     end
 
         
