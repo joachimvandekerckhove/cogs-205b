@@ -38,18 +38,29 @@ methods
     %%% Display %%%
     function disp(obj)
         if size(obj.Count, 1) == 0
-            fprintf("PowerLawFitter object that hasn't been provided input yet! No parameter estimates to report. \n Please pass a 1xn vector to begin estimation. \n");
+            fprintf('PowerLawFitter object \n');
+            fprintf('--------------------------------------------------------\n');
+            fprintf("No input properties or parameter estimates to report. Please pass a 1xn vector to begin estimation. \n");
         elseif size(obj.EstimatedAsymptote, 1) == 0 && size(obj.Count, 1) == 1
+            fprintf('PowerLawFitter object \n');
+            fprintf('--------------------------------------------------------\n');
+            fprintf('Input properties: \n')
             fprintf('Number of trials = %i\n', obj.Count);
             fprintf('Mean RT = %.2f\n', mean(obj.ObservedRT));
             fprintf('Standard deviation = %.2f\n', std(obj.ObservedRT));
             fprintf('Range = %.2f\n', max(obj.ObservedRT)-min(obj.ObservedRT));
-            fprintf('Fit() has not yet been run. No other parameter estimates to report.\n')
+            fprintf('........................................\n');
+            fprintf('No parameter estimates to report. Please run Fit() to estimate parameters. \n')
         else
+            fprintf('PowerLawFitter object \n');
+            fprintf('--------------------------------------------------------\n');
+            fprintf('Input properties: \n');            
             fprintf('Number of trials = %i\n', obj.Count);
             fprintf('Mean RT = %.2f\n', mean(obj.ObservedRT));
             fprintf('Standard deviation = %.2f\n', std(obj.ObservedRT));
             fprintf('Range = %.2f\n', max(obj.ObservedRT)-min(obj.ObservedRT));
+            fprintf('........................................\n');
+            fprintf('Power Law parameters: \n');
             fprintf('Estimated asymptote (A) = %.2f\n', obj.EstimatedAsymptote);
             fprintf('Estimated range (B) = %.2f\n', obj.EstimatedRange);
             fprintf('Estimated exposure (E) = %.2f\n', obj.EstimatedExposure);
