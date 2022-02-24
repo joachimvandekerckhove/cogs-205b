@@ -1,6 +1,11 @@
 
 good_input = [ 313 306 300 293 287 288 285 281 279 275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263 ];
+bad_input_negative = [ -313 306 300 293 287 288 285 281 279 275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263 ];
+bad_input_shape = randn(10);
+
 testObservedRt(good_input)
+testNegativeObservedRt(bad_input_negative)
+testBadShapeObservedRt(bad_input_shape)
 testCount(good_input)
 testEstimatedAsymptote(good_input)
 testEstimatedRate(good_input)
@@ -16,6 +21,7 @@ testTracking3(good_input)
 
 
 
+
 function testObservedRt(good_input)
 obj = hojjatazimi.PowerLawFitter(good_input);
 actual = obj.ObservedRT;
@@ -25,6 +31,24 @@ else
     disp('error in handling good input for ObservedRT')
 end
 end
+
+function testNegativeObservedRt(input)
+try
+    obj = hojjatazimi.PowerLawFitter(input);
+    disp('negative input not detected!')
+catch
+    disp('passed!')
+end
+end
+function testBadShapeObservedRt(input)
+try
+    obj = hojjatazimi.PowerLawFitter(input);
+    disp('bad shape input not detected!')
+catch
+    disp('passed!')
+end
+end
+
 
 function testCount(good_input)
 obj = hojjatazimi.PowerLawFitter(good_input);
