@@ -12,6 +12,7 @@ testFit(good_input)
 testDisp(good_input)
 testTracking1(good_input)
 testTracking2(good_input)
+testTracking3(good_input)
 
 
 
@@ -140,6 +141,18 @@ try
     disp('not fit not detected')
 catch
     disp('passed!')
+end
+end
+
+function testTracking3(good_input)
+obj = hojjatazimi.PowerLawFitter(good_input);
+obj.Fit()
+obj.ObservedRT = good_input;
+try
+    obj.Fit()
+    disp('passed!')
+catch
+    disp('error in fitting new data')
 end
 end
 
