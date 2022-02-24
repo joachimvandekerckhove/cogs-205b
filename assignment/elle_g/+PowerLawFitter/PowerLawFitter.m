@@ -11,7 +11,7 @@ classdef PowerLawFitter < handle
     % Then fminsearch finds that set of 4 parameters for which the SSE is minimal.
     
     properties
-        ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}
+        ObservedRT double {mustBeFinite, mustBeNumeric(ObservedRT), mustBeVector(ObservedRT)}=[1 1]
     end
     
     properties (SetAccess=private)
@@ -32,21 +32,14 @@ classdef PowerLawFitter < handle
         end
         
         function value = get.Count(obj)
-            value = obj.Count;
+            value = length(obj.ObservedRT);
         end
     end
     
     % setters
     methods
-        function set.Count(obj,input)
-            obj.Count=length(input);
-        end
         function set.ObservedRT(obj, input)
             obj.ObservedRT = input;
-            % update dependent property
-            set.Count(obj, input);
-            % update private properties
-            obj.fit();
         end
         
     end
@@ -55,6 +48,9 @@ classdef PowerLawFitter < handle
     methods
         % constructor
         function obj = PowerLawFitter(ObservedRT)
+            if nargin < 1
+                ObservedRT=[ 313 306 300 293 287 288 285 281 279 275 274 273 271 272 275 268 269 265 269 264 266 264 265 264 263 ];
+            end
             obj.ObservedRT=ObservedRT;
         end
         
@@ -66,10 +62,10 @@ classdef PowerLawFitter < handle
             end
         end
         
-        function SSE = SumOfSquaredError(A, B, E, beta)
-            if nargin < 2
+        function SSE = SumOfSquaredError(obj, A, B, E, beta)
+            if nargin < 1
                 A = min(obj.ObservedRT);
-                B =max(obj.ObservedRT)-min(obj.ObservedRT);
+                B = max(obj.ObservedRT)-min(obj.ObservedRT);
                 E = 4;
                 beta = 1;
             end
@@ -83,28 +79,36 @@ classdef PowerLawFitter < handle
                 function disp(obj) %no input, no putput
                     % number of trials,
                     % and also parameter estimates if they are available.
+                    Fit(obj);
                     fprintf('Generating a report about the current data ...\n')
                     pause(1)
-                    formSpecN='The current data set has %i sets of trials';
+                    formSpecN='The current data set has %i sets of trials\n';
                     formSpecA='The estimated asymptote is %f4\n';
                     formSpecB='The estimated range is %f4\n';
                     formSpecE='The estimated exposure is %f4\n';
                     formSpecBeta='The estimated rate is %f4\n';
                     fprintf(formSpecN, obj.Count)
+                    pause(.25)
                     fprintf(formSpecA, obj.EstimatedAsymptote)
+                    pause(.25)
                     fprintf(formSpecB, obj.EstimatedRange)
+                    pause(.25)
                     fprintf(formSpecE, obj.EstimatedExposure)
+                    pause(.25)
                     fprintf(formSpecBeta, obj.EstimatedRate)
+                    pause(.25)
+                    fprintf('Report complete\n')
                 end
     end
     
-    methods (Static)
-        function fit(obj) %no input, no output
-            obj.Count=length(obj.ObservedRT);
-            N=obj.Count;
-            fun=@(A, B, E, beta) ((A + B.*(N+E).^-beta)-obj.ObservedRT).^2;
+    methods
+        function Fit(obj)
+            N=length(obj.ObservedRT);
+            fun=@(x) sum(((x(1) + x(2).*(N+x(3)).^-x(4))-obj.ObservedRT).^2);
             presetParameters=[min(obj.ObservedRT), (max(obj.ObservedRT)-min(obj.ObservedRT)), 4, 1];
-            x=fminsearch(fun, presetParameters);
+            opt=optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
+            x=zeros(1,4);
+            x=fminsearch(fun, presetParameters, opt);
             obj.EstimatedAsymptote=x(1);
             obj.EstimatedRange=x(2);
             obj.EstimatedExposure=x(3);

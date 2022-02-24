@@ -6,7 +6,7 @@ end
 % need one test for each property
 function testObservedRT(testCase)
     testInput=[1 2 3 4 5 6 7 8 9 10];
-    elle_g.PowerLawFitter.set.ObservedRT(testInput;)
+    elle_g.PowerLawFitter.set.ObservedRT(testInput);
     actVal=get.ObservedRT(elle_g);
     verifyEqual(testCase, actVal, expVal)
 end
