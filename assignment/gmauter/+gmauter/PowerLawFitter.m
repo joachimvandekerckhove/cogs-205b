@@ -21,12 +21,23 @@ classdef PowerLawFitter < handle
         function obj = PowerLawFitter(RTData)
             if nargin > 0
                 obj.ObservedRT = RTData;
+            else
+                obj.ObservedRT = [313 306 300 293 287 288 285 281 279 275 274 273 ...
+                    271 272 275 268 269 265 269 264 266 264 265 264 263];
             end
         end
+        
         
         % get # trials in RTData
         function count = get.Count(obj)
             count = length(obj.ObservedRT);
+        end
+        
+        % set 
+        function obj = set.ObservedRT(obj, value)
+            % Set the value
+            obj.ObservedRT = value;
+   
         end
         
         
@@ -63,8 +74,8 @@ classdef PowerLawFitter < handle
             range = max(obj.ObservedRT) - min(obj.ObservedRT); % get range of RTData
             options = optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
             initVals = fminsearch(SSEFunction, [mean(obj.ObservedRT), range , 1, 1], options);
-            
-           
+   
+                       
             % check if parameter estimates are set
             if obj.EstimatedAsymptote == initVals(1) && obj.EstimatedRange == initVals(2) ...
                     && obj.EstimatedExposure == initVals(3) && obj.EstimatedRate == initVals(4)
@@ -90,6 +101,65 @@ classdef PowerLawFitter < handle
            fprintf('~ Estimated Rate (beta): %d\n', obj.EstimatedRate);
            
         end
+        
+        
+        
+        % Tests
+        
+        function TestObservedRT(testCase) % test is bad data set is positive
+            
+            badData = [-313, -306, -300, -293, -287, -288, -285, -281, -279, -275, -274, ...
+                -273, -271, -272, -275, -268, -269, -265, -269, -264, -266, -264, -265, -264, -263];
+            
+            badCall = @() PowerLawFitter(badData);
+           
+            verifyGreaterThan(testCase, badCall, 0)
+        end
+        
+        function TestCount(testCase) % test if given data is same length as our data
+            
+            badLength = length([1, 2, 3, 4, 5]);
+            goodLength = PowerLawFitter().Count;
+            verifyEqual(testCase, badLength, goodLength) 
+            
+        end
+        
+        
+        function TestEstimate(testCase) % test is given data set is correct length
+            
+            RTdata = [313, 306, 300, 293, 287, 288, 285, 281, 279, 275, 274, ...
+                273, 271, 272, 275, 268, 269, 265, 269, 264, 266, 264, 265, 264, 263];
+            
+            expectedLength = 25;
+            actualLength = PowerLawFitter(RTdata).Count;
+            
+            verifyEqual(testCase, expectedLength, actualLength)
+            
+        end
+        
+        function TestSSE(testCase) % test if SSE scalar is positive
+            
+            testData = [300, 320, 320, 310, 300, 290, 280, 290, 300]
+            scalar = @() PowerLawFitter().SumOfSquaredError
+            verifyGreaterThan(testCase,scalar, 0)
+            
+        end
+        
+        function TestFit(testCase) % test is Fit throws warning
+            
+            testFit = @() PowerLawFitter()
+            verifyWarningFree(testCase, testFit)
+            
+        end
+        
+        function TestDisp(testCase) % test if disp throws warning
+            
+            testDisp = @() PowerLawFitter()
+            verifyWarningFree(testCase, testDisp)
+            
+        end
+        
+
     end
 end
 
