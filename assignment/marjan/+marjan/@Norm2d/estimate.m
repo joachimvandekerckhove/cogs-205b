@@ -1,4 +1,3 @@
-
 function out=estimate(X)
     if size(X,1)~=2
         error('Norm2d:estimate:wrongSize', "The data should be 2*N matrix")
