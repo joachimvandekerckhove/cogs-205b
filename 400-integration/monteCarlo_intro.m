@@ -26,7 +26,7 @@ height =  1;
 e_area = (width * height);
 
 %% Generate a bunch of random points in the envelope
-N    = 1e3;
+N    = 1e6;
 
 rx = ( rand(N, 1) - 0.5 )  *  width;
 ry = ( rand(N, 1)       )  *  height;

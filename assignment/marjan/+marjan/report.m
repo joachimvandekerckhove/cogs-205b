@@ -8,7 +8,7 @@ function [] = report(data)
         data=data';
     end
     txt = sprintf('There are %d samples in the dataset.',n);
-    disp(txt);
+    disp(txt); %#ok<DSPS> 
 
 
 % for i=1:n
@@ -16,12 +16,12 @@ function [] = report(data)
 %     disp(txt)
 % end
 
-b=Norm2d.estimate(data);
+b=marjan.Norm2d.estimate(data);
 sprintf("The means of the dataset are %f and %f", b.Mean(1), b.Mean(2) )
 sprintf("The covariance matrix of the dataset is:\n %f\t %f\n %f\t %f", b.Covariance(1), b.Covariance(2), b.Covariance(3), b.Covariance(4))
 sprintf("The correlation of the dataset is %f", b.Correlation)
 
-fileID=fopen("report.markdown", 'w')
+fileID=fopen("report.markdown", 'w');
 fprintf(fileID,"This report is created at this date and time:%s\n", datestr(now));
 fprintf(fileID, "The means of the dataset are %f and %f\n", b.Mean(1), b.Mean(2));
 fprintf(fileID,"The covariance matrix of the dataset is:\n %f\t %f\n %f\t %f\n", b.Covariance(1), b.Covariance(2), b.Covariance(3), b.Covariance(4));

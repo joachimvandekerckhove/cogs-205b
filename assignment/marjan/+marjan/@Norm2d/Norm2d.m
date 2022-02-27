@@ -110,6 +110,4 @@ function mustBeSymmetric(a)
     end
 end
 
-    
-
-
+   
