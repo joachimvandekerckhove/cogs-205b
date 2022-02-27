@@ -1,3 +1,4 @@
+
 % getData. 
 % This function downloads the file in the first argument and saves it with
 % the name in the second argument

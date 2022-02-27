@@ -1,3 +1,4 @@
+
 % readData.
 % This function reads the datafile using the filename and puts it in a variable
 function [outputArg1] = readData(filename)
