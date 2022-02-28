@@ -1,5 +1,5 @@
 % Testing some of the functions included in Norm2d
-function test(pseudonym)
+function test_N2D(pseudonym)
 
     % We start printing a few lines of text to indicate that the test has
     % been initiated.

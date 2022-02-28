@@ -17,9 +17,9 @@ PowLaw <- function(a,b,n,e,beta){
   a+(b*(n+e)^(-beta))}
 
 N <- c(1:20)
-a <- 1
-b <- 1
+a <- 100
+b <- 100
 beta <- 1
-e <- 1
+e <- 40
 plot(N, PowLaw(a,b,N,e,beta), type="l")
 ```
