@@ -52,6 +52,6 @@ function testNorm2d(testCase)
     expectedValue = 0;
     actualValue   = this.cdf(testMean - 20 * testStandardDeviation);
     
-    verifyEqual(testCase, actualValue, expectedValue)
+    verifyEqual(testCase, actualValue, expectedValue, "AbsTol", 1e-100)
 
 end
