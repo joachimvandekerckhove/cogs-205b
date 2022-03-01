@@ -27,6 +27,8 @@ Given a function $f(\theta) \propto p(\theta|D)$, and a symmetric _candidate gen
              **otherwise set** $\theta^{(i)} \leftarrow \theta^{(i-1)}$
 6. **Set** $i \leftarrow i + 1$. **If** $i \leq R$, **return** to Step 3, **otherwise halt**
 
+We then compute the mean, variance, standard deviation, etc. of the sampled $\theta$ values. Remember to discard the first $B$ samples, where $B$ is the burn-in, before calculating summary statistics.
+
 ## Specific log-posterior functions
 
 The application is in the domain of reaction time (RT) analysis.  I have written a class, `final.getFinalData`, that simulates data for you.  The RT data come from a simulated experiment with a single participant, three conditions, and 512 reaction time data points per condition:
