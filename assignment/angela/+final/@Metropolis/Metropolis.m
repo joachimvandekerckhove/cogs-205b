@@ -32,6 +32,7 @@ classdef Metropolis < handle
         
     methods
         
+        %%% constructor function %%%
         function obj = Metropolis(TargetLogPdf, InitialValues)
             
             obj.TargetLogPdf   = TargetLogPdf;
