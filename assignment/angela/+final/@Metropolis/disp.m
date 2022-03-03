@@ -1,6 +1,7 @@
 function disp(obj)
 
-fprintf('Hello!')
+% print parameter estimates -- posterior mean and sd
+fprintf('\nHello!\n')
 
 
 end
