@@ -7,6 +7,8 @@ function AddToHistory(obj)
 % should have a new element that contains the corresponding target function
 % value.
 
-            error('Not yet implemented')
+obj.XHistory(:, R) = obj.CurrentPointX;
+
+obj.YHistory(end + 1) = obj.CurrentPointY;
 
 end
