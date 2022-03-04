@@ -87,6 +87,8 @@ classdef Metropolis < handle
 
         disp(obj)
         
+        plot(obj)
+        
     end
     
     methods (Access = private)
