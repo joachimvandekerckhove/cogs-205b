@@ -23,8 +23,8 @@ saturated.DIC - constrained.DIC
 %% Conclude
 % The model that fits better is the saturated model.
 % 
-% The Scale parameter [goes up|goes down|remains constant] from the "easy"
-% to the "hard" condition. 
+% The Scale parameter goes down from the "easy" to the "medium" condition,
+% then goes up from the "medium" to the "hard" condition. 
 % 
-% The Shape parameter [goes up|goes down|remains constant] from the "easy"
-% to the "hard" condition. 
+% The Shape parameter goes up from the "easy" to the "medium" condition,
+% then goes down from the "hard" condition. 
