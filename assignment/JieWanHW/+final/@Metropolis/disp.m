@@ -7,7 +7,7 @@ function disp(obj)
     estimate = mean(CleanSampleX,2);
     post_std = std(CleanSampleX,0,2);
     for i=1:length(estimate)/2
-        fprintf('Estimated A&B +/- std A&B:\n (%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate(i:(i+1)), post_std(i:(i+1)))
+        fprintf('Estimated A&B +/- std A&B:\n (%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate((i*2-1):i*2), post_std((i*2-1):i*2))
     end
     %fprintf('(%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate, post_std)
     % plotting easy medium hard
