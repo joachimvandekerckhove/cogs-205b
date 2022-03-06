@@ -1,4 +1,4 @@
-%% Final assignment <your name>
+%% Final assignment <kenwat1>
 clear
 clc
 
@@ -6,19 +6,21 @@ clc
 data = final.getFinalData();
 
 %% Saturated model first
-saturatedTarget = @(parameter) SaturatedLogPosterior(parameter, data); % <-- edit as needed
+saturatedTarget = @(parameter) final.SaturatedLogPosterior(parameter,data); % <-- edit as needed
 saturated = final.Metropolis(saturatedTarget, [2 2 2 2 2 2]');
 saturated.DrawSamples(10000)
 saturated.disp
 
 %% Constrained model next
-constrainedTarget = @(parameter) ConstrainedLogPosterior(parameter, data); % <-- edit as needed
+constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data); % <-- edit as needed
 constrained = final.Metropolis(constrainedTarget, [2 0 2 0]');
 constrained.DrawSamples(10000)
 constrained.disp
 
 %% Compare the two models
 saturated.DIC - constrained.DIC
+% if < 0, then saturated is better
+% if > 0, then constrained is better
 
 %% Conclude
 % The model that fits better is the [saturated|constrained] model.
