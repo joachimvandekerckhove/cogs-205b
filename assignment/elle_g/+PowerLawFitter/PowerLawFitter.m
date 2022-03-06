@@ -104,7 +104,8 @@ classdef PowerLawFitter < handle
     methods
         function Fit(obj)
             N=length(obj.ObservedRT);
-            fun=@(x) sum(((x(1) + (x(2).*(N+x(3))).^-x(4))-obj.ObservedRT).^2);
+%           fun=@(x) sum(((x(1) + (x(2).*(N+x(3))).^-x(4))-obj.ObservedRT).^2);
+            fun=@(x) sum((Expectation(obj, x(1), x(2), x(3), x(4))-obj.ObservedRT).^2);
             presetParameters=[min(obj.ObservedRT), (max(obj.ObservedRT)-min(obj.ObservedRT)), 4, 1];
             opt=optimset('MaxFunEvals', 1e6, 'MaxIter', 1e6);
             x=zeros(1,4);
