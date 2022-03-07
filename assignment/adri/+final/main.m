@@ -1,4 +1,4 @@
-%% Final assignment <your name>
+%% Final assignment Adriana F. Chávez De la Peña
 clear
 clc
 
