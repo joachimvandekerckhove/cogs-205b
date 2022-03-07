@@ -1,7 +1,6 @@
+% Computes the logarithm of the acceptance ratio for a Metropolis step
 function ComputeLogAcceptanceRatio(obj)
 
-% Computes the logarithm of the acceptance ratio for a Metropolis step
-
-            error('Not yet implemented')
+     log.a = 
             
 end
