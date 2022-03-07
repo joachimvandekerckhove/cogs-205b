@@ -11,6 +11,4 @@ obj.YHistory=[obj.YHistory, obj.CurrentPointY];
 % should have a new element that contains the corresponding target function
 % value.
 
-            error('Not yet implemented')
-
 end

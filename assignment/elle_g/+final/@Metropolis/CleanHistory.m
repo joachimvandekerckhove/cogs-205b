@@ -1,10 +1,13 @@
 function [CleanSampleX, CleanSampleY, CleanIndex] = CleanHistory(obj)
 
 % Returns CleanSampleX, the matrix of sampled points without the burnin;
-% CleanSampleY, the vector of corresponding function values; and
-% CleanIndex, the vector of indices that belong to the retained points. 
+CleanSampleX = obj.XHistory(:, obj.BurnIn+1:end);
 
-            error('Not yet implemented')
+% CleanSampleY, the vector of corresponding function values; 
+CleanSampleY = obj.YHistory(:, obj.BurnIn+1:end);
+
+% CleanIndex, the vector of indices that belong to the retained points. 
+CleanIndex = obj.BurnIn+1:length(obj.YHistory);
             
 end
 
