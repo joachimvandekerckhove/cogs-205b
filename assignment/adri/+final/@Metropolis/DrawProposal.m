@@ -4,8 +4,8 @@
 % independent Gaussian offset to each dimension.
 function DrawProposal(obj)
 
-% Draw a row vector (size=XDimensions) of Gaussian offsets
-    offsets = normrnd(0,obj.TransitionStd,[1, obj.XDimensions]);
+% Draw a column vector (size=XDimensions) of Gaussian offsets
+    offsets = normrnd(0,obj.TransitionStd,[obj.XDimensions,1]);
 
 % Define candidate vector by adding these offsets to the current values
     obj.ProposedPointX = obj.CurrentPointX + offsets;
