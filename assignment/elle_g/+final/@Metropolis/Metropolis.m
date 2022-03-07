@@ -27,7 +27,7 @@ classdef Metropolis < handle
         
         XHistory = []
         YHistory = []
-        p
+        
     end
         
     methods
