@@ -8,11 +8,8 @@ function [CleanSampleX, CleanSampleY, CleanIndex] = CleanHistory(obj)
             End = size(obj.XHistory,2);
             CleanSampleX = obj.XHistory(:,Start:End);
             CleanSampleY = obj.YHistory(:,Start:End);
-            
-            %Create a vector with numbers 1 to the length of the clean
-            %vector of values sampled            
-            CleanLength = size(CleanSampleX,2);
-            CleanIndex = 1:CleanLength;            
+            %Create a vector with the index of the samples retained
+            CleanIndex = Start:End;            
 
 end
 
