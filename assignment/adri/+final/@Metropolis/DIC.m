@@ -1,8 +1,16 @@
 % Computes the approximated DIC of the model
-function DIC(obj)
-
-
-
-            error('Not yet implemented')
+function dic = DIC(obj)
+    
+    % Get the clean vector of Y values sampled
+    [~,CleanY,~] = obj.CleanHistory();
+    % As prompted, D = -2(log(f(x))) = -2(TargetLogPdf(CleanX)) = -2CleanY
+    D = -2*CleanY;
+    
+    % Compute the mean and variance of the vector D
+    Mean_D = mean(D);
+    Var_D = var(D);
+    
+    % Approximate the DIC index as instructed in the prompt
+    dic = Mean_D + (Var_D/2);
             
-end
+end 
