@@ -3,13 +3,14 @@ function tests = test
 tests = functiontests(localfunctions);
 end
 
+
 function testConstructorErrorFree(testCase)
 
     obj = final.Metropolis(@abs, 1);
     fatalAssertInstanceOf(testCase, obj, ?handle)
 
 end
-
+%% 
 function setupOnce(testCase)
     testCase.TestData.fcn = @(x)sum(x.^2);
     testCase.TestData.obj = final.Metropolis(testCase.TestData.fcn, [1;1]);    
