@@ -25,6 +25,4 @@ function disp(obj)
         
     end
     
-%     error('Not yet implemented')
-
 end
