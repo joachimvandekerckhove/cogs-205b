@@ -13,8 +13,8 @@ function disp(obj)
         Mean_X = mean(X,2);
         Std_X = std(X,[],2);
         for i = 1:size(X,1)
-            fprintf("Mean of Parameter %1g: %1g",i, Mean_X(i));
-            fprintf("StDev of Parameter %1g: %1g",i, Std_X(i));
+            fprintf("Mean of Parameter%1g: %6.3f\n",i, Mean_X(i));
+            fprintf("SD of Parameter%1g:   %6.3f\n",i, Std_X(i));
         end
     end  
 end
