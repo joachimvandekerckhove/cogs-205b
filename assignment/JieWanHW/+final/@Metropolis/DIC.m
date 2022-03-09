@@ -4,6 +4,6 @@ function dic = DIC(obj)
     [CleanSampleX, CleanSampleY, CleanIndex] = obj.CleanHistory();
     M = mean(CleanSampleY);
     V = var(CleanSampleY);
-    dic = M + V/2;
+    dic = (-2)*M + 4*V/2;
             
 end
