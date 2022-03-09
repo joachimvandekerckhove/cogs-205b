@@ -22,15 +22,17 @@ function satLogPosterior = SaturatedLogPosterior(parameter,data)
     logLik_m = -wbllike([A_m, B_m],dataMedium);
     logLik_h = -wbllike([A_h, B_h],dataHard);
     logLikelihood = logLik_e + logLik_m + logLik_h;
-    % Matlab Exppdf() function computes the pdf of the exp. distribution
-    priorAe = exppdf(A_e,1);
-    priorAm = exppdf(A_m,1);
-    priorAh = exppdf(A_h,1);
-    priorBe = exppdf(B_e,1);
-    priorBm = exppdf(B_m,1);
-    priorBh = exppdf(B_h,1);
-    logPrior = log(priorAe) + log(priorAm) + log(priorAh) + ...
-               log(priorBe) + log(priorBm) + log(priorBh);
+    % All parameters have an Exponential prior (lambda*e^(-lambda*x))
+    % with lambda = 1 (1*e^(-1*x) = e^(-x), so that 
+    % log(Exp[parameter|lambda=1]) = log(e^(-parameter)) = -parameter
+    logPriorAe = -A_e;
+    logPriorAm = -A_m;
+    logPriorAh = -A_h;
+    logPriorBe = -B_e;
+    logPriorBm = -B_m;
+    logPriorBh = -B_h;
+    logPrior = logPriorAe + logPriorAm + logPriorAh + ...
+               logPriorBe + logPriorBm + logPriorBh;
     % Calculate logPosterior
     logPosterior = logLikelihood + logPrior;
     
