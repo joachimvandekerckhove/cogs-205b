@@ -1,6 +1,6 @@
 function ComputeLogAcceptanceRatio(obj)
 
 % Computes the logarithm of the acceptance ratio for a Metropolis step
-obj.LogAcceptanceRatio = obj.CurrentPointX-obj.ProposedPointX;
+obj.LogAcceptanceRatio = obj.ProposedPointY-obj.CurrentPointY;
             
 end
