@@ -1,4 +1,4 @@
-%% Final assignment <your name>
+%% Final assignment <Elle Giovanni>
 clear
 clc
 
