@@ -6,8 +6,9 @@ function dic = DIC(obj)
 
 [~, CleanSampleY, ~] = CleanHistory(obj);
 
-mean_d = mean(CleanSampleY);
-var_d = var(CleanSampleY);
+d = -2*CleanSampleY;
+mean_d = mean(d);
+var_d = var(d);
 
 dic = mean_d + var_d/2;
 

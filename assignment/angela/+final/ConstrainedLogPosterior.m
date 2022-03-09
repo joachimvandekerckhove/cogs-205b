@@ -19,7 +19,7 @@ ll_h = ll([scale_h,shape_h],data.hard);
 
 ll = ll_e + ll_m + ll_h; 
 
-lp = (-sum(scale_i)) + (-abs(scale_s)) + (-sum(shape_i)) + (-abs(shape_s));
+lp = -sum(scale_i) + -abs(scale_s) + -sum(shape_i) + -abs(shape_s);
 
 logposterior = ll + lp; 
 

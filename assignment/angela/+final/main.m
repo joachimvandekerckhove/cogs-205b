@@ -21,10 +21,17 @@ constrained.disp
 saturated.DIC - constrained.DIC
 
 %% Conclude
-% The model that fits better is the saturated model.
+% The model that fits better is the saturated model. The DIC of the
+% saturated model is smaller than the DIC of the constrained model. I'm
+% confused though because when I make plots (saturated.plot and
+% constrained.plot), it appears that the constrained model fits better.
+% When I run fitdist(data,'Weibull') for data = data.easy, data.medium, or
+% data.hard, the parameters returned more closely match the ones in the
+% constrained model. Sorry I messed up somewhere and I don't know where. 
 % 
 % The Scale parameter goes down from the "easy" to the "medium" condition,
-% then goes up from the "medium" to the "hard" condition. 
+% then goes up from the "medium" to the "hard" condition, for the saturated
+% model.
 % 
 % The Shape parameter goes up from the "easy" to the "medium" condition,
-% then goes down from the "hard" condition. 
+% then goes down from the "hard" condition, for the saturated model. 
