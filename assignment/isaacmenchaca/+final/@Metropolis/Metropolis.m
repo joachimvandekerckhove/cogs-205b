@@ -64,7 +64,7 @@ classdef Metropolis < handle
                 % point the current point. 
                 % Draw a randomly selected u from U(0,1). If log(α) > log(u), set θ(i) ← θc, otherwise set θ(i) ← θ(i−1)
 
-                if obj.AcceptProposal()
+                if obj.AcceptProposal
                     obj.MakeProposalCurrent() % make proposed the current if accepted.
                 end % else keep current the same as previous
                 
@@ -84,7 +84,7 @@ classdef Metropolis < handle
         dic = DIC(obj)
 
         disp(obj)
-        
+        plotMetrop(obj, txt);
     end
     
     methods (Access = private)
@@ -96,6 +96,7 @@ classdef Metropolis < handle
         EvaluateCurrentPoint(obj) % completed
         EvaluateProposedPoint(obj) % completed
         MakeProposalCurrent(obj) % completed
+        
 
     end
     

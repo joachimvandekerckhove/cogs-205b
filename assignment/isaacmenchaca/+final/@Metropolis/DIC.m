@@ -8,6 +8,5 @@ function DIC = DIC(obj)
 % with lower values meaning better model performance.
 
     [~, CleanSampleY, ~] = obj.CleanHistory();
-    DIC = mean(CleanSampleY) + (var(CleanSampleY) / 2);
-            
+    DIC = mean(-2 * CleanSampleY) + (var(-2 * CleanSampleY) / 2);
 end

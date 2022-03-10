@@ -10,7 +10,7 @@ function testConstructorErrorFree(testCase)
     fatalAssertInstanceOf(testCase, obj, ?handle)
 
 end
-%% 
+
 function setupOnce(testCase)
     testCase.TestData.fcn = @(x)sum(x.^2);
     testCase.TestData.obj = final.Metropolis(testCase.TestData.fcn, [1;1]);    
@@ -178,7 +178,7 @@ function testDIC(testCase)
 
     actual = testCase.TestData.obj.DIC;
     [~, Y] = testCase.TestData.obj.CleanHistory();
-    expected = mean(Y) + var(Y)/2;
+    expected = mean(-2 * Y) + var(-2 * Y)/2;
     verifyEqual(testCase, actual, expected, "AbsTol", eps(1))
 
 end
