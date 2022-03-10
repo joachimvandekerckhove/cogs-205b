@@ -6,13 +6,13 @@ clc
 data = final.getFinalData();
 
 %% Saturated model first
-saturatedTarget = @(parameter) final.SaturatedLogPosterior(parameter, data); % <-- edit as needed
+saturatedTarget = @(parameter) final.SaturatedLogPosterior(parameter, data); 
 saturated = final.Metropolis(saturatedTarget, [2 2 2 2 2 2]');
 saturated.DrawSamples(10000)
 saturated.disp
 
 %% Constrained model next
-constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data); % <-- edit as needed
+constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data);
 constrained = final.Metropolis(constrainedTarget, [2 0 2 0]');
 constrained.DrawSamples(10000)
 constrained.disp
@@ -25,8 +25,8 @@ saturated.DIC - constrained.DIC
 %
 % The Scale parameter [remains constant] from the "easy" to the "hard" condition. 
 % It appears to decrease between "easy" and "medium" then increase between 
-% "medium" and "hard".
+% "medium" and "hard", but relative to the other model remains constant overall.
 %
 % The Shape parameter [remains constant] from the "easy" to the "hard" condition. 
 % It appears to decrease between "easy" and "medium" then increase slightly
-% between "medium" and "hard".
+% between "medium" and "hard", but relative to the other model remains constant overall.
