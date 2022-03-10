@@ -6,7 +6,7 @@ function disp(obj)
     data = obj.CleanHistory();
     
     if obj.XHistory == obj.InitialValues
-        m = '------------- Parameters have not been estimated ------------- \n';
+        m = '----------- Parameters have not been estimated ----------- \n';
         fprintf(m);
         fprintf('\n');
         return
