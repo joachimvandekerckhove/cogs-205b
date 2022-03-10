@@ -1,7 +1,8 @@
-function DIC(obj)
+function dic = DIC(obj)
 
 % Computes the approximated DIC of the model
 
-            error('Not yet implemented')
-            
+    [~, D] = obj.CleanHistory();
+    dic = mean(-2 * D) + (var(-2 * D) / 2);
+    
 end
