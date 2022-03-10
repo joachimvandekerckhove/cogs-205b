@@ -1,4 +1,4 @@
-function ConLogPost = ConstrainedLogPosterier(parameter, data)
+function ConLogPost = ConstrainedLogPosterior(parameter, data)
     B0b=parameter(1);
     B1b=paremeter(2);
     B0a=parameter(3);
@@ -12,6 +12,6 @@ function ConLogPost = ConstrainedLogPosterier(parameter, data)
     Bh=B0b+2.*B1b;
     
     easy=data.easy;
-    med=data.med;
+    med=data.medium;
     hard=data.hard;
 end

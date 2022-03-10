@@ -1,4 +1,4 @@
-function SatLogPost = SaturatedLogPosterier(parameter, data)
+function SatLogPost = SaturatedLogPosterior(parameter, data)
     Ae=parameter(1);
     Am=parameter(2);
     Ah=parameter(3);
@@ -7,6 +7,6 @@ function SatLogPost = SaturatedLogPosterier(parameter, data)
     Bh=parameter(6);
     
     easy=data.easy;
-    med=data.med;
+    med=data.medium;
     hard=data.hard;
 end
