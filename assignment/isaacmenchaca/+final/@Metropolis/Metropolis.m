@@ -84,7 +84,7 @@ classdef Metropolis < handle
         dic = DIC(obj)
 
         disp(obj)
-        plotMetrop(obj, txt);
+        plotMetrop(obj, txt, labels, location);
     end
     
     methods (Access = private)
