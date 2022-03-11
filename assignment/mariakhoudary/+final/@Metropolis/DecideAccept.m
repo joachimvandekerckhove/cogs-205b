@@ -6,7 +6,7 @@ function DecideAccept(obj)
 rng(205);
 u = rand(1);
 
-if obj.LogAcceptanceRatio > log(u)
+if obj.LogAcceptanceRatio > u
     obj.AcceptProposal = 1;
 else
     obj.AcceptProposal = 0;

@@ -4,9 +4,9 @@ function [CleanSampleX, CleanSampleY, CleanIndex] = CleanHistory(obj)
 % CleanSampleY, the vector of corresponding function values; and
 % CleanIndex, the vector of indices that belong to the retained points. 
 
-CleanSampleX = obj.XHistory(obj.BurnIn+1:end);
-CleanSampleY = obj.YHistory(obj.BurnIn+1:end);
-CleanIndex = intersect(obj.XHistory, CleanSampleX, 'stable');
+CleanSampleX = obj.XHistory(:, obj.BurnIn+1:end);
+CleanSampleY = obj.YHistory(:, obj.BurnIn+1:end);
+CleanIndex = obj.BurnIn+1:length(obj.XHistory);
 
 end
 

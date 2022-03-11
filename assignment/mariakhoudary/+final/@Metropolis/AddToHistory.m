@@ -7,7 +7,7 @@ function AddToHistory(obj)
 % should have a new element that contains the corresponding target function
 % value.
 
-obj.XHistory(:, R) = obj.CurrentPointX;
+obj.XHistory(:, end+1) = obj.CurrentPointX;
 
 obj.YHistory(end + 1) = obj.CurrentPointY;
 
