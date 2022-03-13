@@ -19,12 +19,14 @@ constrained.disp
 
 %% Compare the two models
 DIC_diff = saturated.DIC - constrained.DIC;
+disp(DIC_diff)
 
 %% Conclude
-% The model that fits better is the Constrained model.
+% The model that fits better is the Constrained model, by a DIC difference
+% = 2.1369e+03.
 %
-% The Scale parameter [goes up|goes down|remains constant] from the "easy"
-% to the "hard" condition. 
+% The Scale parameter goes up from the "easy" (0.817)
+% to the "hard" (0.817 + 2*0.822 = 2.461) condition. 
 %
-% The Shape parameter [goes up|goes down|remains constant] from the "easy"
-% to the "hard" condition. 
+% The Shape parameter godes down from the "easy" (3.482)
+% to the "hard" (3.482 + 2*-0.588 = 2.306)  condition. 

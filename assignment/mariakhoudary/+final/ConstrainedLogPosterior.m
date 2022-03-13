@@ -26,7 +26,7 @@ logLik = logLik_e + logLik_m + logLik_h; % multiplicative values become additive
 % we want the log prior; log(1 e^(-1A)) simplifies to -A
 
 % Laplace prior simplifies to -abs(A)
-logPrior = sum(-a_intercept) - abs(a_slope) + sum(-b_intercept) - abs(b_slope);
+logPrior = -a_intercept - abs(a_slope) - b_intercept - abs(b_slope);
 
 % Again, multiplication becomes addition when on the log scale
 logPosterior = logLik + logPrior;
