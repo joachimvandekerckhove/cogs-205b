@@ -1,12 +1,12 @@
 function dic = DIC(obj)
 
 % Computes the approximated DIC of the model
-[~, CleanSampleY, ~] = CleanHistory(obj);
+[~,CleanSampleY,~] = obj.CleanHistory();
 
-D = CleanSampleY;
+D = -2.*CleanSampleY;
 meanD = mean(D);
 varD = var(D);
 
-dic = meanD + varD/2;
+dic = meanD + (varD/2);
 
 end

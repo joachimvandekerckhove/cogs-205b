@@ -8,14 +8,15 @@ else % after DrawSamples is run
     [CleanSampleX,~,~] = CleanHistory(obj);
     CleanSampleX_T = CleanSampleX';
     
-    estimate = mean(CleanSampleX_T,1);
-    post_std = std(CleanSampleX_T,1);
+    estimate = mean(CleanSampleX_T);
+    post_std = std(CleanSampleX_T);
     
     switch size(CleanSampleX_T,2) % number of parameters
         case 4 % Constrained
-            fprintf(' > estimate:  (%.1f, %.1f, %.1f, %.1f) +/- (%.2f, %.2f, %.2f, %.2f)\n', estimate, post_std)
+            fprintf(' Constrained\n> estimate:  [betaA0 betaA1 betaB0 betaB1]\n (%.1f, %.1f, %.1f, %.1f) +/- (%.2f, %.2f, %.2f, %.2f)\n\n', ...
+                estimate, post_std)
         case 6 % Saturated
-            fprintf(' > estimate:  (%.1f, %.1f, %.1f, %.1f, %.1f, %.1f) +/- (%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n', ...
+            fprintf(' Saturated\n > estimate:  [Ae Am Ah Be Bm Bh]\n(%.1f, %.1f, %.1f, %.1f, %.1f, %.1f) +/- (%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n\n', ...
                 estimate, post_std)
         otherwise
             error('wrong number of parameters.')

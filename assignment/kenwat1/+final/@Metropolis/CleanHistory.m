@@ -5,7 +5,7 @@ function [CleanSampleX, CleanSampleY, CleanIndex] = CleanHistory(obj)
 % CleanIndex, the vector of indices that belong to the retained points. 
 
 CleanSampleX = obj.XHistory(:,(obj.BurnIn+1):end); % ex.BurnIn = 100, only (101:end)
-CleanSampleY = obj.YHistory(:,(obj.BurnIn+1):end);
+CleanSampleY = obj.YHistory((obj.BurnIn+1):end);
 CleanIndex = (obj.BurnIn+1):length(obj.XHistory);
 
             

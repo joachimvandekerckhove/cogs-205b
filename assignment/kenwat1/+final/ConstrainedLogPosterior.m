@@ -1,6 +1,6 @@
 function ConsLogPosterior = ConstrainedLogPosterior(params, data)
 
-% params = [betaA0 betaB0 betaA1 betaB1]
+% params = [betaA0 betaA1 betaB0 betaB1]
 
 Ae = params(1);
 Be = params(3);
