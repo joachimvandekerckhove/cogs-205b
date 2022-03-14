@@ -13,10 +13,10 @@ function LogPosterior = ConstrainedLogPosterior(b, data)
 	% Log Priors
 	LogPrior = 0;
 	for i = [1,3]
-		LogPrior = LogPrior + log(exppdf(b(i),1));
+		LogPrior = LogPrior + log(exppdf(p(i),1));
 	end
 	for i = [2,4]
-		LogPrior = LogPrior + -abs(b(i)); %laplace
+		LogPrior = LogPrior - abs(p(i)); %laplace
 	end
 
 	% Log Likelihoods

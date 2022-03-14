@@ -7,14 +7,14 @@ data = final.getFinalData();
 
 %% Saturated model first
 fprintf('Now running Saturated model:\n')
-saturatedTarget = @(parameter) final.SaturatedLogPosterior(parameter, data); % <-- edit as needed
+saturatedTarget = @(parameter) final.SaturatedLogPosterior(parameter, data); 
 saturated = final.Metropolis(saturatedTarget, [2 2 2 2 2 2]');
 saturated.DrawSamples(10000)
 saturated.disp
 
 %% Constrained model next
 fprintf('Now running Constrained model:\n')
-constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data); % <-- edit as needed
+constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data); 
 constrained = final.Metropolis(constrainedTarget, [2 0 2 0]');
 constrained.DrawSamples(10000)
 constrained.disp
@@ -27,9 +27,7 @@ saturated.DIC - constrained.DIC
 %{
 The model that fits better is the [saturated] model.
 
-The Scale parameter [goes down] from the "easy" to the "medium" condtion, then
-[goes up] from the "medium" to the "hard" condition, which will be lower 
-than the "easy" condition.
+The Scale parameter [goes up] from the "easy" the "hard" condition.
 
 The Shape parameter [goes up] from the "easy" to the "medium" condtion, then
 [goes down] from the "medium" to the "hard" condition, which will be even
