@@ -27,8 +27,6 @@ disp(['The difference in DIC is: ', num2str(DIC_diff)]);
 % The model that fits better is the "constrained" model because DIC is
 % positive.
 %
-% The Scale parameter "goes up" from the "easy" to the "medium"
-% condition, but "goes down" from the "medium" to the "hard" condition.
+% The Scale parameter "goes up" from the "easy" to the "hard" condition.
 %
-% The Shape parameter "goes up" from the "easy" to the "medium"
-% condition, but "goes down" from the "medium" to the "hard" condition. 
+% The Shape parameter "goes up" from the "easy" to the "hard" condition.
