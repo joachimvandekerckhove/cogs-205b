@@ -21,12 +21,9 @@ constrained.disp
 saturated.DIC - constrained.DIC
 
 %% Conclude
-% The model that fits better is the [saturated] model.
+% The model that fits better is the [constrained] model.
 %
-% The Scale parameter [remains constant] from the "easy" to the "hard" condition. 
-% It appears to decrease between "easy" and "medium" then increase between 
-% "medium" and "hard", but relative to the other model remains constant overall.
+% The Scale parameter [goes up] from the "easy" to the "hard" condition. 
 %
-% The Shape parameter [remains constant] from the "easy" to the "hard" condition. 
-% It appears to decrease between "easy" and "medium" then increase slightly
-% between "medium" and "hard", but relative to the other model remains constant overall.
+% The Shape parameter [goes down] from the "easy" to the "hard" condition. 
+%
