@@ -7,7 +7,7 @@ hardParameters = [parameter(1)+(2*parameter(2)) parameter(3)+(2*parameter(4))];
 logLikelihood = -wbllike(easyParameters, data.easy) + ...
                 -wbllike(mediumParameters, data.medium) + ...
                 -wbllike(hardParameters, data.hard);
-logPrior = parameter(1) - abs(parameter(2)) + parameter(3) - abs(parameter(4));
+logPrior = - parameter(1) - abs(parameter(2)) - parameter(3) - abs(parameter(4));
 constrainedLogPosterior = logLikelihood + logPrior;
 
 end
