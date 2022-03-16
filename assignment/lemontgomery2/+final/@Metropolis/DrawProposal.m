@@ -4,8 +4,10 @@ function DrawProposal(obj)
 % point.  The standard deviation of the offset is given by the
 % TransitionStd property.  If the current point is a vector, adds an
 % independent Gaussian offset to each dimension.
-
-    obj.ProposedPointX = normrnd(obj.CurrentPointX, obj.TransitionStd, ...
-                                     size(obj.CurrentPointX));
+    
+    if isvector(obj.CurrentPointX) 
+        offset = normrnd(0, obj.TransitionStd, [1, obj.XDimensions])';
+        obj.ProposedPointX = obj.CurrentPointX + offset;
+    end
     
 end
