@@ -26,4 +26,7 @@ saturated.DIC - constrained.DIC
 % The Scale parameter [goes up] from the "easy" to the "hard" condition. 
 %
 % The Shape parameter [goes down] from the "easy" to the "hard" condition. 
+% Between the "easy" and "medium" conditions, the parameter decreases.
+% Between the "medium" and "hard" conditions, the parameter increases
+% slightly. But overall, the parameter decreases across the conditions.
 %
