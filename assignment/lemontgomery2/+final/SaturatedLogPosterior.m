@@ -6,5 +6,5 @@ logLikelihood = -wbllike([parameter(1) parameter(4)], data.easy) + ...
                 -wbllike([parameter(3) parameter(6)], data.hard);
 logPrior = sum(-parameter);
 saturatedLogPosterior = logLikelihood + logPrior;
-
+ 
 end
