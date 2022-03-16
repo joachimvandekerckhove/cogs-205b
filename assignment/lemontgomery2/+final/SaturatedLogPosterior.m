@@ -1,10 +1,10 @@
 function saturatedLogPosterior = SaturatedLogPosterior(parameter, data)
 
 % Computes the log posterior for the saturated model
-logLikelihood = -wbllike(parameter(1:2), data.easy) + ...
-                -wbllike(parameter(3:4), data.medium) + ...
-                -wbllike(parameter(5:6), data.hard);
-logPrior = sum(parameter);
+logLikelihood = -wbllike([parameter(1) parameter(4)], data.easy) + ...
+                -wbllike([parameter(2) parameter(5)], data.medium) + ...
+                -wbllike([parameter(3) parameter(6)], data.hard);
+logPrior = sum(-parameter);
 saturatedLogPosterior = logLikelihood + logPrior;
 
 end
