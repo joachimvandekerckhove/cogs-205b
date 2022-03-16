@@ -1,5 +1,5 @@
 function constrainedLogPosterior = ConstrainedLogPosterior(parameter, data)
-
+  
 % Computes the log posterior for the constrained model
 easyParameters = [parameter(1) parameter(3)];
 mediumParameters = [parameter(1)+parameter(2) parameter(3)+parameter(4)];
