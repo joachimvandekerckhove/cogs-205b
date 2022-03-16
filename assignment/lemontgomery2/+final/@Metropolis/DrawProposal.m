@@ -6,8 +6,8 @@ function DrawProposal(obj)
 % independent Gaussian offset to each dimension.
     
     if isvector(obj.CurrentPointX) 
-        offset = normrnd(0, obj.TransitionStd, [1, obj.XDimensions])';
-        obj.ProposedPointX = obj.CurrentPointX + offset;
+        obj.ProposedPointX = normrnd(obj.CurrentPointX, obj.TransitionStd, ...
+                                     size(obj.CurrentPointX));
     end
     
 end
