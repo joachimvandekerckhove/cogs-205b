@@ -18,8 +18,7 @@ function disp(obj)
         [X,~,~] = obj.CleanHistory;
         Mean_X = mean(X,2);
         Std_X = std(X,[],2);
-        NoParams = size(X,1);
-        if NoParams == 4
+        if obj.XDimensions == 4
             fprintf("As per the final assignment for COGS 205B,\n")
             fprintf("we interpret the 4-parameter TargetLogPdf to be the: CONSTRAINED MODEL\n")            
             fprintf("Mean of B0A: %6.3f\n", Mean_X(1));
@@ -31,7 +30,7 @@ function disp(obj)
             fprintf("Mean of B1B: %6.3f\n", Mean_X(4));
             fprintf("SD of B1B:   %6.3f\n", Std_X(4));
         else
-            if NoParams == 6
+            if obj.XDimensions == 6
             fprintf("As per the final assignment for COGS 205B,\n")
             fprintf("we interpret the 4-parameter TargetLogPdf to be the: SATURATED MODEL\n") 
                 fprintf("(Scale) Mean of A_e: %6.3f\n", Mean_X(1));
