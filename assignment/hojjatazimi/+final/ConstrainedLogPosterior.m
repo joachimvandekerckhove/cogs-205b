@@ -13,15 +13,14 @@ be = b_b_0;
 bm = b_b_0 + b_b_1;
 bh = b_b_0 + (2* b_b_1);
 
-p_x_e = prod(wblpdf(data.easy, ae, be));
-p_x_m = prod(wblpdf(data.medium, am, bm));
-p_x_h = prod(wblpdf(data.hard, ah, bh));
+p_x_e = sum(wbllike([ae, be], data.easy ));
+p_x_m = sum(wbllike([am, bm], data.medium));
+p_x_h = sum(wbllike([ah, bh], data.hard));
 
+p_1 = p_x_e + p_x_m + p_x_h;
+p_2 = -(explike([1], b_a_0)) - abs(b_a_1) - (explike([1], b_b_0)) - abs(b_b_1);
 
-p_1 = p_x_e * p_x_m * p_x_h;
-p_2 = log(exppdf(b_a_0, 1)) + abs(b_a_1) + log(exppdf(b_b_0)) + abs(b_b_1);
-
-log_posterior = log(p_1) + p_2;
+log_posterior =  p_2 - p_1;
 
 end
 
