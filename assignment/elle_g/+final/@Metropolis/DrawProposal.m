@@ -1,7 +1,6 @@
 function DrawProposal(obj)
 
-g=normrnd(0, obj.TransitionStd, size(obj.XDimensions));
-obj.ProposedPointX=obj.CurrentPointX+g;   
+obj.ProposedPointX=obj.CurrentPointX+normrnd(0, obj.TransitionStd, size(obj.XDimensions));   
 
 % Draws a new proposed point by adding a Gaussian offset to the current
 % point.  The standard deviation of the offset is given by the

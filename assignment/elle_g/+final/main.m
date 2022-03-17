@@ -21,10 +21,12 @@ constrained.disp
 saturated.DIC - constrained.DIC
 
 %% Conclude
-% The model that fits better is the [saturated|constrained] model.
+% The model that fits better is the [constrained] model.
 %
-% The Scale parameter [goes up|goes down|remains constant] from the "easy"
+% The Scale parameter [goes down] from the "easy"
 % to the "hard" condition. 
+% Scale Slope Mean: -0.2179
 %
-% The Shape parameter [goes up|goes down|remains constant] from the "easy"
+% The Shape parameter [goes down] from the "easy"
 % to the "hard" condition. 
+% Shape Slope Mean: -0.2179

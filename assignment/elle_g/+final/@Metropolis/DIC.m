@@ -1,9 +1,10 @@
 function out=DIC(obj)
 
 % Computes the approximated DIC of the model
-[CleanSampleX, CleanSampleY, CleanIndex]=CleanHistory(obj);
-Mean=mean(CleanSampleY);
-Variance=var(CleanSampleY);
+[~, CleanSampleY, ~]=CleanHistory(obj);
+D=-2.*CleanSampleY;
+Mean=mean(D);
+Variance=var(D);
 out=Mean+Variance/2;       
 
 end
