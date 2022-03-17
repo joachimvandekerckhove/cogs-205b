@@ -8,6 +8,6 @@ function AddToHistory(obj)
 % value.
 
 obj.XHistory = [obj.XHistory obj.CurrentPointX];
-obj.YHistory = [obj.XHistory obj.CurrentPointY];
+obj.YHistory = [obj.YHistory obj.CurrentPointY];
 
 end
