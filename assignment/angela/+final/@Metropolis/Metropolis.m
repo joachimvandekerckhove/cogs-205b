@@ -32,6 +32,7 @@ classdef Metropolis < handle
         
     methods
         
+        %%% constructor function %%%
         function obj = Metropolis(TargetLogPdf, InitialValues)
             
             obj.TargetLogPdf   = TargetLogPdf;
@@ -85,6 +86,8 @@ classdef Metropolis < handle
         dic = DIC(obj)
 
         disp(obj)
+        
+        plot(obj)
         
     end
     
