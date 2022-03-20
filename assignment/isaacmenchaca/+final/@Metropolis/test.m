@@ -3,6 +3,7 @@ function tests = test
 tests = functiontests(localfunctions);
 end
 
+
 function testConstructorErrorFree(testCase)
 
     obj = final.Metropolis(@abs, 1);
@@ -177,7 +178,7 @@ function testDIC(testCase)
 
     actual = testCase.TestData.obj.DIC;
     [~, Y] = testCase.TestData.obj.CleanHistory();
-    expected = mean(Y) + var(Y)/2;
+    expected = mean(-2 * Y) + var(-2 * Y)/2;
     verifyEqual(testCase, actual, expected, "AbsTol", eps(1))
 
 end

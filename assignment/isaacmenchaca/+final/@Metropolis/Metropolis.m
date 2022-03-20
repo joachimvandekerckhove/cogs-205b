@@ -13,7 +13,6 @@ classdef Metropolis < handle
     end
     
     properties (SetAccess = private)
-        
         CurrentPointX
         CurrentPointY
         
@@ -32,17 +31,15 @@ classdef Metropolis < handle
         
     methods
         
-        function obj = Metropolis(TargetLogPdf, InitialValues)
+        function obj = Metropolis(TargetLogPdf, InitialValues) % constructor
             
-            obj.TargetLogPdf   = TargetLogPdf;
-            obj.InitialValues  = InitialValues;
-            obj.XDimensions    = numel(InitialValues);
+            obj.TargetLogPdf   = TargetLogPdf; % target function, fin a function passed as param.
+            obj.InitialValues  = InitialValues; 
+            obj.XDimensions    = numel(InitialValues); % returns the number of elements/ gets dimension
+            obj.CurrentPointX  = obj.InitialValues; % current/ intial values of X
+            obj.EvaluateCurrentPoint() % get Y from transformed X
             
-            obj.CurrentPointX  = obj.InitialValues;
-            
-            obj.EvaluateCurrentPoint()
-            
-            obj.AddToHistory()
+            obj.AddToHistory() % store the respective X and Y
                         
         end
         
@@ -64,10 +61,12 @@ classdef Metropolis < handle
                 obj.DecideAccept()
                 
                 % If the proposal should be accepted, make the proposed
-                % point the current point
-                if obj.AcceptProposal()
-                    obj.MakeProposalCurrent()
-                end
+                % point the current point. 
+                % Draw a randomly selected u from U(0,1). If log(α) > log(u), set θ(i) ← θc, otherwise set θ(i) ← θ(i−1)
+
+                if obj.AcceptProposal
+                    obj.MakeProposalCurrent() % make proposed the current if accepted.
+                end % else keep current the same as previous
                 
                 % Add the current point to the chain
                 obj.AddToHistory()
@@ -85,18 +84,19 @@ classdef Metropolis < handle
         dic = DIC(obj)
 
         disp(obj)
-        
+        plotMetrop(obj, txt, labels, location);
     end
     
     methods (Access = private)
 
-        AddToHistory(obj)
-        ComputeLogAcceptanceRatio(obj)
-        DecideAccept(obj)
-        DrawProposal(obj)
-        EvaluateCurrentPoint(obj)
-        EvaluateProposedPoint(obj)
-        MakeProposalCurrent(obj)
+        AddToHistory(obj) % completed
+        ComputeLogAcceptanceRatio(obj) % completed
+        DecideAccept(obj) % completed
+        DrawProposal(obj) % completed
+        EvaluateCurrentPoint(obj) % completed
+        EvaluateProposedPoint(obj) % completed
+        MakeProposalCurrent(obj) % completed
+        
 
     end
     
