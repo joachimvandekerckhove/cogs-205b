@@ -1,0 +1,13 @@
+solutions/
+past-*/
+*~
+*.swp
+*.asv
+*.out
+*.toc
+*.snm
+*.nav
+*.aux
+*.log
+.DS_Store
+*.DS_Store

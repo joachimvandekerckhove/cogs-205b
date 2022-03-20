@@ -26,7 +26,7 @@ end
 %% Tests  estimate function and compares errors
 function testEstimate(testCase)
     X=[2 3 ; 4 5 ; 7 8 ];
-    errorIdd='MATLAB:MException:badIdentifier'; 
+    errorIdd='Norm2d:estimate:wrongSize'; 
     %errorMsg="The data should be 2*N matrix";
     badCall=@() marjan.Norm2d.estimate(X);
     verifyError(testCase, badCall, errorIdd)

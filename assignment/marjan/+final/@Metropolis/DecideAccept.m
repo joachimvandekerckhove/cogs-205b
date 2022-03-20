@@ -10,5 +10,4 @@ if obj.LogAcceptanceRatio>I
 else
    obj.AcceptProposal=false;
 
-            
 end
