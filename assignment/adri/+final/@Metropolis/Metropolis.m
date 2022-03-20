@@ -12,8 +12,7 @@ classdef Metropolis < handle
         TransitionStd = 1        
     end
     
-    properties (SetAccess = private)
-        
+    properties (SetAccess = private)        
         CurrentPointX
         CurrentPointY
         
