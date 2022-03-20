@@ -1,7 +1,10 @@
-function DIC(obj)
+function dic = DIC(obj)
 
 % Computes the approximated DIC of the model
+[~, cleanY, ~] = CleanHistory(obj);
 
-            error('Not yet implemented')
+D = -2*cleanY;
+
+dic = mean(D) + (var(D)/2);
             
 end
