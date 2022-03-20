@@ -5,6 +5,6 @@ function DrawProposal(obj)
 % TransitionStd property.  If the current point is a vector, adds an
 % independent Gaussian offset to each dimension.
 
-            error('Not yet implemented')
-            
+            %error('Not yet implemented')
+obj.ProposedPointX= obj.CurrentPointX+randn(obj.XDimensions, 1).*obj.TransitionStd;          
 end
