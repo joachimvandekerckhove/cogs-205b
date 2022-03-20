@@ -177,7 +177,7 @@ function testDIC(testCase)
 
     actual = testCase.TestData.obj.DIC;
     [~, Y] = testCase.TestData.obj.CleanHistory();
-    expected = mean(Y) + var(Y)/2;
+    expected = (-2)*mean(Y) + 4*var(Y)/2;
     verifyEqual(testCase, actual, expected, "AbsTol", eps(1))
 
 end
