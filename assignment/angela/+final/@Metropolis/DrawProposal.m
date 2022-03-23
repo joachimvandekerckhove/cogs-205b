@@ -7,6 +7,7 @@ function DrawProposal(obj)
 
 %             error('Not yet implemented')
 
-obj.ProposedPointX = obj.CurrentPointX + randn(obj.XDimensions,1) + obj.TransitionStd;
-            
+obj.ProposedPointX = obj.CurrentPointX + randn(obj.XDimensions,1) * obj.TransitionStd;
+% This took me a while to find! -jv
+
 end

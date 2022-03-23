@@ -7,7 +7,7 @@ function DecideAccept(obj)
 
 u = rand;
 
-if obj.LogAcceptanceRatio > u
+if obj.LogAcceptanceRatio > log(u) % Oh no! -jv
     obj.AcceptProposal = true;
 else
     obj.AcceptProposal = false;

@@ -7,7 +7,9 @@ u = rand;
 
 if obj.LogAcceptanceRatio > log(u)
     obj.AcceptProposal = true;
-elseif obj.LogAcceptanceRatio < log(u)
+else%if obj.LogAcceptanceRatio < log(u)
+    % This causes trouble! There are cases where this leads to no decision,
+    % notably when obj.LogAcceptanceRatio is NaN, which happens! -jv
     obj.AcceptProposal = false;
 end
             

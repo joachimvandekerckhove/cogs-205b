@@ -84,7 +84,7 @@ classdef Metropolis < handle
         
         dic = DIC(obj)
 
-        disp(obj)
+%         disp(obj)  % Not sure where your disp.m went :/  -jv
         
     end
     
