@@ -8,9 +8,17 @@ function disp(obj)
     post_std = std(CleanSampleX,0,2);
     fprintf('Following parameters estimations are for Easy, Medium, and Hard sequentially:\n')
     numparsets = length(estimate)/2;
+
+    % DISP for AABB
     for i=1:numparsets
         fprintf('Estimated A&B +/- std A&B:\n (%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate([i,(i+numparsets)]), post_std([i,(i+numparsets)]))
     end
+
+    % DISP for ABAB
+    % for i=1:numparsets
+    %     fprintf('Estimated A&B +/- std A&B:\n (%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate([(2*i-1),2*i]), post_std([(2*i-1),2*i]))
+    % end
+    
     %fprintf('(%.1f, %.1f) +/- (%.2f, %.2f)\n', estimate, post_std)
     % plotting easy medium hard
 end

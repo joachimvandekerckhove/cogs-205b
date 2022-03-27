@@ -15,7 +15,7 @@ saturated.disp
 %% Constrained model next  
 fprintf('Now running Constrained model:\n')
 constrainedTarget = @(parameter) final.ConstrainedLogPosterior(parameter, data); 
-constrained = final.Metropolis(constrainedTarget, [2 0 2 0]');
+constrained = final.Metropolis(constrainedTarget, [2 0 2 0]'); %[2 0 2 0] for AABB, [2 0 2 0] for ABAB
 constrained.DrawSamples(10000)
 constrained.disp
 

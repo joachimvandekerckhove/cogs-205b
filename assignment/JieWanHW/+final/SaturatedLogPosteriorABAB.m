@@ -8,14 +8,18 @@ function LogPosterior = SaturatedLogPosterior(p, data)
 
 	% Log Likelihoods
 	% now it is Ae,Be,Am,Bm,Ah,Bh
-	c(1) = p(1);   
-	c(2) = p(4);
-	c(3) = p(2);
-	c(4) = p(5);
-	c(5) = p(3);
-	c(6) = p(6);
+% 	c(1) = p(1);   
+% 	c(2) = p(4);
+% 	c(3) = p(2);
+% 	c(4) = p(5);
+% 	c(5) = p(3);
+% 	c(6) = p(6);
+% 
+% 	LogLl = final.totalsumloglikelihoods(c,data);
 
-	LogLl = final.totalsumloglikelihoods(c,data);
+
+	LogLl = final.totalsumloglikelihoods(p,data);
+
 
 
 	% Log Posterior
